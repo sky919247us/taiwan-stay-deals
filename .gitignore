@@ -5,6 +5,11 @@ cache/opendata_hotel.json
 raw/merged.json
 raw/snapshots/
 
+# API 金鑰：絕對不能進公開 repo
+cache/google_api_key.txt
+cache/*_key.txt
+.env
+
 __pycache__/
 *.pyc
 *.tmp
