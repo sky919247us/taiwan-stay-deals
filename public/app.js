@@ -33,18 +33,18 @@ var FLAG_DEFS = [
 // 設施籌碼只列出在本站資料中夠常見的項目，太罕見的挑了也沒東西看
 var SERVICE_MIN = 15, SERVICE_MAX = 18;
 
-// 房價分布很偏（中位數 2,760，但最高到 60,000），線性刻度會把九成資料
-// 擠在滑桿最左邊，所以改用非線性刻度：便宜的區間切細、貴的區間放粗。
-var PRICE_TICKS = [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500,
-                   5000, 6000, 7000, 8000, 10000, 12000, 15000, 20000, 30000, 60000];
+// 這裡的價格一律是「業者自報的平日雙人房優惠價」，實際落在 798–4,020，
+// 中位數 2,180，所以刻度用 100 元一格、頂到 4,500（＝不限）就夠細也夠準。
+var PRICE_TICKS = [0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400,
+                   2600, 2800, 3000, 3200, 3500, 3800, 4100, 4500];
 var PRICE_TOP = PRICE_TICKS[PRICE_TICKS.length - 1];
 var PRICE_LAST = PRICE_TICKS.length - 1;
 
 var PRICE_PRESETS = [
-  { label: '2,000 以下', min: 0, max: 2000 },
-  { label: '2,000–5,000', min: 2000, max: 5000 },
-  { label: '5,000–10,000', min: 5000, max: 10000 },
-  { label: '10,000 以上', min: 10000, max: PRICE_TOP },
+  { label: '1,600 以下', min: 0, max: 1600 },
+  { label: '1,600–2,200', min: 1600, max: 2200 },
+  { label: '2,200–3,000', min: 2200, max: 3000 },
+  { label: '3,000 以上', min: 3000, max: PRICE_TOP },
   { label: '不限', min: 0, max: PRICE_TOP }
 ];
 
@@ -103,7 +103,9 @@ Promise.all([
     s.flags = s.flags || [];
     s.categories = s.categories || [];
     s.plans = s.plans || [];
-    s._p = s.weekday_price || s.price_low || 0;        // 排序與篩選用的房價
+    // 只有「平日雙人房優惠價」能拿來篩選與排序。開放資料的 price_low 是官網牌價
+    // （定價），實測中位數是優惠價的 1.9 倍、最誇張 12.5 倍，兩者不能混為一談。
+    s._p = s.weekday_price || 0;
     s.services = s.services || [];
     s._s = norm([s.name, s.address, s.city, s.town, s.license, s.services.join(' '),
                  s.plans.map(function (p) { return p.text; }).join(' ')].join(' '));
@@ -133,6 +135,7 @@ function boot() {
     $('metaLine').textContent += ' ・ 本次新增 ' + META.change.added.length + ' 家';
   }
   $('favCount').textContent = FAV.size ? '(' + FAV.size + ')' : '';
+  NO_PRICE = DATA.filter(function (x) { return !x._p; }).length;
 
   document.body.classList.add('view-list');
   // 進階條件預設收起來，先讓使用者看到結果
@@ -242,8 +245,9 @@ function priceLabel() {
   var lo = S.pmin > 0 ? S.pmin.toLocaleString() : '不限';
   var hi = S.pmax < PRICE_TOP ? S.pmax.toLocaleString() : '不限';
   $('priceHint').textContent = (S.pmin === 0 && S.pmax >= PRICE_TOP)
-    ? '未設限（取平日雙人房價，無則取最低房價）'
-    : lo + ' – ' + hi + '　共 ' + priceCount(S.pmin, S.pmax) + ' 家';
+    ? '未設限（依業者自報的平日雙人房優惠價）'
+    : lo + ' – ' + hi + '　' + priceCount(S.pmin, S.pmax) + ' 家有標價' +
+      (S.inclUnknown ? '，另含 ' + NO_PRICE + ' 家未標價' : '');
 
   var a = tickIndex(S.pmin), b = tickIndex(S.pmax);
   $('priceMin').value = a;
@@ -263,15 +267,16 @@ function priceLabel() {
   });
 }
 
-function priceCount(lo, hi) {                 // 只看價格條件會有幾家（給使用者參考）
+function priceCount(lo, hi) {     // 這個區間內「有標優惠價」的家數，未標價的另外算
   var n = 0;
   for (var i = 0; i < DATA.length; i++) {
     var v = DATA[i]._p;
-    if (!v) { if (S.inclUnknown) { n++; } continue; }
-    if (v >= lo && v <= hi) { n++; }
+    if (v && v >= lo && v <= hi) { n++; }
   }
   return n;
 }
+
+var NO_PRICE = 0;                // 未標優惠價的家數，載入後算一次
 
 function setPrice(lo, hi) {
   lo = Math.max(0, Math.min(PRICE_TOP, lo || 0));
@@ -384,12 +389,22 @@ function cardHTML(s) {
     tags.push('<span class="tag">' + CAT_NAME[c] + '</span>');
   });
   if (s.weekday_price) { tags.push('<span class="tag alt">平日雙人 ' + s.weekday_price.toLocaleString() + '</span>'); }
+  else if (s.price_low) { tags.push('<span class="tag warn">未標優惠價</span>'); }
   if (has(s.flags, 'birthday')) { tags.push('<span class="tag">生日券</span>'); }
   if (s.taiwan_host) { tags.push('<span class="tag">好客民宿</span>'); }
   if (s.geo_source === 'township') { tags.push('<span class="tag warn">位置約略</span>'); }
 
-  var price = s.weekday_price ? s.weekday_price.toLocaleString() + ' <small>元</small>'
-            : (s.price_low ? s.price_low.toLocaleString() + ' <small>元起</small>' : '');
+  // 兩種價格並陳：優惠價是業者為本活動自報的，定價是官網牌價（常灌水），
+  // 兩者都留著讓使用者自己判斷，但視覺上分主次。
+  var price = '';
+  if (s.weekday_price) {
+    price = s.weekday_price.toLocaleString() + ' <small>元</small>';
+    if (s.price_low && s.price_low > s.weekday_price) {
+      price += '<span class="rack strike">定價 ' + s.price_low.toLocaleString() + '</span>';
+    }
+  } else if (s.price_low) {
+    price = '<span class="rack">定價 ' + s.price_low.toLocaleString() + ' 起</span>';
+  }
   var plan = s.plans.length ? s.plans[0].text : '';
 
   tags = tags.slice(0, 4);            // 窄螢幕上標籤太多會把卡片撐高
@@ -455,7 +470,7 @@ function markerFor(s) {
   });
   m.bindPopup(function () {
     return '<b>' + esc(s.name) + '</b><br>' + esc(s.city) + esc(s.town || '') + ' ・ ' + esc(s.kind) +
-      (s.weekday_price ? '<br>平日雙人房 ' + s.weekday_price.toLocaleString() + ' 元' : '') +
+      (s.weekday_price ? '<br>平日雙人房優惠價 ' + s.weekday_price.toLocaleString() + ' 元' : '') +
       '<br><a href="#" data-open="' + s.id + '">查看方案內容 →</a>';
   });
   MARKERS[s.id] = m;
@@ -513,8 +528,13 @@ function openSheet(id) {
   row('地址', esc(s.address));
   row('電話', s.phone_raw ? '<a href="tel:' + esc(String(s.phone_raw).split(/[,\s]/)[0]) + '">' + esc(s.phone_raw) + '</a>' : '');
   row('位置', esc(s.city) + esc(s.town || ''));
-  row('平日雙人房', s.weekday_price ? s.weekday_price.toLocaleString() + ' 元' : '');
-  row('房價區間', s.price_low ? s.price_low.toLocaleString() + ' – ' + (s.price_high || s.price_low).toLocaleString() + ' 元' : '');
+  row('平日雙人房', s.weekday_price
+      ? '<b>' + s.weekday_price.toLocaleString() + ' 元</b>　<span class="muted">（業者為本活動自報的優惠價）</span>'
+      : '');
+  row('官網定價', s.price_low
+      ? s.price_low.toLocaleString() + ' – ' + (s.price_high || s.price_low).toLocaleString() +
+        ' 元　<span class="muted">牌價，通常遠高於實際成交價，僅供參考</span>'
+      : '');
   row('優惠期限', esc(s.period));
   row('登記證號', esc(s.license));
   row('可住人數', s.capacity ? s.capacity + ' 人' : '');

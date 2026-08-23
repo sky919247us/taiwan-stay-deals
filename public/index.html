@@ -98,6 +98,14 @@
         <li><a href="https://data.gov.tw/dataset/7780" target="_blank" rel="noopener">觀光署「旅館民宿」開放資料</a>：地址、經緯度、房價區間</li>
       </ul>
       <p class="note" id="geoNote"></p>
+      <h2 style="margin-top:12px">關於房價</h2>
+      <p class="note">
+        本站的價格篩選只採用<b>業者為這次活動自報的「平日雙人房優惠價」</b>（966 家）。
+        觀光署開放資料另有「定價」欄位，那是<b>官網牌價</b>：拿 965 家同時有兩種價格的旅宿實測，
+        定價中位數是實際優惠價的 <b>1.9 倍</b>，前 10% 超過 4 倍，最誇張到 12.5 倍。
+        因此定價只在詳情頁以「官網定價」呈現、不參與篩選與排序。
+        沒有自報優惠價的旅宿請直接電話或官網詢價。
+      </p>
     </div>
   </div>
 </section>
@@ -153,7 +161,7 @@
   <div class="barMore" id="barMore" hidden>
     <div class="barRow">
       <span class="grp priceGrp">
-        <span class="lbl">房價區間</span>
+        <span class="lbl">平日雙人房優惠價</span>
         <input type="number" id="priceMinNum" class="num" min="0" max="60000" step="100"
                placeholder="不限" aria-label="房價下限（元）" autocomplete="off">
         <span class="dash">–</span>
@@ -176,7 +184,7 @@
         <span class="lbl">常用區間</span>
         <span class="chips" id="priceChips"></span>
         <label class="check"><input type="checkbox" id="priceInclUnknown" autocomplete="off"
-               aria-label="包含未標示房價的旅宿" checked> 含未標價</label>
+               aria-label="包含未標示優惠價的旅宿" checked> 含未標優惠價</label>
       </span>
     </div>
     <div class="barRow">
