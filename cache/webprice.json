@@ -88,5 +88,135 @@
   "evidence": "精緻雙人房 平日價：NT$3080",
   "model": "stealth/ox-alpha",
   "fetched_at": "2026-08-24"
+ },
+ "18725": {
+  "name": "台糖花蓮旅館",
+  "url": "https://www.taisugar.com.tw/resting/hualian/index.aspx",
+  "price": 2730,
+  "room": "溫馨和風木屋(2人)",
+  "basis": "weekday",
+  "evidence": "溫馨和風木屋(2人)...平日 2,730",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "13423": {
+  "name": "方舟旅店",
+  "url": "http://www.arkhotel.com.tw",
+  "price": 2380,
+  "room": "Z客房",
+  "basis": "weekday",
+  "evidence": "平日價：NTD 2,380 起",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "5912": {
+  "name": "楓采行館",
+  "url": "https://mapleton.com.tw",
+  "note": "no_price"
+ },
+ "14131": {
+  "name": "愛之屋渡假別墅",
+  "url": "http://www.mandys-house.com",
+  "price": 3000,
+  "room": "晨曦雙人房",
+  "basis": "weekday",
+  "evidence": "晨曦雙人房 平日3000 假日3500 定價4000",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "34975": {
+  "name": "翌日匆匆輕旅民宿",
+  "url": "https://bnbhl.net/nextday/",
+  "price": 1500,
+  "room": "雙人套房",
+  "basis": "weekday",
+  "evidence": "雙人套房 1,500 2,000 3,000",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "35854": {
+  "name": "浯島輕旅",
+  "url": "https://kmhotel.homi.cc/",
+  "price": 1880,
+  "room": "一大床",
+  "basis": "weekday",
+  "evidence": "一大床平日 $1880 晚",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "32719": {
+  "name": "浯島文旅",
+  "url": "https://kmhotel.homi.cc/",
+  "price": 1880,
+  "room": "一大床",
+  "basis": "weekday",
+  "evidence": "一大床平日 $ 1880 晚",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "4751": {
+  "name": "南元休閒農場湖上渡假村",
+  "url": "http://www.nanyuanfarm.com.tw/",
+  "note": "no_price"
+ },
+ "2212": {
+  "name": "山林渡假會館",
+  "url": "http://www.huamanvilla.com.tw",
+  "note": "not_html"
+ },
+ "12619": {
+  "name": "華蔓渡假會館",
+  "url": "http://www.huamanvilla.com.tw",
+  "note": "not_html"
+ },
+ "3779": {
+  "name": "埔里夏都渡假會館",
+  "url": "http://www.huamanvilla.com.tw",
+  "note": "not_html"
+ },
+ "14078": {
+  "name": "圓山大飯店",
+  "url": "http://www.grand-hotel.org",
+  "note": "empty"
+ },
+ "17567": {
+  "name": "幸福客棧",
+  "url": "http://goo.gl/YdBHRG",
+  "note": "no_price"
+ },
+ "21702": {
+  "name": "陽明山天籟渡假酒店",
+  "url": "http://www.tienlai.com.tw",
+  "note": "no_price"
+ },
+ "5660": {
+  "name": "虎爸羊媽的家",
+  "url": "https://tw-bnb.com/web/hbym/",
+  "note": "no_price"
+ },
+ "11481": {
+  "name": "五船民宿",
+  "url": "https://www.5boat.com.tw",
+  "note": "no_price"
+ },
+ "18464": {
+  "name": "福容大飯店 麗寶樂園",
+  "url": "https://www.fullon-hotels.com.tw/ym/",
+  "note": "no_price"
+ },
+ "36578": {
+  "name": "夏之禾民宿",
+  "url": "https://ricebnb.tw",
+  "note": "not_html"
+ },
+ "2551": {
+  "name": "皇冠商務汽車旅館",
+  "url": "https://www.ifmotel.com.tw/",
+  "note": "no_price"
+ },
+ "4615": {
+  "name": "旅人驛站日暮微旅",
+  "url": "http://www.traveler-inn.com/",
+  "note": "no_price"
  }
 }

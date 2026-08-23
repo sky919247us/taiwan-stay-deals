@@ -303,6 +303,10 @@ select:disabled { opacity: .5; }
 }
 .foot p { margin: 1px 0; }
 
+/* Ko-fi：低調的文字連結，不用浮動視窗（見 README 的說明） */
+.kofi { color: var(--ink-2); text-decoration: none; border-bottom: 1px dotted var(--line); }
+.kofi:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
 .mobileTabs { display: none; }
 [hidden] { display: none !important; }
 
