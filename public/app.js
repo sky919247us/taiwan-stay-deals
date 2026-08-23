@@ -33,12 +33,36 @@ var FLAG_DEFS = [
 // 設施籌碼只列出在本站資料中夠常見的項目，太罕見的挑了也沒東西看
 var SERVICE_MIN = 15, SERVICE_MAX = 18;
 
+// 房價分布很偏（中位數 2,760，但最高到 60,000），線性刻度會把九成資料
+// 擠在滑桿最左邊，所以改用非線性刻度：便宜的區間切細、貴的區間放粗。
+var PRICE_TICKS = [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500,
+                   5000, 6000, 7000, 8000, 10000, 12000, 15000, 20000, 30000, 60000];
+var PRICE_TOP = PRICE_TICKS[PRICE_TICKS.length - 1];
+var PRICE_LAST = PRICE_TICKS.length - 1;
+
+var PRICE_PRESETS = [
+  { label: '2,000 以下', min: 0, max: 2000 },
+  { label: '2,000–5,000', min: 2000, max: 5000 },
+  { label: '5,000–10,000', min: 5000, max: 10000 },
+  { label: '10,000 以上', min: 10000, max: PRICE_TOP },
+  { label: '不限', min: 0, max: PRICE_TOP }
+];
+
 var S = {
   q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
-  priceMax: 6000, inclUnknown: true, sort: 'default', onlyFav: false,
+  pmin: 0, pmax: PRICE_TOP, inclUnknown: true, sort: 'default', onlyFav: false,
   near: null,        // { lat, lng, km, label }
   bounds: false
 };
+
+function tickIndex(v) {                       // 找最接近的刻度
+  var best = 0, diff = Infinity;
+  for (var i = 0; i < PRICE_TICKS.length; i++) {
+    var d = Math.abs(PRICE_TICKS[i] - v);
+    if (d < diff) { diff = d; best = i; }
+  }
+  return best;
+}
 
 var $ = function (id) { return document.getElementById(id); };
 function has(arr, v) { return !!arr && arr.indexOf(v) >= 0; }
@@ -112,7 +136,7 @@ function boot() {
 
   document.body.classList.add('view-list');
   // 進階條件預設收起來，先讓使用者看到結果
-  if (S.flags.length || S.services.length || S.priceMax < 6000) {
+  if (S.flags.length || S.services.length || S.pmin > 0 || S.pmax < PRICE_TOP) {
     $('btnFilters').click();
   }
   apply();
@@ -143,6 +167,18 @@ function buildFilters() {
   chips($('flagChips'), FLAG_DEFS.map(function (f) {
     return { key: f.key, label: f.label, n: DATA.filter(f.test).length };
   }).filter(function (f) { return f.n > 0; }), 'flags');
+
+  var pbox = $('priceChips');
+  pbox.innerHTML = '';
+  PRICE_PRESETS.forEach(function (pr) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = esc(pr.label) + '<span class="n">' + priceCount(pr.min, pr.max) + '</span>';
+    b.addEventListener('click', function () { setPrice(pr.min, pr.max); });
+    pbox.appendChild(b);
+  });
 
   chips($('serviceChips'), (META.services || [])
     .filter(function (x) { return x.count >= SERVICE_MIN; })
@@ -187,7 +223,6 @@ function syncControls() {
   $('q').value = S.q;
   $('city').value = S.city;
   fillTowns();
-  $('priceMax').value = S.priceMax;
   $('priceInclUnknown').checked = S.inclUnknown;
   $('sort').value = S.sort;
   $('onlyFav').checked = S.onlyFav;
@@ -204,9 +239,47 @@ function syncControls() {
 }
 
 function priceLabel() {
-  var v = +S.priceMax;
-  $('priceHint').textContent = v >= 6000 ? '（不限）'
-    : '≦ ' + v.toLocaleString() + ' 元（平日雙人房價，無則取最低房價）';
+  var lo = S.pmin > 0 ? S.pmin.toLocaleString() : '不限';
+  var hi = S.pmax < PRICE_TOP ? S.pmax.toLocaleString() : '不限';
+  $('priceHint').textContent = (S.pmin === 0 && S.pmax >= PRICE_TOP)
+    ? '未設限（取平日雙人房價，無則取最低房價）'
+    : lo + ' – ' + hi + '　共 ' + priceCount(S.pmin, S.pmax) + ' 家';
+
+  var a = tickIndex(S.pmin), b = tickIndex(S.pmax);
+  $('priceMin').value = a;
+  $('priceMax').value = b;
+  $('priceMinNum').value = S.pmin > 0 ? S.pmin : '';
+  $('priceMaxNum').value = S.pmax < PRICE_TOP ? S.pmax : '';
+  var fill = $('rfill');
+  fill.style.left = (a / PRICE_LAST * 100) + '%';
+  fill.style.width = ((b - a) / PRICE_LAST * 100) + '%';
+  // 兩個拖曳鈕靠在一起時，讓比較靠右的下限鈕浮上來，才抓得到
+  $('priceMin').style.zIndex = a > PRICE_LAST / 2 ? 3 : 1;
+
+  Array.prototype.forEach.call($('priceChips').children, function (btn, i) {
+    var pr = PRICE_PRESETS[i];
+    btn.setAttribute('aria-pressed', String(pr.min === S.pmin && pr.max === S.pmax));
+    btn.querySelector('.n').textContent = priceCount(pr.min, pr.max);   // 含未標價會改變家數
+  });
+}
+
+function priceCount(lo, hi) {                 // 只看價格條件會有幾家（給使用者參考）
+  var n = 0;
+  for (var i = 0; i < DATA.length; i++) {
+    var v = DATA[i]._p;
+    if (!v) { if (S.inclUnknown) { n++; } continue; }
+    if (v >= lo && v <= hi) { n++; }
+  }
+  return n;
+}
+
+function setPrice(lo, hi) {
+  lo = Math.max(0, Math.min(PRICE_TOP, lo || 0));
+  hi = Math.max(0, Math.min(PRICE_TOP, hi || PRICE_TOP));
+  if (lo > hi) { var t = lo; lo = hi; hi = t; }   // 拖過頭就自動對調
+  S.pmin = lo; S.pmax = hi;
+  priceLabel();
+  apply();
 }
 
 function nearLabel() {
@@ -236,9 +309,9 @@ function filter() {
     if (S.cats.length && !S.cats.every(function (c) { return has(s.categories, c); })) { continue; }
     if (S.onlyFav && !FAV.has(s.id)) { continue; }
 
-    if (S.priceMax < 6000) {
+    if (S.pmin > 0 || S.pmax < PRICE_TOP) {
       if (!s._p) { if (!S.inclUnknown) { continue; } }
-      else if (s._p > S.priceMax) { continue; }
+      else if (s._p < S.pmin || s._p > S.pmax) { continue; }
     }
 
     if (S.flags.length) {
@@ -485,7 +558,8 @@ function writeURL() {
   if (S.kinds.length) { p.set('kind', S.kinds.join(',')); }
   if (S.flags.length) { p.set('flag', S.flags.join(',')); }
   if (S.services.length) { p.set('sv', S.services.join(',')); }
-  if (S.priceMax < 6000) { p.set('pmax', S.priceMax); }
+  if (S.pmin > 0) { p.set('pmin', S.pmin); }
+  if (S.pmax < PRICE_TOP) { p.set('pmax', S.pmax); }
   if (!S.inclUnknown) { p.set('pu', '0'); }
   if (S.sort !== 'default') { p.set('sort', S.sort); }
   if (S.onlyFav) { p.set('fav', '1'); }
@@ -503,7 +577,8 @@ function readURL() {
   S.kinds = (p.get('kind') || '').split(',').filter(Boolean);
   S.flags = (p.get('flag') || '').split(',').filter(Boolean);
   S.services = (p.get('sv') || '').split(',').filter(Boolean);
-  S.priceMax = +(p.get('pmax') || 6000);
+  S.pmin = +(p.get('pmin') || 0);
+  S.pmax = +(p.get('pmax') || PRICE_TOP);
   S.inclUnknown = p.get('pu') !== '0';
   S.sort = p.get('sort') || 'default';
   S.onlyFav = p.get('fav') === '1';
@@ -530,9 +605,21 @@ function bindEvents() {
   $('town').addEventListener('change', function (e) { S.town = e.target.value; apply(); });
   $('sort').addEventListener('change', function (e) { S.sort = e.target.value; apply(); });
   $('onlyFav').addEventListener('change', function (e) { S.onlyFav = e.target.checked; apply(); });
-  $('priceInclUnknown').addEventListener('change', function (e) { S.inclUnknown = e.target.checked; apply(); });
+  $('priceInclUnknown').addEventListener('change', function (e) {
+    S.inclUnknown = e.target.checked; priceLabel(); apply();
+  });
+
+  $('priceMin').addEventListener('input', function (e) {
+    setPrice(PRICE_TICKS[+e.target.value], S.pmax);
+  });
   $('priceMax').addEventListener('input', function (e) {
-    S.priceMax = +e.target.value; priceLabel(); apply();
+    setPrice(S.pmin, PRICE_TICKS[+e.target.value]);
+  });
+  $('priceMinNum').addEventListener('change', function (e) {
+    setPrice(+e.target.value || 0, S.pmax);
+  });
+  $('priceMaxNum').addEventListener('change', function (e) {
+    setPrice(S.pmin, +e.target.value || PRICE_TOP);
   });
 
   $('btnFilters').addEventListener('click', function () {
@@ -546,7 +633,7 @@ function bindEvents() {
 
   $('btnClear').addEventListener('click', function () {
     S = { q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
-          priceMax: 6000, inclUnknown: true, sort: 'default', onlyFav: false,
+          pmin: 0, pmax: PRICE_TOP, inclUnknown: true, sort: 'default', onlyFav: false,
           near: null, bounds: false };
     drawRadius(); syncControls(); apply();
   });

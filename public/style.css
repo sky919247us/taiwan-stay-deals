@@ -168,7 +168,37 @@ select:disabled { opacity: .5; }
 }
 .chip .n { opacity: .7; font-size: 11px; margin-left: 3px; }
 
-#priceMax { width: 200px; accent-color: var(--brand); }
+/* 房價區間：雙滑桿疊在同一條軌道上，加上可直接輸入的數字欄 */
+.priceGrp { gap: 8px; }
+.num {
+  width: 82px; font: inherit; font-size: 14px; padding: 6px 8px; text-align: right;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink);
+}
+.num:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
+.dash { color: var(--ink-2); }
+
+.range { position: relative; width: 230px; height: 24px; flex: 0 0 auto; }
+.rtrack, .rfill {
+  position: absolute; top: 10px; height: 4px; border-radius: 2px; pointer-events: none;
+}
+.rtrack { left: 0; right: 0; background: var(--line); }
+.rfill { background: var(--brand); }
+
+.range input[type="range"] {
+  position: absolute; left: 0; top: 0; width: 100%; height: 24px; margin: 0;
+  background: none; pointer-events: none; -webkit-appearance: none; appearance: none;
+}
+.range input[type="range"]:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.range input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; pointer-events: auto; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--panel); border: 3px solid var(--brand); cursor: grab; margin-top: 0;
+}
+.range input[type="range"]::-moz-range-thumb {
+  pointer-events: auto; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--panel); border: 3px solid var(--brand); cursor: grab;
+}
+.range input[type="range"]::-webkit-slider-runnable-track { height: 24px; background: none; }
+.range input[type="range"]::-moz-range-track { height: 24px; background: none; }
 .nearRow { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
 .nearRow[hidden] { display: none; }
 
@@ -274,6 +304,8 @@ select:disabled { opacity: .5; }
   body.filters-open .filterbar { max-height: 56vh; overflow: auto; }
   #q { max-width: none; }
   select { flex: 1 1 40%; max-width: none; }
+  .range { width: 100%; }
+  .num { width: 72px; }
 
   .mobileTabs {
     display: flex; flex: 0 0 auto; background: var(--panel); border-top: 1px solid var(--line);

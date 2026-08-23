@@ -131,10 +131,31 @@
 
   <div class="barMore" id="barMore" hidden>
     <div class="barRow">
+      <span class="grp priceGrp">
+        <span class="lbl">房價區間</span>
+        <input type="number" id="priceMinNum" class="num" min="0" max="60000" step="100"
+               placeholder="不限" aria-label="房價下限（元）" autocomplete="off">
+        <span class="dash">–</span>
+        <input type="number" id="priceMaxNum" class="num" min="0" max="60000" step="100"
+               placeholder="不限" aria-label="房價上限（元）" autocomplete="off">
+        <span class="lbl">元</span>
+        <span class="range" id="priceRange">
+          <span class="rtrack"></span>
+          <span class="rfill" id="rfill"></span>
+          <input type="range" id="priceMin" min="0" max="19" step="1" value="0"
+                 aria-label="房價下限滑桿" autocomplete="off">
+          <input type="range" id="priceMax" min="0" max="19" step="1" value="19"
+                 aria-label="房價上限滑桿" autocomplete="off">
+        </span>
+        <span class="hint" id="priceHint"></span>
+      </span>
+    </div>
+    <div class="barRow">
       <span class="grp">
-        <span class="lbl">房價上限<span class="hint" id="priceHint"></span></span>
-        <input type="range" id="priceMax" autocomplete="off" min="0" max="6000" step="100" value="6000" aria-label="價格上限">
-        <label class="check"><input type="checkbox" id="priceInclUnknown" autocomplete="off" aria-label="包含未標示房價的旅宿" checked> 含未標價</label>
+        <span class="lbl">常用區間</span>
+        <span class="chips" id="priceChips"></span>
+        <label class="check"><input type="checkbox" id="priceInclUnknown" autocomplete="off"
+               aria-label="包含未標示房價的旅宿" checked> 含未標價</label>
       </span>
     </div>
     <div class="barRow">
