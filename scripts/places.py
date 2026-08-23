@@ -18,7 +18,7 @@ priceLevel／priceRange 與評分可以當作獨立的對照。
   python scripts/places.py --limit 20    # 先查 20 筆看看比對品質
   python scripts/places.py               # 全部（只查快取裡沒有的）
 """
-import os, sys, json, time, math, argparse
+import os, re, sys, json, time, math, argparse
 import requests
 from config import ROOT, RAW, CACHE, jload, jdump, norm_name, norm_phones
 
@@ -45,11 +45,28 @@ MATCH_RADIUS_M = 400          # 座標吻合的容忍距離
 RATE_SLEEP = 0.12             # 每秒約 8 次，遠低於 Places 的上限
 
 
+# 金鑰檔可能帶標題或註解，用樣式抽出來，不要整份讀
+KEY_RE = re.compile(r"AIza[0-9A-Za-z\-_]{30,}")
+
+# 依序尋找：環境變數 → repo 內的 cache → repo 母資料夾（放在 repo 外更不可能被 commit）
+KEY_PATHS = [
+    KEY_FILE,
+    os.path.join(ROOT, "cache", "google_api_key.txt"),
+    os.path.join(os.path.dirname(ROOT), "google_api_key.txt"),
+]
+
+
 def load_key():
     k = os.environ.get("GOOGLE_MAPS_API_KEY", "").strip()
-    if not k and os.path.exists(KEY_FILE):
-        k = open(KEY_FILE, encoding="utf-8").read().strip()
-    return k
+    if k:
+        m = KEY_RE.search(k)
+        return m.group() if m else k
+    for path in KEY_PATHS:
+        if os.path.exists(path):
+            m = KEY_RE.search(open(path, encoding="utf-8-sig", errors="replace").read())
+            if m:
+                return m.group()
+    return ""
 
 
 def meters(lat1, lon1, lat2, lon2):
@@ -118,10 +135,16 @@ def pick(stay, places):
 
 def compact(place, reasons, d):
     pr = place.get("priceRange") or {}
+    loc = place.get("location") or {}
     return {
         "place_id": place.get("id"),
         "name": (place.get("displayName") or {}).get("text"),
         "address": place.get("formattedAddress"),
+        # 一併留下 Google 的座標：開放資料的經緯度有些偏得很遠
+        # （例如「鳥語花香」差 1.4 公里，但店名、電話、街道地址三者都吻合），
+        # 之後可以在高信心比對時改用這組座標讓地圖更準。
+        "lat": loc.get("latitude"),
+        "lng": loc.get("longitude"),
         "rating": place.get("rating"),
         "reviews": place.get("userRatingCount"),
         "price_level": PRICE_LEVEL.get(place.get("priceLevel")),

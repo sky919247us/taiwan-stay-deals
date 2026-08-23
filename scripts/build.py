@@ -23,11 +23,13 @@ FIELDS = ["id", "name", "city", "town", "kind", "classes", "stars", "taiwan_host
           "price_low", "price_high", "weekday_price", "lat", "lng", "geo_source",
           "categories", "plans", "discounts", "channels", "flags", "period", "license",
           "services", "parking_spaces", "accessible_rooms", "capacity",
-          "price_final", "price_src", "price_note", "price_room", "price_url"]
+          "price_final", "price_src", "price_note", "price_room", "price_url",
+          "g_rating", "g_reviews", "g_uri"]
 
 CSV_COLS = ["序號", "旅宿名稱", "縣市", "鄉鎮市區", "業別", "電話", "地址",
             "優惠類別", "平日雙人房價", "價格來源", "官網定價", "折抵金額",
-            "優惠期限", "方案內容", "緯度", "經度", "座標來源", "官網", "旅宿網詳情"]
+            "優惠期限", "方案內容", "緯度", "經度", "座標來源",
+            "Google評分", "Google評論數", "官網", "旅宿網詳情"]
 
 CAT_NAME = {c["key"]: c["name"] for c in CATEGORIES}
 DETAIL = "https://www.taiwanstay.net.tw/TSA/web_page/TSA020200.jsp?hohi_id="
@@ -53,6 +55,8 @@ def to_rows(stays):
             "緯度": r.get("lat", ""), "經度": r.get("lng", ""),
             "座標來源": {"opendata": "開放資料", "geocode": "地理編碼",
                      "township": "鄉鎮約略"}.get(r.get("geo_source"), ""),
+            "Google評分": r.get("g_rating") or "",
+            "Google評論數": r.get("g_reviews") or "",
             "官網": r.get("website", ""), "旅宿網詳情": DETAIL + r["id"],
         })
     return out
@@ -68,7 +72,7 @@ def write_downloads(rows):
     wb = Workbook()
     fill = PatternFill("solid", fgColor="1F6F5C")
     font = Font(color="FFFFFF", bold=True)
-    widths = [6, 26, 8, 10, 10, 18, 34, 20, 12, 10, 10, 12, 12, 60, 10, 10, 10, 30, 46]
+    widths = [6, 26, 8, 10, 10, 18, 34, 20, 12, 10, 10, 12, 12, 60, 10, 10, 10, 10, 12, 30, 46]
 
     def sheet(ws, data):
         ws.append(CSV_COLS)
@@ -131,6 +135,7 @@ def main():
 
     web = jload(os.path.join(CACHE, "webprice.json"), {}) or {}
     manual = load_overrides()
+    places = jload(os.path.join(CACHE, "places.json"), {}) or {}
 
     for r in stays:
         for k in ("town", "address", "website", "license"):
@@ -159,6 +164,14 @@ def main():
             r["price_url"] = w.get("url", "")
         else:
             r["price_final"], r["price_src"], r["price_note"] = 0, "", ""
+
+        # Google 評分（Places API）。旅宿沒有 priceLevel，所以這裡只拿得到評價，
+        # 但評分與評論數本身就是很有用的排序依據。
+        g = places.get(r["id"]) or {}
+        if g.get("place_id"):
+            r["g_rating"] = g.get("rating") or 0
+            r["g_reviews"] = g.get("reviews") or 0
+            r["g_uri"] = g.get("maps_uri") or ""
 
     slim = []
     for r in stays:
@@ -200,6 +213,7 @@ def main():
         "geo_stat": blob.get("geo_stat", {}),
         "price_stat": dict(collections.Counter(
             r.get("price_src") or "none" for r in slim)),
+        "rating_count": sum(1 for r in slim if r.get("g_rating")),
         "change": change,
     }
 

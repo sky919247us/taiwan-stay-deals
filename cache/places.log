@@ -1,0 +1,8 @@
+[Places] 共 1796 家，已快取 0 家，這次要查 1796 家
+  50/1796  {'matched': 49, 'no_result': 0, 'rejected': 1, 'error': 0}
+  100/1796  {'matched': 99, 'no_result': 0, 'rejected': 1, 'error': 0}
+  150/1796  {'matched': 148, 'no_result': 0, 'rejected': 2, 'error': 0}
+  200/1796  {'matched': 196, 'no_result': 0, 'rejected': 4, 'error': 0}
+  250/1796  {'matched': 246, 'no_result': 0, 'rejected': 4, 'error': 0}
+  300/1796  {'matched': 296, 'no_result': 0, 'rejected': 4, 'error': 0}
+  350/1796  {'matched': 346, 'no_result': 0, 'rejected': 4, 'error': 0}

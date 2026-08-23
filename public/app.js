@@ -27,6 +27,8 @@ var FLAG_DEFS = [
   { key: 'card',       label: '國旅卡',   test: function (s) { return svc(s, '國民旅遊卡'); } },
   { key: 'access',     label: '無障礙房', test: function (s) { return (s.accessible_rooms > 0) || svc(s, '無障礙客房'); } },
   { key: 'web',        label: '有官網',   test: function (s) { return !!s.website; } },
+  { key: 'r45',        label: '★4.5 以上', test: function (s) { return (s.g_rating || 0) >= 4.5; } },
+  { key: 'rv50',       label: '評論 50+',  test: function (s) { return (s.g_reviews || 0) >= 50; } },
   { key: 'exact',      label: '精確座標', test: function (s) { return s.geo_source !== 'township'; } }
 ];
 
@@ -373,6 +375,11 @@ function sortRows(rows) {
     price_asc: function (a, b) { return (a._p || 1e9) - (b._p || 1e9); },
     price_desc: function (a, b) { return (b._p || 0) - (a._p || 0); },
     name: function (a, b) { return a.name.localeCompare(b.name, 'zh-Hant'); },
+    rating: function (a, b) {
+      // 只有 3 則評論的 5.0 分不該贏過 500 則的 4.8 分，用評論數當次要條件
+      return (b.g_rating || 0) - (a.g_rating || 0) || (b.g_reviews || 0) - (a.g_reviews || 0);
+    },
+    reviews: function (a, b) { return (b.g_reviews || 0) - (a.g_reviews || 0); },
     default: function (a, b) {
       return (cityIdx[a.city] - cityIdx[b.city]) ||
              String(a.town).localeCompare(String(b.town), 'zh-Hant') ||
@@ -431,6 +438,8 @@ function cardHTML(s) {
   return '<article class="card" data-id="' + s.id + '" tabindex="0">' +
     '<h3>' + esc(s.name) + '</h3>' +
     '<p class="meta">' + esc(s.city) + esc(s.town || '') + ' ・ ' + esc(s.kind) +
+      (s.g_rating ? ' ・ <span class="star">★' + s.g_rating.toFixed(1) + '</span>' +
+                    '<span class="rv">(' + (s.g_reviews || 0) + ')</span>' : '') +
       (s.period ? ' ・ 至 ' + esc(s.period) : '') + '</p>' +
     '<div class="side">' +
       (price ? '<div class="price">' + price + '</div>' : '') +
@@ -490,6 +499,7 @@ function markerFor(s) {
   });
   m.bindPopup(function () {
     return '<b>' + esc(s.name) + '</b><br>' + esc(s.city) + esc(s.town || '') + ' ・ ' + esc(s.kind) +
+      (s.g_rating ? '　★' + s.g_rating.toFixed(1) + '(' + (s.g_reviews || 0) + ')' : '') +
       (s._p ? '<br>平日雙人房 ' + s._p.toLocaleString() + ' 元' : '') +
       '<br><a href="#" data-open="' + s.id + '">查看方案內容 →</a>';
   });
@@ -575,6 +585,12 @@ function openSheet(id) {
       : '');
   row('優惠期限', esc(s.period));
   row('登記證號', esc(s.license));
+  row('Google 評分', s.g_rating
+      ? '<b class="star">★ ' + s.g_rating.toFixed(1) + '</b>　<span class="muted">' +
+        (s.g_reviews || 0) + ' 則評論</span>' +
+        (s.g_uri ? '　<a href="' + esc(s.g_uri) +
+                   '" target="_blank" rel="noopener">在 Google 地圖查看</a>' : '')
+      : '');
   row('可住人數', s.capacity ? s.capacity + ' 人' : '');
   row('設施服務', (s.services || []).map(esc).join('、'));
   if (GEO_LABEL[s.geo_source]) { row('備註', GEO_LABEL[s.geo_source] + '，請以地址為準'); }

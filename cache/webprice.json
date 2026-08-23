@@ -483,5 +483,165 @@
   "name": "路境行旅－花蓮文化館",
   "url": "http://www.finders-wh.com",
   "note": "no_price"
+ },
+ "4466": {
+  "name": "定風波民宿",
+  "url": "http://www.familyinn.com.tw",
+  "price": 3000,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日房價 假日房價 $3,000 $3,200",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "31758": {
+  "name": "桃月屋",
+  "url": "https://kei.cafe/K3",
+  "price": 3600,
+  "room": "田園美景雙人浴缸房 (202)",
+  "basis": "weekday",
+  "evidence": "田園美景雙人浴缸房 (202) 平日 3,600",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "2381": {
+  "name": "夏都城旅安平館",
+  "url": "https://www.tnchateau.com.tw/",
+  "price": 8000,
+  "room": "漫思客房",
+  "basis": "unknown",
+  "evidence": "漫思客房 NT$8,000/間",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "4712": {
+  "name": "喜約民宿",
+  "url": "https://tw-bnb.com/web/xiyue/",
+  "price": 2000,
+  "room": "二人房（維多利亞）",
+  "basis": "weekday",
+  "evidence": "二人房（維多利亞）平日2000元",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "4340": {
+  "name": "秋合民宿",
+  "url": "http://www.joe-ho168.com",
+  "price": 1900,
+  "room": "3F 歐洲浪漫 雙人房",
+  "basis": "weekday",
+  "evidence": "平日：1,900 (週日~週四)",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "15795": {
+  "name": "福容大飯店 桃園機場捷運 A8",
+  "url": "http://www.fullon-hotels.com.tw/a8/",
+  "price": 8800,
+  "room": "精緻單人房",
+  "basis": "unknown",
+  "evidence": "精緻單人房 1-2人 NT$8,800+10%",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "494": {
+  "name": "久窩行旅-逢甲館",
+  "url": "http://www.khotel.tw/",
+  "note": "no_price"
+ },
+ "20085": {
+  "name": "花蓮假期飯店",
+  "url": "https://www.3hhotel.com/",
+  "price": 6000,
+  "room": "假期雙人房",
+  "basis": "unknown",
+  "evidence": "假期雙人房 定價：$6000",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "31629": {
+  "name": "藍海之丘民宿",
+  "url": "http://www.blueoceanhill.com/",
+  "price": 3200,
+  "room": "標準床二人房",
+  "basis": "unknown",
+  "evidence": "標準床二人房 定價:NT$3,200",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "21491": {
+  "name": "樂活行館",
+  "url": "http://www.icolour.com.tw",
+  "price": 5980,
+  "room": "搖滾樂活",
+  "basis": "weekday",
+  "evidence": "平日價： 5,980 TWD",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "18425": {
+  "name": "星空海藍大飯店",
+  "url": "http://shinyoceanhotel.com",
+  "price": 2650,
+  "room": "蔚藍雙人房",
+  "basis": "unknown",
+  "evidence": "蔚藍雙人房 定價:NT6600元/優惠價:NT2650元起",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "30822": {
+  "name": "惠來谷關溫泉會館",
+  "url": "http://www.villa-spa.com.tw",
+  "note": "no_price"
+ },
+ "9900": {
+  "name": "挪威森林頂級汽車旅館",
+  "url": "http://www.villa-group.com.tw",
+  "note": "no_price"
+ },
+ "18451": {
+  "name": "富立登國際大飯店",
+  "url": "http://www.freedom-tw.com",
+  "note": "no_price"
+ },
+ "3085": {
+  "name": "跳跳民宿",
+  "url": "http://qvilla.com.tw",
+  "note": "no_price"
+ },
+ "4554": {
+  "name": "統一的家民宿",
+  "url": "http://tongyihomestay.com.tw/",
+  "note": "no_price"
+ },
+ "4175": {
+  "name": "福容大飯店 福隆貝悅",
+  "url": "https://www.fullon-hotels.com.tw/fl/tw/",
+  "price": 12800,
+  "room": "精緻和洋客房",
+  "basis": "unknown",
+  "evidence": "精緻和洋客房 2人 NT$12,800+10%",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "37067": {
+  "name": "好好民宿",
+  "url": "https://haohaoday.com/",
+  "note": "not_html"
+ },
+ "29803": {
+  "name": "閣樂有限公司",
+  "url": "https://twstay.tw/babylove/index.html",
+  "note": "no_price"
+ },
+ "26089": {
+  "name": "小樹的家",
+  "url": "https://treehouse981011.wixsite.com/mysite",
+  "price": 2100,
+  "room": "小樹雙人套房",
+  "basis": "weekday",
+  "evidence": "NT. 2100 起 (平日)",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
  }
 }
