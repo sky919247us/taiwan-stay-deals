@@ -360,6 +360,13 @@ select:disabled { opacity: .5; }
     padding: 12px 0; font-size: 14px; min-height: 46px;
   }
   .mobileTabs button.active { color: var(--brand); font-weight: 700; box-shadow: inset 0 -2px 0 var(--brand); }
+  /* 分頁列最右邊的小咖啡：固定寬度，不跟兩個分頁搶空間 */
+  .kofiTab {
+    flex: 0 0 auto; width: 46px; display: flex; align-items: center; justify-content: center;
+    font-size: 17px; text-decoration: none; opacity: .5;
+    border-left: 1px solid var(--line);
+  }
+  .kofiTab:active { opacity: 1; }
 
   .topbar { --topbar-h: 54px; }
   .topbar h1 { font-size: 15px; }

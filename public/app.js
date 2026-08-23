@@ -795,7 +795,7 @@ function bindEvents() {
     else { delete document.documentElement.dataset.theme; localStorage.removeItem('theme'); }
   });
 
-  Array.prototype.forEach.call($('mobileTabs').children, function (b) {
+  Array.prototype.forEach.call($('mobileTabs').querySelectorAll('[data-view]'), function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.view === 'map') { showMap(); } else { showList(); }
     });
@@ -844,7 +844,7 @@ function showList() {
 }
 
 function setTab(v) {
-  Array.prototype.forEach.call($('mobileTabs').children, function (b) {
+  Array.prototype.forEach.call($('mobileTabs').querySelectorAll('[data-view]'), function (b) {
     b.classList.toggle('active', b.dataset.view === v);
   });
 }
