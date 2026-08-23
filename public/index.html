@@ -186,6 +186,34 @@
     </div>
     <div class="barRow">
       <span class="grp">
+        <span class="lbl">Google 評分<span class="hint" id="ratingHint"></span></span>
+        <span class="range" id="ratingRange">
+          <span class="rtrack"></span>
+          <span class="rfill" id="rfill2"></span>
+          <input type="range" id="ratingMin" min="0" max="11" step="1" value="0"
+                 aria-label="評分下限" autocomplete="off">
+        </span>
+        <label class="inline">評論數至少
+          <select id="reviewMin" autocomplete="off" aria-label="評論數下限">
+            <option value="0">不限</option>
+            <option value="10">10 則</option>
+            <option value="50">50 則</option>
+            <option value="100">100 則</option>
+            <option value="300">300 則</option>
+            <option value="1000">1000 則</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="ratingInclUnknown" autocomplete="off"
+               aria-label="包含 Google 上沒有評分的旅宿" checked> 含未評分</label>
+      </span>
+    </div>
+    <div class="barRow">
+      <span class="grp"><span class="lbl">常用評分</span>
+        <span class="chips" id="ratingChips"></span></span>
+    </div>
+
+    <div class="barRow">
+      <span class="grp">
         <span class="lbl">常用區間</span>
         <span class="chips" id="priceChips"></span>
         <label class="check"><input type="checkbox" id="priceInclUnknown" autocomplete="off"

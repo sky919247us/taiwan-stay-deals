@@ -27,8 +27,6 @@ var FLAG_DEFS = [
   { key: 'card',       label: '國旅卡',   test: function (s) { return svc(s, '國民旅遊卡'); } },
   { key: 'access',     label: '無障礙房', test: function (s) { return (s.accessible_rooms > 0) || svc(s, '無障礙客房'); } },
   { key: 'web',        label: '有官網',   test: function (s) { return !!s.website; } },
-  { key: 'r45',        label: '★4.5 以上', test: function (s) { return (s.g_rating || 0) >= 4.5; } },
-  { key: 'rv50',       label: '評論 50+',  test: function (s) { return (s.g_reviews || 0) >= 50; } },
   { key: 'exact',      label: '精確座標', test: function (s) { return s.geo_source !== 'township'; } }
 ];
 
@@ -41,6 +39,16 @@ var PRICE_TICKS = [0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400,
                    2600, 2800, 3000, 3200, 3500, 3800, 4100, 4500];
 var PRICE_TOP = PRICE_TICKS[PRICE_TICKS.length - 1];
 var PRICE_LAST = PRICE_TICKS.length - 1;
+
+// 評分集中在 4.3–4.9（中位數 4.7），所以刻度在高分區要切細，
+// 不然滑桿動一格就跳掉幾百家。
+var RATING_TICKS = [0, 3.0, 3.5, 4.0, 4.2, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0];
+var RATING_PRESETS = [
+  { label: '不限', min: 0 },
+  { label: '★4.0 以上', min: 4.0 },
+  { label: '★4.5 以上', min: 4.5 },
+  { label: '★4.8 以上', min: 4.8 }
+];
 
 var PRICE_SRC = {
   manual:   { label: '人工查核', cls: 'src-manual' },
@@ -58,7 +66,9 @@ var PRICE_PRESETS = [
 
 var S = {
   q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
-  pmin: 0, pmax: PRICE_TOP, inclUnknown: true, sort: 'default', onlyFav: false,
+  pmin: 0, pmax: PRICE_TOP, inclUnknown: true,
+  rmin: 0, rvmin: 0, inclNoRating: true,
+  sort: 'default', onlyFav: false,
   near: null,        // { lat, lng, km, label }
   bounds: false
 };
@@ -135,6 +145,8 @@ fetch('data/meta.json', { cache: 'no-cache' })
 });
 
 function boot() {
+  NO_PRICE = DATA.filter(function (x) { return !x._p; }).length;
+  NO_RATING = DATA.filter(function (x) { return !x.g_rating; }).length;
   buildFilters();
   readURL();
   syncControls();
@@ -154,11 +166,11 @@ function boot() {
     $('metaLine').textContent += ' ・ 本次新增 ' + META.change.added.length + ' 家';
   }
   $('favCount').textContent = FAV.size ? '(' + FAV.size + ')' : '';
-  NO_PRICE = DATA.filter(function (x) { return !x._p; }).length;
 
   document.body.classList.add('view-list');
   // 進階條件預設收起來，先讓使用者看到結果
-  if (S.flags.length || S.services.length || S.pmin > 0 || S.pmax < PRICE_TOP) {
+  if (S.flags.length || S.services.length || S.pmin > 0 || S.pmax < PRICE_TOP
+      || S.rmin > 0 || S.rvmin > 0) {
     $('btnFilters').click();
   }
   apply();
@@ -200,6 +212,18 @@ function buildFilters() {
     b.innerHTML = esc(pr.label) + '<span class="n">' + priceCount(pr.min, pr.max) + '</span>';
     b.addEventListener('click', function () { setPrice(pr.min, pr.max); });
     pbox.appendChild(b);
+  });
+
+  var rbox = $('ratingChips');
+  rbox.innerHTML = '';
+  RATING_PRESETS.forEach(function (pr) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = esc(pr.label) + '<span class="n"></span>';
+    b.addEventListener('click', function () { setRating(pr.min, null); });
+    rbox.appendChild(b);
   });
 
   chips($('serviceChips'), (META.services || [])
@@ -257,6 +281,7 @@ function syncControls() {
     });
   });
   priceLabel();
+  ratingLabel();
   nearLabel();
 }
 
@@ -284,6 +309,46 @@ function priceLabel() {
     btn.setAttribute('aria-pressed', String(pr.min === S.pmin && pr.max === S.pmax));
     btn.querySelector('.n').textContent = priceCount(pr.min, pr.max);   // 含未標價會改變家數
   });
+}
+
+function ratingCount(min, rv) {          // 符合評分條件、且真的有評分的家數
+  var n = 0;
+  for (var i = 0; i < DATA.length; i++) {
+    var s = DATA[i];
+    if (s.g_rating && s.g_rating >= min && (s.g_reviews || 0) >= rv) { n++; }
+  }
+  return n;
+}
+
+var NO_RATING = 0;                      // Google 上查不到評分的家數
+
+function ratingLabel() {
+  var i = RATING_TICKS.indexOf(S.rmin);
+  if (i < 0) { i = 0; }
+  $('ratingMin').value = i;
+  $('reviewMin').value = String(S.rvmin);
+  $('ratingInclUnknown').checked = S.inclNoRating;
+  $('rfill2').style.left = '0%';
+  $('rfill2').style.width = (i / (RATING_TICKS.length - 1) * 100) + '%';
+
+  $('ratingHint').textContent = (S.rmin === 0 && S.rvmin === 0)
+    ? '未設限'
+    : '★' + S.rmin.toFixed(1) + ' 以上' +
+      (S.rvmin ? '、評論 ' + S.rvmin + ' 則以上' : '') +
+      '　' + ratingCount(S.rmin, S.rvmin) + ' 家符合' +
+      (S.inclNoRating ? '，另含 ' + NO_RATING + ' 家未評分' : '');
+
+  Array.prototype.forEach.call($('ratingChips').children, function (btn, k) {
+    btn.setAttribute('aria-pressed', String(RATING_PRESETS[k].min === S.rmin));
+    btn.querySelector('.n').textContent = ratingCount(RATING_PRESETS[k].min, S.rvmin);
+  });
+}
+
+function setRating(min, rv) {
+  S.rmin = min;
+  if (rv != null) { S.rvmin = rv; }
+  ratingLabel();
+  apply();
 }
 
 function priceCount(lo, hi) {     // 這個區間內「有標優惠價」的家數，未標價的另外算
@@ -344,6 +409,14 @@ function filter() {
         if (has(S.flags, FLAG_DEFS[f].key) && !FLAG_DEFS[f].test(s)) { ok = false; }
       }
       if (!ok) { continue; }
+    }
+
+    if (S.rmin > 0 || S.rvmin > 0) {
+      if (!s.g_rating) {
+        if (!S.inclNoRating) { continue; }
+      } else if (s.g_rating < S.rmin || (s.g_reviews || 0) < S.rvmin) {
+        continue;
+      }
     }
 
     if (S.services.length) {
@@ -635,6 +708,9 @@ function writeURL() {
   if (S.services.length) { p.set('sv', S.services.join(',')); }
   if (S.pmin > 0) { p.set('pmin', S.pmin); }
   if (S.pmax < PRICE_TOP) { p.set('pmax', S.pmax); }
+  if (S.rmin > 0) { p.set('rmin', S.rmin); }
+  if (S.rvmin > 0) { p.set('rv', S.rvmin); }
+  if (!S.inclNoRating) { p.set('ru', '0'); }
   if (!S.inclUnknown) { p.set('pu', '0'); }
   if (S.sort !== 'default') { p.set('sort', S.sort); }
   if (S.onlyFav) { p.set('fav', '1'); }
@@ -654,6 +730,9 @@ function readURL() {
   S.services = (p.get('sv') || '').split(',').filter(Boolean);
   S.pmin = +(p.get('pmin') || 0);
   S.pmax = +(p.get('pmax') || PRICE_TOP);
+  S.rmin = +(p.get('rmin') || 0);
+  S.rvmin = +(p.get('rv') || 0);
+  S.inclNoRating = p.get('ru') !== '0';
   S.inclUnknown = p.get('pu') !== '0';
   S.sort = p.get('sort') || 'default';
   S.onlyFav = p.get('fav') === '1';
@@ -690,6 +769,16 @@ function bindEvents() {
   $('priceMax').addEventListener('input', function (e) {
     setPrice(S.pmin, PRICE_TICKS[+e.target.value]);
   });
+  $('ratingMin').addEventListener('input', function (e) {
+    setRating(RATING_TICKS[+e.target.value], null);
+  });
+  $('reviewMin').addEventListener('change', function (e) {
+    setRating(S.rmin, +e.target.value);
+  });
+  $('ratingInclUnknown').addEventListener('change', function (e) {
+    S.inclNoRating = e.target.checked; ratingLabel(); apply();
+  });
+
   $('priceMinNum').addEventListener('change', function (e) {
     setPrice(+e.target.value || 0, S.pmax);
   });
@@ -708,7 +797,9 @@ function bindEvents() {
 
   $('btnClear').addEventListener('click', function () {
     S = { q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
-          pmin: 0, pmax: PRICE_TOP, inclUnknown: true, sort: 'default', onlyFav: false,
+          pmin: 0, pmax: PRICE_TOP, inclUnknown: true,
+  rmin: 0, rvmin: 0, inclNoRating: true,
+  sort: 'default', onlyFav: false,
           near: null, bounds: false };
     drawRadius(); syncControls(); apply();
   });
