@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026 國旅補助旅宿地圖 ｜ 快速查詢參與補助的旅館民宿</title>
+<meta name="description" content="115 年國旅平日住宿獎助與平價優質旅宿參與名單，支援地圖搜尋、附近搜尋、鄉鎮與價格篩選。資料來自交通部觀光署臺灣旅宿網，每週自動更新。">
+<meta name="theme-color" content="#1f6f5c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%9B%8F%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="vendor/MarkerCluster.css">
+<link rel="stylesheet" href="vendor/MarkerCluster.Default.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#results">跳至搜尋結果</a>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">🛏️</span>
+    <div>
+      <h1>2026 國旅補助旅宿地圖</h1>
+      <p class="sub" id="metaLine">載入中…</p>
+    </div>
+  </div>
+  <div class="topActions">
+    <button type="button" class="ghost" id="btnGuide" aria-expanded="false" aria-controls="guide">補助怎麼用</button>
+    <button type="button" class="ghost" id="btnDownload">下載名單</button>
+    <button type="button" class="ghost" id="btnTheme" title="切換深淺色">🌓</button>
+  </div>
+</header>
+
+<section id="guide" class="guide" hidden>
+  <div class="guideGrid">
+    <div>
+      <h2>可以折抵多少</h2>
+      <table class="mini">
+        <thead><tr><th>地區</th><th>第 1 晚</th><th>連住第 2 晚</th><th>合計</th></tr></thead>
+        <tbody>
+          <tr><td>本島</td><td>800 元</td><td>1,200 元</td><td>2,000 元</td></tr>
+          <tr><td>離島</td><td>1,000 元</td><td>1,500 元</td><td>2,500 元</td></tr>
+        </tbody>
+      </table>
+      <p class="note">依實際房價折抵，房價低於上限則以房價為準；每房每晚限用 1 次。再加上抽中的生日券 1,200 元，本島最高約 3,200 元、離島約 3,700 元。</p>
+    </div>
+    <div>
+      <h2>什麼時候能用</h2>
+      <ul>
+        <li>活動期間 <b>115/09/01–11/30</b>（預算用罄即止）。</li>
+        <li>限 <b>週日至週四</b> 入住，不含國定假日及其連續假期。</li>
+        <li>排除連假：中秋 9/25–28、國慶 10/9–11、光復節 10/24–26、行憲紀念日 12/25–27。</li>
+        <li>2 晚可住不同旅館，但須<b>連續住宿</b>。</li>
+      </ul>
+    </div>
+    <div>
+      <h2>怎麼領</h2>
+      <ol>
+        <li>入住前或當日到<a href="https://taiwantravel.tad.gov.tw/" target="_blank" rel="noopener">國旅補助申請系統</a>登錄，並上傳身分證或健保卡正面。</li>
+        <li>直接向旅宿訂房 → 入住出示證件<b>現場折抵</b>。</li>
+        <li>透過觀光署核可的訂房平台 → 平台確認入住後折抵（國際平台不適用）。</li>
+        <li>限本國國民個別旅客，團體旅客不適用；住宿券等禮券不適用。</li>
+      </ol>
+      <p class="note">官方諮詢：交通部觀光署 (02) 2349-1500</p>
+    </div>
+  </div>
+</section>
+
+<section id="downloadPanel" class="guide" hidden>
+  <div class="guideGrid">
+    <div>
+      <h2>下載完整名單</h2>
+      <p class="note">與本站相同的資料，含縣市分頁、方案內容與座標。</p>
+      <p>
+        <a class="dl" href="data/downloads/taiwan-stay-deals.xlsx" download>Excel（.xlsx）</a>
+        <a class="dl" href="data/downloads/taiwan-stay-deals.csv" download>CSV（UTF-8）</a>
+        <a class="dl" href="data/stays.json" download>JSON（開發者用）</a>
+      </p>
+    </div>
+    <div>
+      <h2>資料來源</h2>
+      <ul>
+        <li><a href="https://www.taiwanstay.net.tw/TSA/web_page/TSA060100.jsp" target="_blank" rel="noopener">臺灣旅宿網 優宿專區</a>：參與名單與方案內容</li>
+        <li><a href="https://data.gov.tw/dataset/7780" target="_blank" rel="noopener">觀光署「旅館民宿」開放資料</a>：地址、經緯度、房價區間</li>
+      </ul>
+      <p class="note" id="geoNote"></p>
+    </div>
+  </div>
+</section>
+
+<section class="filterbar" id="filterbar">
+  <div class="barRow">
+    <input type="search" id="q" placeholder="搜尋旅宿名稱、地址、設施或方案內容…" autocomplete="off" aria-label="關鍵字搜尋">
+    <select id="city" aria-label="縣市"><option value="">全部縣市</option></select>
+    <select id="town" aria-label="鄉鎮市區"><option value="">全部鄉鎮</option></select>
+    <div class="chips">
+      <button type="button" class="chip" id="btnLocate">📍 我附近</button>
+      <button type="button" class="chip" id="btnRadius">⭕ 圈選範圍</button>
+      <button type="button" class="chip" id="btnBounds">🗺️ 只看地圖範圍</button>
+    </div>
+    <div id="nearRow" class="nearRow" hidden>
+      <span id="nearLabel"></span>
+      <select id="radiusKm" aria-label="搜尋半徑">
+        <option value="3">3 km</option>
+        <option value="5">5 km</option>
+        <option value="10" selected>10 km</option>
+        <option value="30">30 km</option>
+        <option value="0">不限</option>
+      </select>
+      <button type="button" class="ghost small" id="btnNearClear">取消</button>
+    </div>
+    <span class="spacer"></span>
+    <button type="button" id="btnFilters" class="ghost small" aria-expanded="false" aria-controls="barMore">更多條件 ▾</button>
+    <button type="button" id="btnClear" class="ghost small" title="清除所有條件">清除</button>
+  </div>
+
+  <div class="barRow secondary">
+    <span class="grp"><span class="lbl">類別</span><span class="chips" id="catChips"></span></span>
+    <span class="grp"><span class="lbl">業別</span><span class="chips" id="kindChips"></span></span>
+    <span class="spacer"></span>
+    <label class="inline">排序
+      <select id="sort">
+        <option value="default">預設（縣市）</option>
+        <option value="distance">距離最近</option>
+        <option value="price_asc">房價低到高</option>
+        <option value="price_desc">房價高到低</option>
+        <option value="name">名稱</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" id="onlyFav" aria-label="只看收藏"> 只看收藏 <span id="favCount"></span></label>
+  </div>
+
+  <div class="barMore" id="barMore" hidden>
+    <div class="barRow">
+      <span class="grp">
+        <span class="lbl">房價上限<span class="hint" id="priceHint"></span></span>
+        <input type="range" id="priceMax" min="0" max="6000" step="100" value="6000" aria-label="價格上限">
+        <label class="check"><input type="checkbox" id="priceInclUnknown" aria-label="包含未標示房價的旅宿" checked> 含未標價</label>
+      </span>
+    </div>
+    <div class="barRow">
+      <span class="grp"><span class="lbl">優惠條件</span><span class="chips" id="flagChips"></span></span>
+    </div>
+    <div class="barRow">
+      <span class="grp"><span class="lbl">設施服務</span><span class="chips" id="serviceChips"></span></span>
+    </div>
+  </div>
+</section>
+
+<main class="layout">
+  <aside class="panel" id="panel">
+    <div class="resultHead">
+      <strong id="count">—</strong>
+      <button type="button" class="ghost small" id="btnShare">複製查詢連結</button>
+    </div>
+
+    <div id="results" class="results" tabindex="-1">
+      <div id="spacerTop"></div>
+      <div id="list"></div>
+      <div id="spacerBottom"></div>
+    </div>
+  </aside>
+
+  <div class="mapWrap">
+    <div id="map" role="application" aria-label="旅宿地圖"></div>
+    <div class="mapHud" id="mapHud" hidden></div>
+  </div>
+</main>
+
+<nav class="mobileTabs" id="mobileTabs">
+  <button type="button" data-view="list" class="active">☰ 清單</button>
+  <button type="button" data-view="map">🗺️ 地圖</button>
+</nav>
+
+<div id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheetInner">
+    <button type="button" class="sheetClose" id="sheetClose" aria-label="關閉">✕</button>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+
+<footer class="foot">
+  <p>資料來源：交通部觀光署臺灣旅宿網「優宿專區」與觀光署「旅館民宿」開放資料。本站為非官方整理，<b>優惠內容與參與資格一律以官方公告及旅宿業者說明為準</b>。</p>
+  <p id="footMeta"></p>
+</footer>
+
+<script src="vendor/leaflet.js"></script>
+<script src="vendor/leaflet.markercluster.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

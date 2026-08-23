@@ -1,0 +1,64 @@
+name: 更新旅宿名單
+
+on:
+  schedule:
+    # 每週一 02:00 UTC（台灣時間週一上午 10:00）
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安裝套件
+        run: pip install -r requirements.txt
+
+      - name: 抓取官網名單
+        run: python scripts/scrape.py
+
+      - name: 比對開放資料、補座標
+        run: python scripts/enrich.py
+
+      - name: 抽取方案欄位
+        run: python scripts/extract.py
+
+      - name: 產出網站資料
+        run: python scripts/build.py
+
+      - name: 驗收
+        run: python scripts/verify.py
+
+      - name: 有異動才 commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "資料沒有變動，不建立 commit"
+            exit 0
+          fi
+          TOTAL=$(python -c "import json;print(json.load(open('public/data/meta.json',encoding='utf-8'))['total'])")
+          SUMMARY=$(python -c "
+          import json
+          m = json.load(open('public/data/meta.json', encoding='utf-8'))
+          c = m.get('change') or {}
+          a, r = len(c.get('added') or []), len(c.get('removed') or [])
+          print('新增 %d、下架 %d' % (a, r) if (a or r) else '內容微調')
+          ")
+          git commit -m "data: $(date -u +%Y-%m-%d) 更新（${SUMMARY}、共 ${TOTAL} 家）"
+          git push

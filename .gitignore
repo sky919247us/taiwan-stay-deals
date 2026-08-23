@@ -1,0 +1,12 @@
+# 開放資料原始檔太大（約 38MB），每次執行重新下載即可
+cache/opendata_hotel.json
+
+# 中繼檔與網頁快照：由 raw/*.json 重跑即可產生，不進版控以免 repo 每週長肥
+raw/merged.json
+raw/snapshots/
+
+__pycache__/
+*.pyc
+*.tmp
+*.bak-*
+.DS_Store
