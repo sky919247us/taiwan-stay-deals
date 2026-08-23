@@ -19,7 +19,7 @@ STAYS = os.path.join(DATA, "stays.json")
 META = os.path.join(DATA, "meta.json")
 
 FIELDS = ["id", "name", "city", "town", "kind", "classes", "stars", "taiwan_host",
-          "address", "phone_raw", "website", "booking_urls",
+          "address", "phone_raw", "phones", "website", "booking_urls",
           "price_low", "price_high", "weekday_price", "lat", "lng", "geo_source",
           "categories", "plans", "discounts", "channels", "flags", "period", "license",
           "services", "parking_spaces", "accessible_rooms", "capacity",

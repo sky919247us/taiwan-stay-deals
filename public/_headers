@@ -11,11 +11,13 @@
 /icon.svg
   Cache-Control: public, max-age=604800
 
+# stays.json 的網址帶了 ?v=<更新時間>，所以可以長期快取；
+# meta.json 是版本來源，一定要每次都問伺服器。
 /data/stays.json
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=86400
 
 /data/meta.json
-  Cache-Control: public, max-age=600
+  Cache-Control: public, max-age=0, must-revalidate
 
 /data/downloads/*
   Cache-Control: public, max-age=3600

@@ -218,5 +218,270 @@
   "name": "旅人驛站日暮微旅",
   "url": "http://www.traveler-inn.com/",
   "note": "no_price"
+ },
+ "15881": {
+  "name": "寶島窯民宿",
+  "url": "http://pottery.kenting-minsu.tw/",
+  "note": "no_price"
+ },
+ "20292": {
+  "name": "薆悅酒店",
+  "url": "http://taichung.inhousehotel.com/",
+  "note": "no_price"
+ },
+ "5738": {
+  "name": "馥俐旅店",
+  "url": "https://forward-suites2.com.tw/",
+  "note": "no_price"
+ },
+ "8869": {
+  "name": "LA VIDA HOTEL 逢甲商旅",
+  "url": "http://www.lavidahotel.com.tw",
+  "note": "no_price"
+ },
+ "37664": {
+  "name": "工業風親子民宿",
+  "url": "https://www.defu-manor.com/",
+  "note": "no_price"
+ },
+ "16448": {
+  "name": "瑪駿汽車旅館",
+  "url": "https://www.mmmotel.com/",
+  "price": 2300,
+  "room": "晨曦房",
+  "basis": "weekday",
+  "evidence": "晨曦房價 原價3900 平日優惠2300",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "30736": {
+  "name": "長灘運動休閒飯店",
+  "url": "https://www.kentinglongbeach.com/",
+  "note": "no_price"
+ },
+ "7592": {
+  "name": "碼頭精品旅店",
+  "url": "http://www.sunmoonhotel.com.tw/hotel/index.php",
+  "price": 1500,
+  "room": "標準二人房",
+  "basis": "weekday",
+  "evidence": "標準二人房 5坪 雙人床*1 4,500 1,500",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "30948": {
+  "name": "236寓所民宿",
+  "url": "https://drive.google.com/file/d/1nLsuiZgtPlaUhlSba775CvykrBVWTLd1/view?usp=sharing",
+  "note": "no_price"
+ },
+ "21295": {
+  "name": "暐順和選旅",
+  "url": "https://www.thehohotel.com.tw/",
+  "note": "no_price"
+ },
+ "34623": {
+  "name": "根本家民宿",
+  "url": "https://kei.cafe/K5",
+  "price": 3300,
+  "room": "田園美景雙人房",
+  "basis": "weekday",
+  "evidence": "NT$ 3,300 FROM · 平日雙人",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "2693": {
+  "name": "台南南科戴斯精選酒店",
+  "url": "http://www.sendale.com.tw/tainan/index.php",
+  "price": 4500,
+  "room": "精緻雙人房",
+  "basis": "unknown",
+  "evidence": "精緻雙人房 定價 NT$4500+10%",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "31176": {
+  "name": "千和居",
+  "url": "https://ab0930803301.wixsite.com/j666",
+  "note": "no_price"
+ },
+ "3267": {
+  "name": "浯江大飯店",
+  "url": "http://www.riverkinmen.com/",
+  "note": "no_price"
+ },
+ "9690": {
+  "name": "魚窩Ｂ＆Ｂ",
+  "url": "http://fish-house.hotweb.com.tw/p9.php?pdir=news&model=news_b_1&hid=KW1182583014&nid=KW1182583014N1376552318",
+  "note": "no_price"
+ },
+ "25850": {
+  "name": "瑞恒行館民宿",
+  "url": "https://guest-house-online.com/",
+  "note": "no_price"
+ },
+ "37923": {
+  "name": "湛湛里煙",
+  "url": "https://memorable-fish-v8phouj.gamma.site/",
+  "note": "no_price"
+ },
+ "8899": {
+  "name": "萊茵商旅",
+  "url": "http://www.rhineinn.com.tw",
+  "note": "no_price"
+ },
+ "269": {
+  "name": "蘭庭民宿",
+  "url": "http://www.sakurailan.com",
+  "note": "no_price"
+ },
+ "14399": {
+  "name": "中科大飯店",
+  "url": "http://www.zkhotel.com.tw/",
+  "note": "no_price"
+ },
+ "38265": {
+  "name": "阿嬌ㄟ岫",
+  "url": "https://ajiaos.shinedy.app",
+  "note": "no_price"
+ },
+ "6153": {
+  "name": "二八樹巷藝術文旅",
+  "url": "http://www.28shuxiang.com",
+  "note": "not_html"
+ },
+ "8019": {
+  "name": "梨山賓館",
+  "url": "http://www.lishanguesthouse.com.tw/",
+  "price": 8000,
+  "room": "標準雙人房",
+  "basis": "unknown",
+  "evidence": "標準雙人房…定價：8000元",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "8458": {
+  "name": "雲泊和旅",
+  "url": "https://www.cicinn.com/",
+  "note": "no_price"
+ },
+ "15480": {
+  "name": "里萊行旅",
+  "url": "http://www.lilaiinn.com",
+  "note": "llm_fail"
+ },
+ "1629": {
+  "name": "新水調歌頭民宿",
+  "url": "http://www.familyinn.com.tw",
+  "price": 3000,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日房價 假日房價 $3,000 $3,200",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "3062": {
+  "name": "陽光旅行民宿",
+  "url": "https://www.tt089.com.tw",
+  "price": 2000,
+  "room": "鄉村雙人房 (愛上台東藍)",
+  "basis": "weekday",
+  "evidence": "鄉村雙人房 平日價格 2000",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "5516": {
+  "name": "小鹿文娛─劇院酒店",
+  "url": "http://www.theatre-hotel.com",
+  "note": "no_price"
+ },
+ "2164": {
+  "name": "檜木居民宿",
+  "url": "http://www.cypresshouse.com.tw",
+  "note": "no_price"
+ },
+ "35494": {
+  "name": "五分鈿",
+  "url": "https://kei.cafe/K6",
+  "price": 3600,
+  "room": "山田美景雙人",
+  "basis": "weekday",
+  "evidence": "山田美景雙人 雙人房 平日 3,600",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "4274": {
+  "name": "高橋飯店",
+  "url": "http://www.hotelhi.com.tw",
+  "note": "no_price"
+ },
+ "4164": {
+  "name": "路徒行旅-台南成大館",
+  "url": "https://chengda.roadershotel.com/",
+  "note": "no_price"
+ },
+ "8025": {
+  "name": "小墾丁渡假村",
+  "url": "https://www.kentington.com.tw/",
+  "price": 3600,
+  "room": "經典房型",
+  "basis": "unknown",
+  "evidence": "NT. 3,600 起 2 人 兩大床",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "22679": {
+  "name": "82行館民宿",
+  "url": "https://www.82inn.com.tw",
+  "price": 1300,
+  "room": "左岸景觀雙人房",
+  "basis": "weekday",
+  "evidence": "平日房價 週一～週四 NT$ 1,300起",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "19336": {
+  "name": "沐夏民宿",
+  "url": "http://www.muxia.com.tw/",
+  "note": "no_price"
+ },
+ "9429": {
+  "name": "水舞行館",
+  "url": "https://swvilla.swmall.com.tw/zh-tw",
+  "price": 5800,
+  "room": "水舞池畔房",
+  "basis": "weekday",
+  "evidence": "週日-週四 : $5,800",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "32562": {
+  "name": "救國團復興青年活動中心",
+  "url": "http://fuhsing.cyh.org.tw/",
+  "price": 3200,
+  "room": "經濟二人套房",
+  "basis": "unknown",
+  "evidence": "經濟二人套房 定價：$3,200/間",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "31623": {
+  "name": "千晴民宿",
+  "url": "https://qianging.yoyotaitung.com.tw/",
+  "price": 2300,
+  "room": "2人房-2F201",
+  "basis": "weekday",
+  "evidence": "二人房 2,300 2,800 3,500 4,000",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "4666": {
+  "name": "水舞間",
+  "url": "http://www.waterdance.com.tw",
+  "note": "no_price"
+ },
+ "5457": {
+  "name": "路境行旅－花蓮文化館",
+  "url": "http://www.finders-wh.com",
+  "note": "no_price"
  }
 }

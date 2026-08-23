@@ -80,6 +80,12 @@ function esc(s) {
 function norm(s) {
   return String(s || '').normalize('NFKC').toLowerCase().replace(/\s+/g, '');
 }
+// 官網的電話欄常把多支號碼直接串在一起（例：090501810105-2228101），
+// 管線已用號碼樣式拆好放進 phones，撥號一律取第一支。
+function telOf(s) {
+  return (s.phones && s.phones[0]) || String(s.phone_raw || '').split(/[,\s]/)[0];
+}
+
 function dist(a, b, c, d) {                       // 兩點距離（公里）
   var R = 6371, p = Math.PI / 180;
   var x = (c - a) * p, y = (d - b) * p;
@@ -99,12 +105,17 @@ function toggleFav(id) {
 
 /* ------------------------------------------------------------ 載入 */
 
-Promise.all([
-  fetch('data/stays.json').then(function (r) { return r.json(); }),
-  fetch('data/meta.json').then(function (r) { return r.json(); })
-]).then(function (res) {
-  DATA = res[0].stays;
-  META = res[1];
+// 先拿 meta（小、不快取），再用它的更新時間當 stays.json 的版本號。
+// 這樣資料一更新使用者立刻拿到新的，而帶版本的網址又可以放心長期快取。
+fetch('data/meta.json', { cache: 'no-cache' })
+  .then(function (r) { return r.json(); })
+  .then(function (meta) {
+    META = meta;
+    return fetch('data/stays.json?v=' + encodeURIComponent(meta.updated_at || ''));
+  })
+  .then(function (r) { return r.json(); })
+  .then(function (blob) {
+  DATA = blob.stays;
   DATA.forEach(function (s) {
     s.flags = s.flags || [];
     s.categories = s.categories || [];
@@ -535,17 +546,29 @@ function openSheet(id) {
   var kv = '';
   function row(k, v) { if (v) { kv += '<dt>' + k + '</dt><dd>' + v + '</dd>'; } }
   row('地址', esc(s.address));
-  row('電話', s.phone_raw ? '<a href="tel:' + esc(String(s.phone_raw).split(/[,\s]/)[0]) + '">' + esc(s.phone_raw) + '</a>' : '');
+  row('電話', s.phone_raw ? '<a href="tel:' + esc(telOf(s)) + '">' + esc(s.phone_raw) + '</a>' : '');
   row('位置', esc(s.city) + esc(s.town || ''));
   var psrc = PRICE_SRC[s.price_src] || {};
-  row('平日雙人房', s._p
-      ? '<b>' + s._p.toLocaleString() + ' 元</b>' +
+  if (s._p) {
+    row('平日雙人房',
+        '<b>' + s._p.toLocaleString() + ' 元</b>' +
         (psrc.label ? '　<span class="psrc ' + psrc.cls + '">' + psrc.label + '</span>' : '') +
         (s.price_room ? '　<span class="muted">' + esc(s.price_room) + '</span>' : '') +
         (s.price_note ? '<br><span class="muted">' + esc(s.price_note) + '</span>' : '') +
         (s.price_url ? '<br><a class="muted" href="' + esc(s.price_url) +
-                       '" target="_blank" rel="noopener">價格出處頁面</a>' : '')
-      : '');
+                       '" target="_blank" rel="noopener">價格出處頁面</a>' : ''));
+  } else {
+    // 查不到就明說查不到，不用推估的數字填空格
+    var ways = [];
+    if (s.phone_raw) {
+      ways.push('<a href="tel:' + esc(telOf(s)) + '">電話詢問</a>');
+    }
+    if (s.website) {
+      ways.push('<a href="' + esc(s.website) + '" target="_blank" rel="noopener">看官網</a>');
+    }
+    row('平日雙人房', '<span class="muted">本站尚未取得實際房價</span>' +
+        (ways.length ? '　' + ways.join('　·　') : ''));
+  }
   row('官網定價', s.price_low
       ? s.price_low.toLocaleString() + ' – ' + (s.price_high || s.price_low).toLocaleString() +
         ' 元　<span class="muted">牌價，通常遠高於實際成交價，僅供參考</span>'
@@ -564,7 +587,7 @@ function openSheet(id) {
   var acts = '<a href="https://www.google.com/maps/search/?api=1&query=' + q +
       '" target="_blank" rel="noopener">在 Google 地圖開啟</a>';
   if (s.phone_raw) {
-    acts += '<a class="sec" href="tel:' + esc(String(s.phone_raw).split(/[,\s]/)[0]) + '">撥打電話</a>';
+    acts += '<a class="sec" href="tel:' + esc(telOf(s)) + '">撥打電話</a>';
   }
   if (s.website) { acts += '<a class="sec" href="' + esc(s.website) + '" target="_blank" rel="noopener">官方網站</a>'; }
   (s.booking_urls || []).slice(0, 2).forEach(function (u) {
