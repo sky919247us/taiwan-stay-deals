@@ -90,8 +90,8 @@
 <section class="filterbar" id="filterbar">
   <div class="barRow">
     <input type="search" id="q" placeholder="搜尋旅宿名稱、地址、設施或方案內容…" autocomplete="off" aria-label="關鍵字搜尋">
-    <select id="city" aria-label="縣市"><option value="">全部縣市</option></select>
-    <select id="town" aria-label="鄉鎮市區"><option value="">全部鄉鎮</option></select>
+    <select id="city" autocomplete="off" aria-label="縣市"><option value="">全部縣市</option></select>
+    <select id="town" autocomplete="off" aria-label="鄉鎮市區"><option value="">全部鄉鎮</option></select>
     <div class="chips">
       <button type="button" class="chip" id="btnLocate">📍 我附近</button>
       <button type="button" class="chip" id="btnRadius">⭕ 圈選範圍</button>
@@ -99,7 +99,7 @@
     </div>
     <div id="nearRow" class="nearRow" hidden>
       <span id="nearLabel"></span>
-      <select id="radiusKm" aria-label="搜尋半徑">
+      <select id="radiusKm" autocomplete="off" aria-label="搜尋半徑">
         <option value="3">3 km</option>
         <option value="5">5 km</option>
         <option value="10" selected>10 km</option>
@@ -118,7 +118,7 @@
     <span class="grp"><span class="lbl">業別</span><span class="chips" id="kindChips"></span></span>
     <span class="spacer"></span>
     <label class="inline">排序
-      <select id="sort">
+      <select id="sort" autocomplete="off">
         <option value="default">預設（縣市）</option>
         <option value="distance">距離最近</option>
         <option value="price_asc">房價低到高</option>
@@ -126,15 +126,15 @@
         <option value="name">名稱</option>
       </select>
     </label>
-    <label class="check"><input type="checkbox" id="onlyFav" aria-label="只看收藏"> 只看收藏 <span id="favCount"></span></label>
+    <label class="check"><input type="checkbox" id="onlyFav" autocomplete="off" aria-label="只看收藏"> 只看收藏 <span id="favCount"></span></label>
   </div>
 
   <div class="barMore" id="barMore" hidden>
     <div class="barRow">
       <span class="grp">
         <span class="lbl">房價上限<span class="hint" id="priceHint"></span></span>
-        <input type="range" id="priceMax" min="0" max="6000" step="100" value="6000" aria-label="價格上限">
-        <label class="check"><input type="checkbox" id="priceInclUnknown" aria-label="包含未標示房價的旅宿" checked> 含未標價</label>
+        <input type="range" id="priceMax" autocomplete="off" min="0" max="6000" step="100" value="6000" aria-label="價格上限">
+        <label class="check"><input type="checkbox" id="priceInclUnknown" autocomplete="off" aria-label="包含未標示房價的旅宿" checked> 含未標價</label>
       </span>
     </div>
     <div class="barRow">
