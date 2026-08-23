@@ -5,8 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>2026 國旅補助旅宿地圖 ｜ 快速查詢參與補助的旅館民宿</title>
 <meta name="description" content="115 年國旅平日住宿獎助與平價優質旅宿參與名單，支援地圖搜尋、附近搜尋、鄉鎮與價格篩選。資料來自交通部觀光署臺灣旅宿網，每週自動更新。">
-<meta name="theme-color" content="#1f6f5c">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%9B%8F%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#1f6f5c" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171a" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="國旅補助地圖">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2026 國旅補助旅宿地圖">
+<meta property="og:description" content="115 年國旅平日住宿獎助與平價優質旅宿參與名單，支援地圖、附近與價格區間搜尋。">
+<meta property="og:image" content="icon-512.png">
 <link rel="stylesheet" href="vendor/leaflet.css">
 <link rel="stylesheet" href="vendor/MarkerCluster.css">
 <link rel="stylesheet" href="vendor/MarkerCluster.Default.css">
@@ -88,15 +103,24 @@
 </section>
 
 <section class="filterbar" id="filterbar">
-  <div class="barRow">
+  <div class="barRow primary">
     <input type="search" id="q" placeholder="搜尋旅宿名稱、地址、設施或方案內容…" autocomplete="off" aria-label="關鍵字搜尋">
     <select id="city" autocomplete="off" aria-label="縣市"><option value="">全部縣市</option></select>
     <select id="town" autocomplete="off" aria-label="鄉鎮市區"><option value="">全部鄉鎮</option></select>
-    <div class="chips">
-      <button type="button" class="chip" id="btnLocate">📍 我附近</button>
-      <button type="button" class="chip" id="btnRadius">⭕ 圈選範圍</button>
-      <button type="button" class="chip" id="btnBounds">🗺️ 只看地圖範圍</button>
-    </div>
+    <button type="button" class="chip" id="btnLocate"><span class="ico">📍</span><span class="txt">我附近</span></button>
+    <span class="spacer"></span>
+    <button type="button" id="btnFilters" class="ghost small" aria-expanded="false" aria-controls="barMore">更多條件 ▾</button>
+    <button type="button" id="btnClear" class="ghost small" title="清除所有條件">清除</button>
+  </div>
+
+  <div class="barRow places">
+    <span class="grp">
+      <span class="lbl">地圖範圍</span>
+      <span class="chips">
+        <button type="button" class="chip" id="btnRadius">⭕ 圈選範圍</button>
+        <button type="button" class="chip" id="btnBounds">🗺️ 只看地圖範圍</button>
+      </span>
+    </span>
     <div id="nearRow" class="nearRow" hidden>
       <span id="nearLabel"></span>
       <select id="radiusKm" autocomplete="off" aria-label="搜尋半徑">
@@ -108,9 +132,6 @@
       </select>
       <button type="button" class="ghost small" id="btnNearClear">取消</button>
     </div>
-    <span class="spacer"></span>
-    <button type="button" id="btnFilters" class="ghost small" aria-expanded="false" aria-controls="barMore">更多條件 ▾</button>
-    <button type="button" id="btnClear" class="ghost small" title="清除所有條件">清除</button>
   </div>
 
   <div class="barRow secondary">

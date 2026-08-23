@@ -38,7 +38,18 @@
 11. **排序** — 距離最近／房價低到高／房價高到低／名稱
 12. **收藏** — 存在瀏覽器，可切換「只看收藏」
 
-外加：深淺色主題、手機清單／地圖切換、Excel / CSV / JSON 下載、補助規則說明。
+外加：深淺色主題、Excel / CSV / JSON 下載、補助規則說明。
+
+### 手機／平板
+
+- **≥760px**（平板橫放、桌機）：左清單右地圖同時顯示
+- **<760px**（手機）：底部分頁切換「清單／地圖」，篩選列只留搜尋＋縣市＋我附近，其餘收在「更多條件」
+- **≤360px**：「我附近」只留圖示
+- 手機橫放（高度 ≤480px）另有一組壓縮版面
+- 用 `100dvh` 避免被瀏覽器網址列切掉，瀏海與 home 指示條用 `env(safe-area-inset-*)` 避開
+- 觸控裝置的按鈕、籌碼、滑桿把手都放大到約 44px；輸入框 16px，iOS 才不會一點就放大整頁
+- 詳情在手機上是從底部升起的 bottom sheet
+- 可加到主畫面（`site.webmanifest`，含 maskable 圖示）
 
 ---
 
@@ -125,10 +136,12 @@ python -m http.server 8787 --directory public
 ```
 public/            ← Cloudflare Pages 的輸出目錄
   index.html  app.js  style.css  _headers  robots.txt
+  favicon.ico  icon.svg  apple-touch-icon.png  icon-192/512.png  site.webmanifest
   vendor/          Leaflet 與 markercluster（自帶，不依賴 CDN）
   data/            stays.json  meta.json  downloads/*.xlsx|csv
 scripts/
   config.py        共用設定、名稱／電話正規化
+  make_icons.py    產生 favicon.ico／PNG／SVG／webmanifest（改圖示時才要跑）
   scrape.py        抓官網（POST TSA060200.jsp，分頁參數是 PNO01）
   enrich.py        合併類別、比對開放資料、補座標
   extract.py       從方案文字抽出可篩選欄位

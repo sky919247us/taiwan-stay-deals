@@ -392,6 +392,7 @@ function cardHTML(s) {
             : (s.price_low ? s.price_low.toLocaleString() + ' <small>元起</small>' : '');
   var plan = s.plans.length ? s.plans[0].text : '';
 
+  tags = tags.slice(0, 4);            // 窄螢幕上標籤太多會把卡片撐高
   return '<article class="card" data-id="' + s.id + '" tabindex="0">' +
     '<h3>' + esc(s.name) + '</h3>' +
     '<p class="meta">' + esc(s.city) + esc(s.town || '') + ' ・ ' + esc(s.kind) +
@@ -765,18 +766,35 @@ function bindEvents() {
     });
   });
 
-  window.addEventListener('resize', function () {
-    if (window.innerWidth > 860) {
+  // 視窗尺寸／轉向改變時重新對齊版面：桌機一定同時顯示清單與地圖，
+  // 手機維持目前的分頁；地圖尺寸變了一定要 invalidateSize，否則圖磚會錯位。
+  var mqDesktop = window.matchMedia('(min-width: 760px)');
+  var resizeTimer = null;
+
+  function syncLayout() {
+    if (mqDesktop.matches) {
       document.body.classList.remove('view-map');
       document.body.classList.add('view-list');
-      initMap();
-      if (map) { setTimeout(function () { map.invalidateSize(); }, 50); }
+      setTab('list');
     }
+    if (!map && $('map').clientWidth > 0) { initMap(); }
+    if (map) { setTimeout(function () { map.invalidateSize(); }, 60); }
+  }
+
+  if (mqDesktop.addEventListener) { mqDesktop.addEventListener('change', syncLayout); }
+  else if (mqDesktop.addListener) { mqDesktop.addListener(syncLayout); }
+
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(syncLayout, 150);
+  });
+  window.addEventListener('orientationchange', function () {
+    setTimeout(syncLayout, 250);
   });
 }
 
 function showMap() {
-  if (window.innerWidth > 860) { initMap(); return; }
+  if (window.innerWidth >= 760) { initMap(); return; }
   document.body.classList.remove('view-list');
   document.body.classList.add('view-map');
   setTab('map');

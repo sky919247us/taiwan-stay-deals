@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="國旅補助旅宿地圖">
+  <rect width="1024" height="1024" rx="225" fill="#1F6F5C"/>
+  <circle cx="512" cy="394" r="210" fill="#fff"/>
+  <polygon points="357,541 667,541 512,835" fill="#fff"/>
+  <circle cx="512" cy="394" r="88" fill="#1F6F5C"/>
+  <rect x="358" y="896" width="307" height="51" rx="26" fill="#C2571F"/>
+</svg>

@@ -54,6 +54,13 @@ html, body {
   background: var(--bg);
   color: var(--ink);
   font: 15px/1.6 "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 手機瀏覽器的網址列會伸縮，100vh 會被切掉一截，支援 dvh 就改用 dvh */
+@supports (height: 100dvh) {
+  html, body { height: 100dvh; }
 }
 
 body { display: flex; flex-direction: column; overflow: hidden; }
@@ -70,7 +77,8 @@ a { color: var(--brand); }
 
 .topbar {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  height: var(--topbar-h); padding: 0 14px; flex: 0 0 auto;
+  height: var(--topbar-h); flex: 0 0 auto;
+  padding: 0 max(14px, env(safe-area-inset-right)) 0 max(14px, env(safe-area-inset-left));
   background: var(--panel); border-bottom: 1px solid var(--line);
 }
 .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
@@ -219,9 +227,10 @@ select:disabled { opacity: .5; }
 }
 .card:hover, .card.hot { background: var(--brand-soft); }
 .card h3 { margin: 0; font-size: 15px; grid-column: 1; }
+.card p { margin: 0; }                     /* 段落預設的上下 margin 會把卡片撐高 */
 .card .meta { grid-column: 1; font-size: 12.5px; color: var(--ink-2); }
 .card .plan {
-  grid-column: 1 / -1; font-size: 13px; color: var(--ink-2); margin-top: 4px;
+  grid-column: 1 / -1; font-size: 13px; color: var(--ink-2); margin: 4px 0 0;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .card .side { grid-column: 2; grid-row: 1 / span 2; text-align: right; }
@@ -288,18 +297,31 @@ select:disabled { opacity: .5; }
 .mobileTabs { display: none; }
 [hidden] { display: none !important; }
 
+/* ------------------------------------------------------------ 平板／窄桌機 */
+
+@media (min-width: 760px) and (max-width: 1180px) {
+  .panel { width: 336px; }
+  .topbar h1 { font-size: 16px; }
+  #q { flex-basis: 200px; }
+}
+
 /* ---------------------------------------------------------------- 手機 */
 
-@media (max-width: 860px) {
+@media (max-width: 759px) {
   .layout { position: relative; }
   .panel { width: 100%; border-right: 0; }
   .mapWrap { position: absolute; inset: 0; }
   body.view-list .mapWrap { display: none; }
   body.view-map .panel { display: none; }
   .filterbar { padding: 8px 10px; }
-  /* 手機畫面小：第二排（類別／業別／排序）跟著「更多條件」一起收合 */
-  .barRow.secondary { display: none; }
-  body.filters-open .barRow.secondary { display: flex; }
+  /* 手機畫面小：只留「搜尋 + 縣市鄉鎮 + 我附近」，其餘跟著「更多條件」一起收合，
+     結果清單才有足夠高度 */
+  .barRow.secondary, .barRow.places { display: none; }
+  body.filters-open .barRow.secondary,
+  body.filters-open .barRow.places { display: flex; }
+  #q { flex: 1 1 100%; }
+  /* 還沒選縣市時鄉鎮選單是停用的，手機上直接收起來，省一整排 */
+  #town:disabled { display: none; }
   /* 展開後別把結果清單擠光，篩選區自己捲 */
   body.filters-open .filterbar { max-height: 56vh; overflow: auto; }
   #q { max-width: none; }
@@ -307,18 +329,91 @@ select:disabled { opacity: .5; }
   .range { width: 100%; }
   .num { width: 72px; }
 
+  .filterbar { padding-left: max(10px, env(safe-area-inset-left));
+               padding-right: max(10px, env(safe-area-inset-right)); }
+  .card { padding-left: max(12px, env(safe-area-inset-left));
+          padding-right: max(12px, env(safe-area-inset-right)); }
+  /* 手機上價格／距離／收藏改成橫排，只佔第一列，卡片就不會被撐高 */
+  .card .side { grid-row: 1; display: flex; align-items: center; gap: 8px; }
+  .card .meta { grid-column: 1 / -1; }
+  .card .dist { font-size: 12px; }
+
   .mobileTabs {
     display: flex; flex: 0 0 auto; background: var(--panel); border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom);          /* 避開 iPhone 的home 指示條 */
   }
   .mobileTabs button {
     flex: 1 1 0; border: 0; background: transparent; color: var(--ink-2);
-    padding: 10px 0; font-size: 14px;
+    padding: 12px 0; font-size: 14px; min-height: 46px;
   }
   .mobileTabs button.active { color: var(--brand); font-weight: 700; box-shadow: inset 0 -2px 0 var(--brand); }
+
+  .topbar { --topbar-h: 54px; }
   .topbar h1 { font-size: 15px; }
-  .topActions .ghost { padding: 5px 9px; font-size: 13px; }
-  .sheetInner { max-height: 90vh; }
+  .logo { font-size: 22px; }
   .foot { display: none; }
+
+  /* 詳情改成從底部升起的 bottom sheet，符合手機操作習慣 */
+  .sheet { align-items: flex-end; padding: 0; }
+  .sheetInner {
+    max-height: 88vh; max-height: 88dvh; border-radius: 16px 16px 0 0;
+    padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+    animation: sheetUp .18s ease-out;
+  }
+  .sheetInner::before {
+    content: ""; display: block; width: 38px; height: 4px; border-radius: 2px;
+    background: var(--line); margin: -6px auto 12px;
+  }
+  .sheetClose { right: 8px; top: 8px; font-size: 22px; padding: 6px 10px; }
+  .sheetInner .kv { grid-template-columns: 68px 1fr; }
+}
+
+@keyframes sheetUp { from { transform: translateY(14px); opacity: .6 } to { transform: none; opacity: 1 } }
+
+/* 很窄的手機（iPhone SE 等）：標頭按鈕只留圖示 */
+@media (max-width: 400px) {
+  .topbar h1 { font-size: 14px; }
+  /* 小螢幕把卡片壓扁一點，一屏才看得到兩筆以上 */
+  .card { padding: 10px 12px; }
+  .card .plan { font-size: 12.5px; margin-top: 2px; }
+  .card .tags { max-height: 24px; overflow: hidden; margin-top: 4px; }
+  .sub { font-size: 11px; }
+  #btnGuide::after { content: "說明"; }
+  #btnDownload::after { content: "下載"; }
+  #btnGuide, #btnDownload { font-size: 0; }
+  #btnGuide::after, #btnDownload::after { font-size: 13px; }
+  .num { width: 64px; }
+}
+
+/* 最窄的機型（≤360px）：「我附近」只留圖示 */
+@media (max-width: 360px) {
+  #btnLocate .txt { display: none; }
+}
+
+/* 手機橫放：高度很矮，把不必要的高度全部縮掉 */
+@media (max-width: 900px) and (max-height: 480px) {
+  .panel { width: 100%; }
+  .topbar { --topbar-h: 46px; }
+  .guide { max-height: 60vh; }
+  body.filters-open .filterbar { max-height: 70vh; }
+  .mobileTabs button { padding: 7px 0; min-height: 38px; }
+}
+
+/* 觸控裝置：把可點擊的東西放大到手指按得到（約 44px） */
+@media (pointer: coarse) {
+  .chip { padding: 9px 14px; font-size: 14px; }
+  .ghost { padding: 9px 14px; }
+  .ghost.small { padding: 7px 12px; }
+  select, .num { padding: 10px 10px; font-size: 16px; }   /* 16px 以下 iOS 會自動放大畫面 */
+  #q { padding: 11px 16px; font-size: 16px; }
+  .fav { padding: 6px 0 6px 10px; font-size: 20px; }
+  .card { padding: 14px 12px; }
+  .range { height: 34px; }
+  .rtrack, .rfill { top: 15px; }
+  .range input[type="range"] { height: 34px; }
+  .range input[type="range"]::-webkit-slider-thumb { width: 22px; height: 22px; }
+  .range input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; }
+  .actions a, .actions button { padding: 11px 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
