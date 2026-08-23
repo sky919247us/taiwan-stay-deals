@@ -1,0 +1,92 @@
+{
+ "17374": {
+  "name": "小麻雀的家",
+  "url": "https://sparrowplace.blogspot.com/",
+  "price": 2400,
+  "room": "203雙人房",
+  "basis": "weekday",
+  "evidence": "203雙人房 定價2400",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "18258": {
+  "name": "探索汽車旅館延平館",
+  "url": "http://discoverygroup.com.tw",
+  "price": 1930,
+  "room": "標準雙人房（無窗）",
+  "basis": "weekday",
+  "evidence": "「標準雙人房（無窗）」，一晚1930元含早餐",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "7953": {
+  "name": "獨宿一格民宿",
+  "url": "http://www.2099babyhome.com/front/bin/home.phtml",
+  "price": 1800,
+  "room": "個性主題雙人房",
+  "basis": "weekday",
+  "evidence": "淡季：平日、假日價格 1800元",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "13647": {
+  "name": "設計師的家休閒民宿",
+  "url": "http://www.designerhouse.com.tw",
+  "note": "no_price"
+ },
+ "32566": {
+  "name": "稻禾綠洲",
+  "url": "https://www.domebnb.tw/",
+  "price": 3860,
+  "room": "景觀陽台雙人房-201",
+  "basis": "weekday",
+  "evidence": "平日：NT.3860",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "13967": {
+  "name": "三好行旅",
+  "url": "http://www.sunhaohoteltxg.com",
+  "note": "no_price"
+ },
+ "17009": {
+  "name": "艾麗絲泉民宿-天送埤別館",
+  "url": "http://www.alicesprings.com.tw",
+  "note": "fetch_error:ConnectTimeout"
+ },
+ "22134": {
+  "name": "放慢民宿",
+  "url": "http://www.haiyan.tw",
+  "note": "no_price"
+ },
+ "10522": {
+  "name": "華帥海景飯店",
+  "url": "https://harborview.hexa.tw/",
+  "note": "no_price"
+ },
+ "20548": {
+  "name": "大來商旅",
+  "url": "http://www.delighthotel.com.tw",
+  "price": 2580,
+  "room": "標準客房",
+  "basis": "unknown",
+  "evidence": "標準客房 $2580 up",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ },
+ "14162": {
+  "name": "香緹時尚大飯店",
+  "url": "http://www.shantis.com.tw",
+  "note": "no_price"
+ },
+ "3610": {
+  "name": "園仔湯商旅",
+  "url": "http://www.garden-spring.com.tw",
+  "price": 3080,
+  "room": "精緻雙人房",
+  "basis": "weekday",
+  "evidence": "精緻雙人房 平日價：NT$3080",
+  "model": "stealth/ox-alpha",
+  "fetched_at": "2026-08-24"
+ }
+}

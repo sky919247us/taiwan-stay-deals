@@ -7,6 +7,7 @@ raw/snapshots/
 
 # API 金鑰：絕對不能進公開 repo
 cache/google_api_key.txt
+cache/openrouter_key.txt
 cache/*_key.txt
 .env
 

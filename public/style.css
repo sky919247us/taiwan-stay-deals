@@ -239,6 +239,12 @@ select:disabled { opacity: .5; }
 .dist { font-size: 12px; color: var(--ink-2); }
 .rack { display: block; font-size: 12px; color: var(--ink-2); font-weight: 400; white-space: nowrap; }
 .rack.strike { text-decoration: line-through; opacity: .75; }
+.psrc {
+  display: inline-block; font-size: 10.5px; line-height: 1.5; padding: 0 6px;
+  border-radius: 999px; margin-left: 4px; vertical-align: middle;
+  background: var(--brand-soft); color: var(--brand); font-weight: 400;
+}
+.psrc.src-manual { background: var(--accent-soft); color: var(--accent); }
 .muted { color: var(--ink-2); font-size: 12.5px; }
 .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
 .tag {

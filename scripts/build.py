@@ -11,8 +11,9 @@ import os, csv, json, gzip, datetime, collections
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.utils import get_column_letter
-from config import (ROOT, RAW, DATA, DOWNLOADS, CATEGORIES, CITY_ORDER,
+from config import (ROOT, RAW, CACHE, DATA, DOWNLOADS, CATEGORIES, CITY_ORDER,
                     ISLAND_CITIES, jload, jdump)
+from manual import load_overrides
 
 STAYS = os.path.join(DATA, "stays.json")
 META = os.path.join(DATA, "meta.json")
@@ -21,11 +22,12 @@ FIELDS = ["id", "name", "city", "town", "kind", "classes", "stars", "taiwan_host
           "address", "phone_raw", "website", "booking_urls",
           "price_low", "price_high", "weekday_price", "lat", "lng", "geo_source",
           "categories", "plans", "discounts", "channels", "flags", "period", "license",
-          "services", "parking_spaces", "accessible_rooms", "capacity"]
+          "services", "parking_spaces", "accessible_rooms", "capacity",
+          "price_final", "price_src", "price_note", "price_room", "price_url"]
 
 CSV_COLS = ["序號", "旅宿名稱", "縣市", "鄉鎮市區", "業別", "電話", "地址",
-            "優惠類別", "平日雙人房價", "折抵金額", "優惠期限", "方案內容",
-            "緯度", "經度", "座標來源", "官網", "旅宿網詳情"]
+            "優惠類別", "平日雙人房價", "價格來源", "官網定價", "折抵金額",
+            "優惠期限", "方案內容", "緯度", "經度", "座標來源", "官網", "旅宿網詳情"]
 
 CAT_NAME = {c["key"]: c["name"] for c in CATEGORIES}
 DETAIL = "https://www.taiwanstay.net.tw/TSA/web_page/TSA020200.jsp?hohi_id="
@@ -40,7 +42,10 @@ def to_rows(stays):
             "序號": i, "旅宿名稱": r["name"], "縣市": r["city"], "鄉鎮市區": r.get("town", ""),
             "業別": r["kind"], "電話": r.get("phone_raw", ""), "地址": r.get("address", ""),
             "優惠類別": "、".join(CAT_NAME[c] for c in r["categories"]),
-            "平日雙人房價": r.get("weekday_price") or "",
+            "平日雙人房價": r.get("price_final") or "",
+            "價格來源": {"manual": "人工查核", "operator": "業者自報",
+                     "website": "業者官網"}.get(r.get("price_src"), ""),
+            "官網定價": r.get("price_low") or "",
             "折抵金額": "、".join(str(d) for d in r.get("discounts", [])),
             "優惠期限": r.get("period", ""),
             "方案內容": "\n\n".join("【%s】%s" % (CAT_NAME[p["category"]], p["text"])
@@ -63,7 +68,7 @@ def write_downloads(rows):
     wb = Workbook()
     fill = PatternFill("solid", fgColor="1F6F5C")
     font = Font(color="FFFFFF", bold=True)
-    widths = [6, 26, 8, 10, 10, 18, 34, 20, 12, 12, 12, 60, 10, 10, 10, 30, 46]
+    widths = [6, 26, 8, 10, 10, 18, 34, 20, 12, 10, 10, 12, 12, 60, 10, 10, 10, 30, 46]
 
     def sheet(ws, data):
         ws.append(CSV_COLS)
@@ -75,7 +80,7 @@ def write_downloads(rows):
         for i, wd in enumerate(widths, 1):
             ws.column_dimensions[get_column_letter(i)].width = wd
         for row in ws.iter_rows(min_row=2):
-            row[11].alignment = Alignment(wrap_text=True, vertical="top")
+            row[CSV_COLS.index("方案內容")].alignment = Alignment(wrap_text=True, vertical="top")
         ws.freeze_panes = "A2"
         ws.auto_filter.ref = ws.dimensions
 
@@ -124,6 +129,9 @@ def main():
         raise SystemExit("找不到 raw/merged.json，請先跑 enrich.py 與 extract.py")
     stays = blob["stays"]
 
+    web = jload(os.path.join(CACHE, "webprice.json"), {}) or {}
+    manual = load_overrides()
+
     for r in stays:
         for k in ("town", "address", "website", "license"):
             r.setdefault(k, "")
@@ -133,6 +141,24 @@ def main():
         r.setdefault("booking_urls", [])
         r.setdefault("taiwan_host", False)
         r.setdefault("geo_source", "")
+
+        # 三種可信價格的優先序（開放資料的「定價」是牌價，永遠不列入）：
+        #   1 人工查核  2 業者為活動自報  3 從業者官網抽取
+        m, w = manual.get(r["id"]), web.get(r["id"]) or {}
+        if m:
+            r["price_final"], r["price_src"] = m["price"], "manual"
+            r["price_note"] = "、".join(x for x in (m["source"], m["date"], m["note"]) if x)
+        elif r["weekday_price"]:
+            r["price_final"], r["price_src"] = r["weekday_price"], "operator"
+            r["price_note"] = "業者為本活動自報的平日雙人房價"
+        elif w.get("price"):
+            r["price_final"], r["price_src"] = w["price"], "website"
+            r["price_note"] = "取自業者官網 %s：%s" % (w.get("fetched_at", ""),
+                                                 w.get("evidence", ""))
+            r["price_room"] = w.get("room", "")
+            r["price_url"] = w.get("url", "")
+        else:
+            r["price_final"], r["price_src"], r["price_note"] = 0, "", ""
 
     slim = []
     for r in stays:
@@ -172,6 +198,8 @@ def main():
         "services": [{"name": n, "count": c} for n, c in
                      collections.Counter(x for r in slim for x in r.get("services", [])).most_common()],
         "geo_stat": blob.get("geo_stat", {}),
+        "price_stat": dict(collections.Counter(
+            r.get("price_src") or "none" for r in slim)),
         "change": change,
     }
 
