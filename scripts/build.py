@@ -46,7 +46,7 @@ def to_rows(stays):
             "優惠類別": "、".join(CAT_NAME[c] for c in r["categories"]),
             "平日雙人房價": r.get("price_final") or "",
             "價格來源": {"manual": "人工查核", "operator": "業者自報",
-                     "website": "業者官網"}.get(r.get("price_src"), ""),
+                     "plan": "方案說明", "website": "業者官網"}.get(r.get("price_src"), ""),
             "官網定價": r.get("price_low") or "",
             "折抵金額": "、".join(str(d) for d in r.get("discounts", [])),
             "優惠期限": r.get("period", ""),
@@ -143,6 +143,7 @@ def main():
     web = jload(os.path.join(CACHE, "webprice.json"), {}) or {}
     manual = load_overrides()
     places = jload(os.path.join(CACHE, "places.json"), {}) or {}
+    plan = jload(os.path.join(CACHE, "planprice.json"), {}) or {}
     moved = []
 
     for r in stays:
@@ -158,6 +159,7 @@ def main():
         # 三種可信價格的優先序（開放資料的「定價」是牌價，永遠不列入）：
         #   1 人工查核  2 業者為活動自報  3 從業者官網抽取
         m, w = manual.get(r["id"]), web.get(r["id"]) or {}
+        pt = plan.get(r["id"]) or {}
         if m:
             r["price_final"], r["price_src"] = m["price"], "manual"
             r["price_note"] = "、".join(x for x in (m["source"], m["date"], m["note"]) if x)
@@ -173,6 +175,11 @@ def main():
                                                  w.get("evidence", ""))
             r["price_room"] = w.get("room", "")
             r["price_url"] = w.get("url", "")
+        elif pt.get("price"):
+            # 業者自己寫在方案說明裡的房價，來源就是官方名單本身，可信度高
+            r["price_final"], r["price_src"] = pt["price"], "plan"
+            r["price_note"] = "業者寫在方案說明中：" + (pt.get("evidence") or "")
+            r["price_room"] = pt.get("room", "")
         else:
             r["price_final"], r["price_src"], r["price_note"] = 0, "", ""
 

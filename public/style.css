@@ -247,6 +247,7 @@ select:disabled { opacity: .5; }
   background: var(--brand-soft); color: var(--brand); font-weight: 400;
 }
 .psrc.src-manual { background: var(--accent-soft); color: var(--accent); }
+.psrc.src-plan { background: var(--accent-soft); color: var(--accent); }
 .muted { color: var(--ink-2); font-size: 12.5px; }
 .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
 .tag {

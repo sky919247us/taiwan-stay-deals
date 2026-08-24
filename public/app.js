@@ -53,6 +53,7 @@ var RATING_PRESETS = [
 var PRICE_SRC = {
   manual:   { label: '人工查核', cls: 'src-manual' },
   operator: { label: '業者自報', cls: 'src-operator' },
+  plan:     { label: '方案說明', cls: 'src-plan' },
   website:  { label: '官網',     cls: 'src-web' }
 };
 
