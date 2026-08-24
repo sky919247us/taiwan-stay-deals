@@ -228,6 +228,29 @@ cache/             geocache.json / detailcache.json（納入版控，避免重�
 
 ---
 
+## 人工查核台
+
+SerpApi 與各種抽價都補不到的旅宿（多半是沒上任何訂房平台的小民宿），
+用 `overrides/entry.html` 手動補。它需要用本機伺服器開啟（要 fetch
+`pending.json`）：
+
+```bash
+python -m http.server 8788 --directory overrides
+# 然後開 http://localhost:8788/entry.html
+```
+
+介面是左右分割：左邊一次一家＋價格輸入，右邊即時預覽。快捷鍵
+<kbd>G</kbd> Google 查價、<kbd>M</kbd> 地圖、<kbd>W</kbd> 官網、
+<kbd>+</kbd><kbd>−</kbd> 縮放、<kbd>Enter</kbd> 存檔下一家、
+<kbd>Esc</kbd> 跳過、<kbd>Ctrl+Z</kbd> 復原。進度存在 localStorage，
+關掉再開會接續，最後匯出 CSV 貼進 `overrides/prices.csv`。
+
+**一個做不到的事要先說**：Google 搜尋與地圖都送 `X-Frame-Options: SAMEORIGIN`，
+瀏覽器強制禁止嵌入 iframe，沒有繞法。所以 Google 改開在一個**固定名稱的側邊
+視窗**，換下一家時替換同一個視窗的內容（不會越開越多），而且那個視窗的縮放
+比例瀏覽器會依網域記住，設一次就好。右邊的 iframe 則用來內嵌**業者官網**
+（545 家裡有 156 家有官網，多數沒擋 iframe）。
+
 ## 贊助
 
 頁尾與「下載名單」面板各有一個 Ko-fi 文字連結。

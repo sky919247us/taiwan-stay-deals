@@ -57,6 +57,9 @@ def main():
     if not blob:
         raise SystemExit("找不到 raw/merged.json，請先跑 enrich.py")
     web = jload(os.path.join(CACHE, "webprice.json"), {}) or {}
+    plan = jload(os.path.join(CACHE, "planprice.json"), {}) or {}
+    js = jload(os.path.join(CACHE, "webprice_js.json"), {}) or {}
+    ota = jload(os.path.join(CACHE, "otaprice.json"), {}) or {}
     places = jload(os.path.join(CACHE, "places.json"), {}) or {}
     existing = {}
     if os.path.exists(OVERRIDE_CSV):
@@ -65,10 +68,15 @@ def main():
 
     todo = []
     for s in blob["stays"]:
+        # 任何一種來源已經拿到價格就不必人工（含只有平台參考價的）
         if s.get("weekday_price"):
-            continue                                   # 業者已為活動自報，不需人工
-        if (web.get(s["id"]) or {}).get("price"):
-            continue                                   # 官網已抓到
+            continue
+        if any((c.get(s["id"]) or {}).get("price") and
+               (c.get(s["id"]) or {}).get("basis") == "weekday"
+               for c in (plan, web, js)):
+            continue
+        if (ota.get(s["id"]) or {}).get("price"):
+            continue
         # 有 Places 比中就用精確的地標連結，點下去直接是那一家（還會帶出比價面板）；
         # 沒有才退回關鍵字搜尋。
         g = places.get(s["id"]) or {}

@@ -3,164 +3,339 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>人工查核價格輸入</title>
+<title>房價人工查核台</title>
 <style>
 :root{--bg:#f5f6f4;--panel:#fff;--ink:#1a1c1a;--ink2:#5d635e;--line:#dfe3de;
-      --brand:#1f6f5c;--accent:#c2571f}
+      --brand:#1f6f5c;--accent:#c2571f;--warn:#b3261e}
 @media (prefers-color-scheme:dark){:root{--bg:#14171a;--panel:#1c2024;--ink:#e8ecea;
-      --ink2:#9aa5a0;--line:#2c3238;--brand:#4bbf9e;--accent:#e08a4e}}
+      --ink2:#9aa5a0;--line:#2c3238;--brand:#4bbf9e;--accent:#e08a4e;--warn:#f2b8b5}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-     font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-h1{font-size:18px;margin:0 0 4px}
-.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;
-     font-size:13px;color:var(--ink2)}
-.prog{flex:1 1 200px;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
-.prog i{display:block;height:100%;background:var(--brand)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
-.name{font-size:22px;font-weight:700;margin:0}
-.meta{color:var(--ink2);font-size:14px;margin:4px 0 0}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hidden;
+  font:15px/1.55 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+body{display:flex;flex-direction:column}
+
+/* 頂列 */
+.top{display:flex;align-items:center;gap:14px;padding:8px 14px;background:var(--panel);
+     border-bottom:1px solid var(--line);flex:0 0 auto}
+.top h1{font-size:15px;margin:0;white-space:nowrap}
+.prog{flex:1 1 160px;height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--brand);transition:width .2s}
+.cnt{font-size:13px;color:var(--ink2);white-space:nowrap}
+.top button{font:inherit;font-size:13px;padding:6px 12px;border-radius:99px;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;white-space:nowrap}
+.top button:hover{border-color:var(--brand);color:var(--brand)}
+
+/* 主體：左輸入、右預覽 */
+.main{flex:1 1 auto;display:flex;min-height:0}
+.pane{width:400px;flex:0 0 auto;padding:16px;overflow:auto;background:var(--panel);
+      border-right:1px solid var(--line)}
+.view{flex:1 1 auto;position:relative;background:var(--bg);min-width:0}
+.view iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;
+  transform-origin:0 0}
+.viewbar{position:absolute;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;
+  gap:8px;padding:6px 10px;background:var(--panel);border-bottom:1px solid var(--line);
+  font-size:12.5px;color:var(--ink2)}
+.viewbar button{font:inherit;font-size:12.5px;padding:4px 10px;border-radius:99px;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.viewbar .zoomval{min-width:44px;text-align:center}
+.frameWrap{position:absolute;left:0;right:0;top:33px;bottom:0;overflow:hidden}
+.blocked{position:absolute;inset:33px 0 0 0;display:flex;align-items:center;justify-content:center;
+  padding:30px;text-align:center;color:var(--ink2);font-size:14px;line-height:1.9}
+
+/* 卡片 */
+.name{font-size:23px;font-weight:700;margin:0 0 2px;line-height:1.3}
+.meta{color:var(--ink2);font-size:13.5px;margin:0}
 .star{color:#d98324;font-weight:700}
-.rack{color:var(--accent);font-size:13px}
-.links{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
-.links a,.links button{font:inherit;font-size:14px;padding:9px 15px;border-radius:99px;
-     text-decoration:none;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
-.links a.pri{background:var(--brand);color:#fff;border-color:var(--brand)}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
-input[type=number],select{font:inherit;padding:11px 12px;border:1px solid var(--line);
-     border-radius:8px;background:var(--bg);color:var(--ink)}
-input[type=number]{width:150px;font-size:20px;text-align:right;font-weight:700}
-button.go{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:11px 20px;
-     font:inherit;font-weight:700;cursor:pointer}
-button.skip{background:transparent;border:1px solid var(--line);color:var(--ink2);
-     border-radius:8px;padding:11px 16px;font:inherit;cursor:pointer}
-.hint{font-size:13px;color:var(--ink2);margin-top:10px}
-.done{background:var(--panel);border:1px solid var(--line);border-radius:12px;
-      padding:14px;margin-top:14px;font-size:14px}
-.done b{color:var(--brand)}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
-td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
-kbd{background:var(--line);border-radius:4px;padding:1px 6px;font-size:12px}
+.rack{color:var(--accent);font-size:12.5px;margin-top:6px}
+.acts{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 4px}
+.acts button,.acts a{font:inherit;font-size:13.5px;padding:8px 13px;border-radius:8px;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;text-decoration:none}
+.acts .pri{background:var(--brand);color:#fff;border-color:var(--brand)}
+kbd{background:var(--line);border-radius:4px;padding:0 5px;font-size:11px;margin-left:4px;
+    font-family:inherit;color:var(--ink2)}
+.acts .pri kbd{background:rgba(255,255,255,.25);color:#fff}
+
+.entry{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.entry label{display:block;font-size:12.5px;color:var(--ink2);margin-bottom:5px}
+.inrow{display:flex;gap:8px;align-items:center}
+#price{width:150px;font:inherit;font-size:24px;font-weight:700;text-align:right;padding:10px 12px;
+  border:2px solid var(--brand);border-radius:8px;background:var(--bg);color:var(--ink)}
+#src{font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;
+  background:var(--bg);color:var(--ink);flex:1 1 auto}
+.go{margin-top:10px;display:flex;gap:8px}
+.go button{flex:1 1 0;font:inherit;font-size:14px;padding:11px;border-radius:8px;border:0;cursor:pointer}
+.go .save{background:var(--brand);color:#fff;font-weight:700}
+.go .skip{background:var(--bg);border:1px solid var(--line);color:var(--ink2)}
+.hint{font-size:12px;color:var(--ink2);margin-top:12px;line-height:1.9}
+.warn{color:var(--warn)}
+.recent{margin-top:14px;font-size:12.5px;color:var(--ink2)}
+.recent table{width:100%;border-collapse:collapse;margin-top:5px}
+.recent td{border-bottom:1px solid var(--line);padding:3px 4px}
+.recent td:last-child{text-align:right;font-weight:700;color:var(--ink)}
+.empty{padding:60px 20px;text-align:center}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>人工查核價格輸入</h1>
-  <p class="meta">查到平日雙人房價就填數字按 <kbd>Enter</kbd>，查不到按 <kbd>Esc</kbd> 跳過。
-     進度存在瀏覽器裡，關掉再開會接續。</p>
 
-  <div class="bar">
-    <span id="count"></span>
-    <span class="prog"><i id="bar" style="width:0"></i></span>
-    <button class="skip" id="export">匯出 CSV</button>
+<div class="top">
+  <h1>房價人工查核台</h1>
+  <span class="cnt" id="cnt"></span>
+  <span class="prog"><i id="bar"></i></span>
+  <button id="undo">復原上一筆 <kbd>Ctrl+Z</kbd></button>
+  <button id="export">匯出 CSV</button>
+</div>
+
+<div class="main">
+  <div class="pane" id="pane"></div>
+  <div class="view">
+    <div class="viewbar">
+      <span id="frameLabel">預覽</span>
+      <span style="flex:1"></span>
+      <button id="zoomOut">−</button>
+      <span class="zoomval" id="zoomVal">100%</span>
+      <button id="zoomIn">＋</button>
+      <button id="zoomReset">重設</button>
+      <button id="popOut">另開視窗</button>
+    </div>
+    <div class="frameWrap"><iframe id="frame" referrerpolicy="no-referrer"
+      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe></div>
+    <div class="blocked" id="blocked" hidden></div>
   </div>
-
-  <div class="card" id="card"></div>
-
-  <div class="done" id="done"></div>
 </div>
 
 <script>
-// 待填清單由 scripts/manual.py 產生，已依 Google 評論數由多到少排序，
-// 先填的是最多人會點進去看的那些。
-let LIST = [], idx = 0;
-const KEY = 'stay-price-entry';
-const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+/* ------------------------------------------------------------------
+   房價人工查核台
 
-fetch('pending.json').then(r => r.json()).then(d => { LIST = d; next(); });
+   一個硬限制先講清楚：Google 搜尋與 Google 地圖都送
+   `X-Frame-Options: SAMEORIGIN`，瀏覽器強制禁止嵌入 iframe，沒有繞法。
+   所以：
+     - 業者官網 → 直接內嵌在右邊（多數民宿網站沒擋），可縮放
+     - Google 搜尋／地圖 → 開在一個「固定名稱」的側邊視窗，換下一家時
+       直接替換同一個視窗的內容，效果接近內嵌，而且那個視窗的縮放比例
+       瀏覽器會依網域記住，設一次就好
+------------------------------------------------------------------- */
 
-function remaining() { return LIST.filter(x => !saved[x.id]); }
+var LIST = [], zoom = 1, popup = null;
+var KEY = 'stay-price-entry-v2';
+var saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+var history_ = [];
 
-function next() {
-  const left = remaining();
-  const total = LIST.length, done = total - left.length;
-  document.getElementById('count').textContent = '已填 ' + done + ' / ' + total;
-  document.getElementById('bar').style.width = (done / total * 100) + '%';
-  renderDone();
+fetch('pending.json?' + Date.now()).then(function (r) { return r.json(); })
+  .then(function (d) { LIST = d; render(); })
+  .catch(function (e) {
+    document.getElementById('pane').innerHTML =
+      '<p class="empty">讀不到 pending.json：' + esc(e.message) +
+      '<br><br>請先跑 <code>python scripts/manual.py</code>，並用本機伺服器開啟這個頁面。</p>';
+  });
 
-  if (!left.length) {
-    document.getElementById('card').innerHTML = '<p class="name">全部處理完了 🎉</p>' +
-      '<p class="meta">按上面的「匯出 CSV」把結果存下來。</p>';
+function left() { return LIST.filter(function (x) { return !saved[x.id]; }); }
+
+function render() {
+  var rest = left(), total = LIST.length, done = total - rest.length;
+  document.getElementById('cnt').textContent = done + ' / ' + total;
+  document.getElementById('bar').style.width = (total ? done / total * 100 : 0) + '%';
+
+  if (!rest.length) {
+    document.getElementById('pane').innerHTML =
+      '<p class="empty"><b style="font-size:20px">全部處理完了 🎉</b><br><br>' +
+      '按上面的「匯出 CSV」存檔，再把內容貼進 overrides/prices.csv。</p>';
+    setFrame('', '');
     return;
   }
-  const s = left[0];
-  const q = encodeURIComponent(s.name + ' ' + (s.where || ''));
-  document.getElementById('card').innerHTML =
+
+  var s = rest[0];
+  document.getElementById('pane').innerHTML =
     '<p class="name">' + esc(s.name) + '</p>' +
     '<p class="meta">' + esc(s.where) + ' ・ ' + esc(s.kind) +
-      (s.rating ? ' ・ <span class="star">★' + s.rating + '</span>（' + s.reviews + ' 則）' : '') +
-      '</p>' +
-    '<p class="meta">' + esc(s.addr || '') + '</p>' +
-    (s.rack ? '<p class="rack">旅宿網定價 ' + s.rack.toLocaleString() +
+      (s.rating ? ' ・ <span class="star">★' + s.rating + '</span>（' +
+                  Number(s.reviews).toLocaleString() + ' 則）' : '') + '</p>' +
+    (s.addr ? '<p class="meta">' + esc(s.addr) + '</p>' : '') +
+    (s.rack ? '<p class="rack">旅宿網定價 ' + Number(s.rack).toLocaleString() +
               ' 元（牌價，通常灌水，僅供對照）</p>' : '') +
-    '<div class="links">' +
-      '<a class="pri" target="_blank" rel="noopener" href="https://www.google.com/search?q=' + q + '">Google 搜尋（看比價）</a>' +
-      (s.maps ? '<a target="_blank" rel="noopener" href="' + esc(s.maps) + '">Google 地圖</a>' : '') +
-      (s.web ? '<a target="_blank" rel="noopener" href="' + esc(s.web) + '">官網</a>' : '') +
-      (s.tel ? '<a href="tel:' + esc(s.tel) + '">撥打 ' + esc(s.tel_raw || s.tel) + '</a>' : '') +
-    '</div>' +
-    '<div class="row">' +
-      '<input type="number" id="price" placeholder="平日雙人房價" min="300" max="60000" step="10" autofocus>' +
-      '<select id="src">' +
-        '<option>訂房平台</option><option>官網</option><option>電話詢問</option><option>Google 地圖</option>' +
-      '</select>' +
-      '<button class="go" id="save">存檔並下一家</button>' +
-      '<button class="skip" id="skip">查不到，跳過</button>' +
-    '</div>' +
-    '<p class="hint">提醒：訂房平台的價格多半<b>不能折抵補助</b>（補助須直接向官網或電話訂房），' +
-    '這裡填的是給使用者的價格參考。</p>';
 
-  const price = document.getElementById('price');
-  price.focus();
-  document.getElementById('save').onclick = () => save(s, false);
-  document.getElementById('skip').onclick = () => save(s, true);
-  price.onkeydown = e => {
-    if (e.key === 'Enter') { save(s, false); }
-    if (e.key === 'Escape') { save(s, true); }
-  };
+    '<div class="acts">' +
+      '<button class="pri" data-go="g">Google 查房價<kbd>G</kbd></button>' +
+      '<button data-go="m">地圖<kbd>M</kbd></button>' +
+      (s.web ? '<button data-go="w">官網內嵌<kbd>W</kbd></button>' : '') +
+      (s.tel ? '<a href="tel:' + esc(s.tel) + '">撥 ' + esc(s.tel_raw || s.tel) + '</a>' : '') +
+    '</div>' +
+
+    '<div class="entry">' +
+      '<label>平日雙人房價（新台幣，只填數字）</label>' +
+      '<div class="inrow">' +
+        '<input type="number" id="price" min="300" max="60000" step="10" placeholder="1880">' +
+        '<select id="src">' +
+          '<option>訂房平台</option><option>官網</option>' +
+          '<option>電話詢問</option><option>Google 地圖</option>' +
+        '</select>' +
+      '</div>' +
+      '<div class="go">' +
+        '<button class="save" data-act="save">存檔並下一家 <kbd>Enter</kbd></button>' +
+        '<button class="skip" data-act="skip">查不到，跳過 <kbd>Esc</kbd></button>' +
+      '</div>' +
+    '</div>' +
+
+    '<p class="hint">' +
+      '<kbd>G</kbd> Google 查價（會用同一個側邊視窗，不會越開越多）　' +
+      '<kbd>M</kbd> 地圖　' + (s.web ? '<kbd>W</kbd> 官網內嵌　' : '') +
+      '<kbd>+</kbd><kbd>−</kbd> 縮放內嵌頁　<kbd>Ctrl+Z</kbd> 復原<br>' +
+      '<span class="warn">注意：訂房平台的價格多半不能折抵補助</span>，' +
+      '這裡填的是給使用者的比價參考。若能直接問到官網／電話價，那個更準。' +
+    '</p>' +
+    recentHTML();
+
+  // 有官網就先內嵌官網；沒有就把畫面留給 Google 側邊視窗
+  if (s.web) { openWeb(s); } else { setFrame('', '這家沒有登錄官網。\n按 G 用側邊視窗查 Google。'); }
+
+  var p = document.getElementById('price');
+  p.focus();
+  document.querySelectorAll('[data-go]').forEach(function (b) {
+    b.onclick = function () { action(b.dataset.go, s); };
+  });
+  document.querySelectorAll('[data-act]').forEach(function (b) {
+    b.onclick = function () { commit(s, b.dataset.act === 'skip'); };
+  });
 }
 
-function save(s, skipped) {
-  const v = parseInt(document.getElementById('price').value, 10);
-  if (!skipped && (!v || v < 300 || v > 60000)) {
-    document.getElementById('price').focus();
-    return;
+function recentHTML() {
+  var got = Object.keys(saved).filter(function (k) { return saved[k].price; });
+  if (!got.length) { return ''; }
+  var rows = got.slice(-6).reverse().map(function (k) {
+    return '<tr><td>' + esc(saved[k].name) + '</td><td>' + saved[k].price + '</td></tr>';
+  }).join('');
+  return '<div class="recent">已填 ' + got.length + ' 筆，最近：<table>' + rows + '</table></div>';
+}
+
+/* --------------------------------------------------- 右側預覽與側邊視窗 */
+
+function setFrame(url, message) {
+  var f = document.getElementById('frame'), b = document.getElementById('blocked');
+  if (url) {
+    f.src = url;
+    f.hidden = false;
+    b.hidden = true;
+    // 被 X-Frame-Options 擋掉時畫面會是空白，給個逃生說明
+    clearTimeout(setFrame._t);
+    setFrame._t = setTimeout(function () {
+      try {
+        if (!f.contentWindow || f.contentWindow.length === undefined) { throw 0; }
+      } catch (e) { /* 跨網域讀不到是正常的，不代表被擋 */ }
+    }, 1500);
+  } else {
+    f.hidden = true;
+    f.src = 'about:blank';
+    b.hidden = false;
+    b.textContent = message || '';
   }
-  saved[s.id] = skipped ? { skip: 1 }
+}
+
+function openWeb(s) {
+  document.getElementById('frameLabel').textContent = '官網：' + s.web;
+  setFrame(s.web, '');
+  applyZoom();
+}
+
+function popupUrl(url, label) {
+  // 固定視窗名稱：每次都替換同一個視窗的內容，不會開一堆
+  var w = Math.min(760, Math.round(screen.availWidth * 0.45));
+  var f = 'width=' + w + ',height=' + (screen.availHeight - 80) +
+          ',left=' + (screen.availWidth - w) + ',top=0,scrollbars=yes,resizable=yes';
+  popup = window.open(url, 'stayPriceLookup', f);
+  if (popup) { popup.focus(); }
+  document.getElementById('frameLabel').textContent = label;
+}
+
+function action(kind, s) {
+  var q = encodeURIComponent(s.name + ' ' + (s.where || ''));
+  if (kind === 'g') {
+    popupUrl('https://www.google.com/search?q=' + q, 'Google 查價（側邊視窗）');
+  } else if (kind === 'm') {
+    popupUrl(s.maps || ('https://www.google.com/maps/search/?api=1&query=' + q), '地圖（側邊視窗）');
+  } else if (kind === 'w' && s.web) {
+    openWeb(s);
+  }
+}
+
+function applyZoom() {
+  var f = document.getElementById('frame');
+  f.style.transform = 'scale(' + zoom + ')';
+  f.style.width = (100 / zoom) + '%';
+  f.style.height = (100 / zoom) + '%';
+  document.getElementById('zoomVal').textContent = Math.round(zoom * 100) + '%';
+}
+document.getElementById('zoomIn').onclick = function () { zoom = Math.min(2, zoom + 0.1); applyZoom(); };
+document.getElementById('zoomOut').onclick = function () { zoom = Math.max(0.3, zoom - 0.1); applyZoom(); };
+document.getElementById('zoomReset').onclick = function () { zoom = 1; applyZoom(); };
+document.getElementById('popOut').onclick = function () {
+  var f = document.getElementById('frame');
+  if (f.src && f.src !== 'about:blank') { popupUrl(f.src, '官網（側邊視窗）'); }
+};
+
+/* --------------------------------------------------------------- 存檔 */
+
+function commit(s, skipped) {
+  var el = document.getElementById('price');
+  var v = parseInt(el.value, 10);
+  if (!skipped) {
+    if (!v || v < 300 || v > 60000) { el.focus(); el.select(); return; }
+  }
+  saved[s.id] = skipped
+    ? { skip: 1, name: s.name }
     : { price: v, src: document.getElementById('src').value,
         date: new Date().toISOString().slice(0, 10), name: s.name };
+  history_.push(s.id);
   localStorage.setItem(KEY, JSON.stringify(saved));
-  next();
+  render();
 }
 
-function renderDone() {
-  const got = Object.entries(saved).filter(([, v]) => v.price);
-  const skipped = Object.values(saved).filter(v => v.skip).length;
-  document.getElementById('done').innerHTML =
-    '已查到價格 <b>' + got.length + '</b> 家，跳過 ' + skipped + ' 家。' +
-    (got.length ? '<table><tr><th>旅宿</th><th>價格</th><th>來源</th></tr>' +
-      got.slice(-8).reverse().map(([, v]) =>
-        '<tr><td>' + esc(v.name) + '</td><td>' + v.price + '</td><td>' + esc(v.src) + '</td></tr>'
-      ).join('') + '</table>' : '');
+document.getElementById('undo').onclick = undo;
+function undo() {
+  var id = history_.pop();
+  if (!id) { return; }
+  delete saved[id];
+  localStorage.setItem(KEY, JSON.stringify(saved));
+  render();
 }
 
-document.getElementById('export').onclick = () => {
-  const rows = [['hohi_id', '旅宿名稱', '平日雙人房價', '來源', '查核日期']];
-  for (const [id, v] of Object.entries(saved)) {
+document.addEventListener('keydown', function (e) {
+  var rest = left();
+  if (!rest.length) { return; }
+  var s = rest[0];
+  var typing = e.target && e.target.id === 'price';
+
+  if (e.key === 'Enter') { e.preventDefault(); commit(s, false); return; }
+  if (e.key === 'Escape') { e.preventDefault(); commit(s, true); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); return; }
+  if (e.key === '+' || e.key === '=') { e.preventDefault(); zoom = Math.min(2, zoom + 0.1); applyZoom(); return; }
+  if (e.key === '-') { e.preventDefault(); zoom = Math.max(0.3, zoom - 0.1); applyZoom(); return; }
+
+  // 數字輸入框裡不攔字母，否則打不了字（雖然是數字框，還是留一手）
+  if (typing && /^[0-9]$/.test(e.key)) { return; }
+  var k = e.key.toLowerCase();
+  if (k === 'g' || k === 'm' || k === 'w') { e.preventDefault(); action(k, s); }
+});
+
+document.getElementById('export').onclick = function () {
+  var rows = [['hohi_id', '旅宿名稱', '平日雙人房價', '來源', '查核日期']];
+  Object.keys(saved).forEach(function (id) {
+    var v = saved[id];
     if (v.price) { rows.push([id, v.name, v.price, v.src, v.date]); }
-  }
+  });
   if (rows.length === 1) { alert('還沒有填任何價格'); return; }
-  const csv = '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
-  const a = document.createElement('a');
+  var csv = '﻿' + rows.map(function (r) {
+    return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(',');
+  }).join('\r\n');
+  var a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
   a.download = 'filled.csv';
   a.click();
 };
 
 function esc(s) {
-  return String(s == null ? '' : s).replace(/[&<>"']/g,
-    c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
 }
 </script>
 </body>

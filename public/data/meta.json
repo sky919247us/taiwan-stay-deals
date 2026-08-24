@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-08-24T18:06:20+08:00",
+ "updated_at": "2026-08-24T18:21:21+08:00",
  "source": "交通部觀光署臺灣旅宿網 優宿專區",
  "source_url": "https://www.taiwanstay.net.tw/TSA/web_page/TSA060100.jsp",
  "opendata_update": "2026-08-23T14:30:30+08:00",
@@ -588,7 +588,7 @@
   "plan": 22
  },
  "rating_count": 1770,
- "ota_count": 28,
+ "ota_count": 182,
  "change": {
   "added": [],
   "removed": []
