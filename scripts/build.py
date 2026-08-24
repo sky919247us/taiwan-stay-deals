@@ -24,11 +24,12 @@ FIELDS = ["id", "name", "city", "town", "kind", "classes", "stars", "taiwan_host
           "categories", "plans", "discounts", "channels", "flags", "period", "license",
           "services", "parking_spaces", "accessible_rooms", "capacity",
           "price_final", "price_src", "price_note", "price_room", "price_url",
-          "g_rating", "g_reviews", "g_uri"]
+          "g_rating", "g_reviews", "g_uri",
+          "ota_price", "ota_source", "ota_date"]
 
 CSV_COLS = ["序號", "旅宿名稱", "縣市", "鄉鎮市區", "業別", "電話", "地址",
             "優惠類別", "平日雙人房價", "價格來源", "官網定價", "折抵金額",
-            "優惠期限", "方案內容", "緯度", "經度", "座標來源",
+            "平台參考價", "平台", "優惠期限", "方案內容", "緯度", "經度", "座標來源",
             "Google評分", "Google評論數", "官網", "旅宿網詳情"]
 
 CAT_NAME = {c["key"]: c["name"] for c in CATEGORIES}
@@ -48,6 +49,8 @@ def to_rows(stays):
             "價格來源": {"manual": "人工查核", "operator": "業者自報",
                      "plan": "方案說明", "website": "業者官網"}.get(r.get("price_src"), ""),
             "官網定價": r.get("price_low") or "",
+            "平台參考價": r.get("ota_price") or "",
+            "平台": r.get("ota_source") or "",
             "折抵金額": "、".join(str(d) for d in r.get("discounts", [])),
             "優惠期限": r.get("period", ""),
             "方案內容": "\n\n".join("【%s】%s" % (CAT_NAME[p["category"]], p["text"])
@@ -72,7 +75,7 @@ def write_downloads(rows):
     wb = Workbook()
     fill = PatternFill("solid", fgColor="1F6F5C")
     font = Font(color="FFFFFF", bold=True)
-    widths = [6, 26, 8, 10, 10, 18, 34, 20, 12, 10, 10, 12, 12, 60, 10, 10, 10, 10, 12, 30, 46]
+    widths = [6, 26, 8, 10, 10, 18, 34, 20, 12, 10, 10, 10, 10, 12, 12, 60, 10, 10, 10, 10, 12, 30, 46]
 
     def sheet(ws, data):
         ws.append(CSV_COLS)
@@ -144,6 +147,8 @@ def main():
     manual = load_overrides()
     places = jload(os.path.join(CACHE, "places.json"), {}) or {}
     plan = jload(os.path.join(CACHE, "planprice.json"), {}) or {}
+    js = jload(os.path.join(CACHE, "webprice_js.json"), {}) or {}
+    ota = jload(os.path.join(CACHE, "otaprice.json"), {}) or {}
     moved = []
 
     for r in stays:
@@ -160,6 +165,7 @@ def main():
         #   1 人工查核  2 業者為活動自報  3 從業者官網抽取
         m, w = manual.get(r["id"]), web.get(r["id"]) or {}
         pt = plan.get(r["id"]) or {}
+        jw = js.get(r["id"]) or {}
         if m:
             r["price_final"], r["price_src"] = m["price"], "manual"
             r["price_note"] = "、".join(x for x in (m["source"], m["date"], m["note"]) if x)
@@ -169,6 +175,11 @@ def main():
         # 只收模型確認是「平日價」的。標 unknown 的那批實測是大飯店官網的
         # 牌價（中位數 6,650、最高 16,000），跟政府那個灌水定價同一種東西，
         # 拿來當平日房價會再騙人一次。
+        elif jw.get("price") and jw.get("basis") == "weekday":
+            r["price_final"], r["price_src"] = jw["price"], "website"
+            r["price_note"] = "取自業者官網：" + (jw.get("evidence") or "")
+            r["price_room"] = jw.get("room", "")
+            r["price_url"] = jw.get("url", "")
         elif w.get("price") and w.get("basis") == "weekday":
             r["price_final"], r["price_src"] = w["price"], "website"
             r["price_note"] = "取自業者官網 %s：%s" % (w.get("fetched_at", ""),
@@ -184,6 +195,14 @@ def main():
             r["price_room"] = pt.get("room", "")
         else:
             r["price_final"], r["price_src"], r["price_note"] = 0, "", ""
+
+        # 訂房平台報價：性質不同（多數不能折抵補助），存成獨立欄位，
+        # 前端要分開呈現、預設不納入價格篩選。
+        o = ota.get(r["id"]) or {}
+        if o.get("price"):
+            r["ota_price"] = o["price"]
+            r["ota_source"] = o.get("source") or ""
+            r["ota_date"] = o.get("date") or ""
 
         # Google 評分（Places API）。旅宿沒有 priceLevel，所以這裡只拿得到評價，
         # 但評分與評論數本身就是很有用的排序依據。
@@ -247,6 +266,7 @@ def main():
         "price_stat": dict(collections.Counter(
             r.get("price_src") or "none" for r in slim)),
         "rating_count": sum(1 for r in slim if r.get("g_rating")),
+        "ota_count": sum(1 for r in slim if r.get("ota_price")),
         "change": change,
     }
 

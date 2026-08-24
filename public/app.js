@@ -67,7 +67,7 @@ var PRICE_PRESETS = [
 
 var S = {
   q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
-  pmin: 0, pmax: PRICE_TOP, inclUnknown: true,
+  pmin: 0, pmax: PRICE_TOP, inclUnknown: true, inclOta: false,
   rmin: 0, rvmin: 0, inclNoRating: true,
   sort: 'default', onlyFav: false,
   near: null,        // { lat, lng, km, label }
@@ -136,6 +136,8 @@ fetch('data/meta.json', { cache: 'no-cache' })
     // price_final 是管線挑過的可信價格（人工查核 > 業者自報 > 官網抽取）。
     // 開放資料的 price_low 是牌價，實測中位數是實際價的 1.9 倍，永遠不列入。
     s._p = s.price_final || 0;
+    // 訂房平台報價性質不同（多數不能折抵補助），另存一份，預設不參與篩選
+    s._ota = s.ota_price || 0;
     s.services = s.services || [];
     s._s = norm([s.name, s.address, s.city, s.town, s.license, s.services.join(' '),
                  s.plans.map(function (p) { return p.text; }).join(' ')].join(' '));
@@ -146,7 +148,7 @@ fetch('data/meta.json', { cache: 'no-cache' })
 });
 
 function boot() {
-  NO_PRICE = DATA.filter(function (x) { return !x._p; }).length;
+  NO_PRICE = DATA.filter(function (x) { return !x._p && !(S.inclOta && x._ota); }).length;
   NO_RATING = DATA.filter(function (x) { return !x.g_rating; }).length;
   buildFilters();
   readURL();
@@ -282,6 +284,7 @@ function syncControls() {
   $('city').value = S.city;
   fillTowns();
   $('priceInclUnknown').checked = S.inclUnknown;
+  $('priceInclOta').checked = S.inclOta;
   $('sort').value = S.sort;
   $('onlyFav').checked = S.onlyFav;
   $('radiusKm').value = S.near ? String(S.near.km) : '10';
@@ -300,10 +303,12 @@ function syncControls() {
 function priceLabel() {
   var lo = S.pmin > 0 ? S.pmin.toLocaleString() : '不限';
   var hi = S.pmax < PRICE_TOP ? S.pmax.toLocaleString() : '不限';
+  // 勾了「含平台參考價」之後，可用價格的家數會變，所以每次都重算
+  NO_PRICE = DATA.filter(function (x) { return !x._p && !(S.inclOta && x._ota); }).length;
   $('priceHint').textContent = (S.pmin === 0 && S.pmax >= PRICE_TOP)
-    ? '未設限（依業者自報的平日雙人房優惠價）'
-    : lo + ' – ' + hi + '　' + priceCount(S.pmin, S.pmax) + ' 家有標價' +
-      (S.inclUnknown ? '，另含 ' + NO_PRICE + ' 家未標價' : '');
+    ? '未設限（依可信的平日雙人房價；平台參考價預設不計入）'
+    : lo + ' – ' + hi + '　' + priceCount(S.pmin, S.pmax) + ' 家有價格' +
+      (S.inclUnknown ? '，另含 ' + NO_PRICE + ' 家無價格' : '');
 
   var a = tickIndex(S.pmin), b = tickIndex(S.pmax);
   $('priceMin').value = a;
@@ -363,16 +368,16 @@ function setRating(min, rv) {
   apply();
 }
 
-function priceCount(lo, hi) {     // 這個區間內「有標優惠價」的家數，未標價的另外算
+function priceCount(lo, hi) {     // 這個區間內有價格的家數，未標價的另外算
   var n = 0;
   for (var i = 0; i < DATA.length; i++) {
-    var v = DATA[i]._p;
+    var v = DATA[i]._p || (S.inclOta ? DATA[i]._ota : 0);
     if (v && v >= lo && v <= hi) { n++; }
   }
   return n;
 }
 
-var NO_PRICE = 0;                // 未標優惠價的家數，載入後算一次
+var NO_PRICE = 0;                // 目前條件下「沒有可用價格」的家數
 
 function setPrice(lo, hi) {
   lo = Math.max(0, Math.min(PRICE_TOP, lo || 0));
@@ -411,8 +416,9 @@ function filter() {
     if (S.onlyFav && !FAV.has(s.id)) { continue; }
 
     if (S.pmin > 0 || S.pmax < PRICE_TOP) {
-      if (!s._p) { if (!S.inclUnknown) { continue; } }
-      else if (s._p < S.pmin || s._p > S.pmax) { continue; }
+      var pv = s._p || (S.inclOta ? s._ota : 0);
+      if (!pv) { if (!S.inclUnknown) { continue; } }
+      else if (pv < S.pmin || pv > S.pmax) { continue; }
     }
 
     if (S.flags.length) {
@@ -514,6 +520,9 @@ function cardHTML(s) {
     if (s.price_low && s.price_low > s._p) {
       price += '<span class="rack strike">定價 ' + s.price_low.toLocaleString() + '</span>';
     }
+  } else if (s._ota) {
+    price = '<span class="ota">' + s._ota.toLocaleString() + ' <small>元</small>' +
+            '<span class="psrc src-ota">平台參考</span></span>';
   } else if (s.price_low) {
     price = '<span class="rack">定價 ' + s.price_low.toLocaleString() + ' 起</span>';
   }
@@ -664,6 +673,13 @@ function openSheet(id) {
     row('平日雙人房', '<span class="muted">本站尚未取得實際房價</span>' +
         (ways.length ? '　' + ways.join('　·　') : ''));
   }
+  row('平台參考價', s._ota
+      ? '<b>' + s._ota.toLocaleString() + ' 元</b>　<span class="psrc src-ota">' +
+        esc(s.ota_source || '訂房平台') + '</span>' +
+        '<br><span class="muted">' + esc(s.ota_date || '') +
+        '（平日）各訂房平台的最低報價。<b>訂房平台通常無法折抵國旅補助</b>' +
+        '（多數旅宿須直接向官網或電話訂房），僅供比價參考。</span>'
+      : '');
   row('官網定價', s.price_low
       ? s.price_low.toLocaleString() + ' – ' + (s.price_high || s.price_low).toLocaleString() +
         ' 元　<span class="muted">牌價，通常遠高於實際成交價，僅供參考</span>'
@@ -820,6 +836,7 @@ function writeURL() {
   if (S.rvmin > 0) { p.set('rv', S.rvmin); }
   if (!S.inclNoRating) { p.set('ru', '0'); }
   if (!S.inclUnknown) { p.set('pu', '0'); }
+  if (S.inclOta) { p.set('po', '1'); }
   if (S.sort !== 'default') { p.set('sort', S.sort); }
   if (S.onlyFav) { p.set('fav', '1'); }
   if (S.near) { p.set('near', S.near.lat.toFixed(5) + ',' + S.near.lng.toFixed(5) + ',' + S.near.km); }
@@ -842,6 +859,7 @@ function readURL() {
   S.rvmin = +(p.get('rv') || 0);
   S.inclNoRating = p.get('ru') !== '0';
   S.inclUnknown = p.get('pu') !== '0';
+  S.inclOta = p.get('po') === '1';
   S.sort = p.get('sort') || 'default';
   S.onlyFav = p.get('fav') === '1';
   var n = (p.get('near') || '').split(',');
@@ -869,6 +887,9 @@ function bindEvents() {
   $('onlyFav').addEventListener('change', function (e) { S.onlyFav = e.target.checked; apply(); });
   $('priceInclUnknown').addEventListener('change', function (e) {
     S.inclUnknown = e.target.checked; priceLabel(); apply();
+  });
+  $('priceInclOta').addEventListener('change', function (e) {
+    S.inclOta = e.target.checked; priceLabel(); apply();
   });
 
   $('priceMin').addEventListener('input', function (e) {
@@ -905,7 +926,7 @@ function bindEvents() {
 
   $('btnClear').addEventListener('click', function () {
     S = { q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
-          pmin: 0, pmax: PRICE_TOP, inclUnknown: true,
+          pmin: 0, pmax: PRICE_TOP, inclUnknown: true, inclOta: false,
   rmin: 0, rvmin: 0, inclNoRating: true,
   sort: 'default', onlyFav: false,
           near: null, bounds: false };

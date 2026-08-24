@@ -1,0 +1,454 @@
+{
+ "590": {
+  "name": "晶華酒店",
+  "date": "2026-09-01",
+  "price": 8688,
+  "source": "Trip.com",
+  "matched": "台北晶華酒店 (Regent Taipei)",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null
+ },
+ "8741": {
+  "name": "煙波大飯店宜蘭館",
+  "date": "2026-09-01",
+  "price": 2490,
+  "source": "klook",
+  "matched": "煙波大飯店 宜蘭館",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null
+ },
+ "4388": {
+  "name": "煙波大飯店花蓮館",
+  "date": "2026-09-01",
+  "price": 3276,
+  "source": "klook",
+  "matched": "煙波大飯店花蓮館",
+  "rating": 4.5,
+  "typical_low": null,
+  "typical_high": null
+ },
+ "4902": {
+  "name": "煙波大飯店蘇澳館",
+  "date": "2026-09-01",
+  "price": 3346,
+  "source": "klook",
+  "matched": "煙波大飯店蘇澳四季雙泉館",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "距離19m 相似度0.80"
+ },
+ "10633": {
+  "name": "和逸 台南西門館",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "34437": {
+  "name": "煙波花時間　宜蘭傳藝",
+  "date": "2026-09-01",
+  "price": 2078,
+  "source": "klook",
+  "matched": "煙波花時間 宜蘭傳藝",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離182m 相似度1.00"
+ },
+ "18464": {
+  "name": "福容大飯店 麗寶樂園",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "13686": {
+  "name": "福容大飯店    淡水漁人碼頭",
+  "date": "2026-09-01",
+  "price": 4301,
+  "source": "Trip.com",
+  "matched": "福容大飯店 淡水漁人碼頭",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離592m 相似度1.00"
+ },
+ "18149": {
+  "name": "裕元花園酒店",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "10470": {
+  "name": "南方莊園渡假飯店",
+  "date": "2026-09-01",
+  "price": 4087,
+  "source": "KAYAK.com",
+  "matched": "南方莊園渡假飯店",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離47m 相似度1.00"
+ },
+ "5826": {
+  "name": "太子行旅",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "4977": {
+  "name": "高雄福華大飯店",
+  "date": "2026-09-01",
+  "price": 2727,
+  "source": "HyperAir.com Hotel Booking",
+  "matched": "高雄福華大飯店",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離4m 相似度1.00"
+ },
+ "8019": {
+  "name": "梨山賓館",
+  "date": "2026-09-01",
+  "price": 3760,
+  "source": "Agoda",
+  "matched": "梨山賓館",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離26m 相似度1.00"
+ },
+ "17303": {
+  "name": "台南老爺行旅",
+  "date": "2026-09-01",
+  "price": 2708,
+  "source": "klook",
+  "matched": "台南老爺行旅",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離41m 相似度1.00"
+ },
+ "14399": {
+  "name": "中科大飯店",
+  "date": "2026-09-01",
+  "price": 1547,
+  "source": "HyperAir.com Hotel Booking",
+  "matched": "中科大飯店",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離148m 相似度1.00"
+ },
+ "21502": {
+  "name": "凱撒大飯店",
+  "date": "2026-09-01",
+  "price": 4350,
+  "source": "KAYAK.com",
+  "matched": "墾丁凱撒大飯店",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離53m 相似度0.75"
+ },
+ "7258": {
+  "name": "長榮桂冠酒店(基隆)",
+  "date": "2026-09-01",
+  "price": 3047,
+  "source": "Agoda",
+  "matched": "長榮桂冠酒店（基隆）",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離45m 相似度1.00"
+ },
+ "21569": {
+  "name": "福容大飯店  花蓮",
+  "date": "2026-09-01",
+  "price": 3023,
+  "source": "HyperAir.com Hotel Booking",
+  "matched": "福容大飯店 花蓮",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離64m 相似度1.00"
+ },
+ "5459": {
+  "name": "清新溫泉飯店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "4175": {
+  "name": "福容大飯店 福隆貝悅",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "8632": {
+  "name": "福容大飯店 福隆",
+  "date": "2026-09-01",
+  "price": 5684,
+  "source": "Trip.com",
+  "matched": "福容大飯店 福隆／海洋溫泉",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離71m 相似度0.78"
+ },
+ "7460": {
+  "name": "美侖大飯店",
+  "date": "2026-09-01",
+  "price": 3460,
+  "source": "Hotelscombined.com",
+  "matched": "美侖大飯店",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離14m 相似度1.00"
+ },
+ "3975": {
+  "name": "福容大飯店 高雄",
+  "date": "2026-09-01",
+  "price": 2295,
+  "source": "HyperAir.com Hotel Booking",
+  "matched": "福容大飯店 高雄",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離9m 相似度1.00"
+ },
+ "6560": {
+  "name": "台中福華大飯店",
+  "date": "2026-09-01",
+  "price": 3103,
+  "source": "klook",
+  "matched": "台中福華大飯店",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離8m 相似度1.00"
+ },
+ "6757": {
+  "name": "墾丁夏都沙灘酒店",
+  "date": "2026-09-01",
+  "price": 3586,
+  "source": "Agoda",
+  "matched": "Chateau Beach Resort 墾丁夏都沙灘酒店",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離94m 相似度0.40"
+ },
+ "26772": {
+  "name": "想窩11旅館",
+  "date": "2026-09-01",
+  "price": 2888,
+  "source": "Google",
+  "matched": "想窩11餐旅館",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離24m 相似度0.89"
+ },
+ "4193": {
+  "name": "福容大飯店 台北二館",
+  "date": "2026-09-01",
+  "price": 2041,
+  "source": "Evendo",
+  "matched": "福容大飯店 台北二館",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離32m 相似度1.00"
+ },
+ "28567": {
+  "name": "煙波大飯店花蓮太魯閣沁海館",
+  "date": "2026-09-01",
+  "price": 3055,
+  "source": "klook",
+  "matched": "煙波大飯店花蓮太魯閣－沁海館",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離54m 相似度1.00"
+ },
+ "21702": {
+  "name": "陽明山天籟渡假酒店",
+  "date": "2026-09-01",
+  "price": 4935,
+  "source": "Agoda",
+  "matched": "陽明山天籟渡假酒店 Yangmingshan Tien Lai Resort & Spa",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離41m 相似度0.31"
+ },
+ "5133": {
+  "name": "山形閣",
+  "date": "2026-09-01",
+  "price": 5544,
+  "source": "Hotels.com",
+  "matched": "山形閣 Yamagata Kaku Hotel & Spa",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度0.22"
+ },
+ "20126": {
+  "name": "清境農場國民賓館",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "2381": {
+  "name": "夏都城旅安平館",
+  "date": "2026-09-01",
+  "price": 1694,
+  "source": "Bluepillow.com",
+  "matched": "夏都城旅 安平館",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離7m 相似度1.00"
+ },
+ "22744": {
+  "name": "將捷金鬱金香酒店",
+  "date": "2026-09-01",
+  "price": 3777,
+  "source": "淡水將捷金鬱金香酒店",
+  "matched": "淡水將捷金鬱金香酒店",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離177m 相似度0.86"
+ },
+ "1092": {
+  "name": "旅人驛站鐵道館",
+  "date": "2026-09-01",
+  "price": 1464,
+  "source": "Google",
+  "matched": "旅人驛站鐵道館",
+  "rating": 4.5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離15m 相似度1.00"
+ },
+ "19979": {
+  "name": "塔木德酒店-台中館",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "5051": {
+  "name": "墾丁馬爾地夫溫泉大飯店",
+  "date": "2026-09-01",
+  "price": 987,
+  "source": "Google",
+  "matched": "墾丁馬爾地夫溫泉大飯店",
+  "rating": 3.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離72m 相似度1.00"
+ },
+ "1768": {
+  "name": "單人房 SINGLE INN-站前館",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "14169": {
+  "name": "宜蘭力麗威斯汀度假酒店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "15948": {
+  "name": "瑾旅南西",
+  "date": "2026-09-01",
+  "price": 1079,
+  "source": "Bluepillow.ie",
+  "matched": "瑾旅南西館",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離2m 相似度0.89"
+ },
+ "14307": {
+  "name": "比歐緻居",
+  "date": "2026-09-01",
+  "price": 3063,
+  "source": "Trip.com",
+  "matched": "高雄比歐緻居 Brio Hotel Kaohsiung",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離58m 相似度0.29"
+ },
+ "17613": {
+  "name": "米力旅店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "15127": {
+  "name": "尊爵大飯店",
+  "date": "2026-09-01",
+  "price": 2060,
+  "source": "Google",
+  "matched": "尊爵大飯店",
+  "rating": 4.1,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離13m 相似度1.00"
+ },
+ "26371": {
+  "name": "立麗大酒店",
+  "date": "2026-09-01",
+  "price": 3099,
+  "source": "Grand Hotel Lili",
+  "matched": "立麗大酒店",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離27m 相似度1.00"
+ },
+ "14780": {
+  "name": "薆悅酒店-Grand",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "7831": {
+  "name": "新竹福華大飯店",
+  "date": "2026-09-01",
+  "price": 1829,
+  "source": "Agoda",
+  "matched": "新竹福華大飯店",
+  "rating": 4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離18m 相似度1.00"
+ },
+ "21295": {
+  "name": "暐順和選旅",
+  "date": "2026-09-01",
+  "price": 2492,
+  "source": "Google",
+  "matched": "和選旅",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離232m 相似度0.75"
+ },
+ "8025": {
+  "name": "小墾丁渡假村",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "21668": {
+  "name": "田中央旅店",
+  "date": "2026-09-01",
+  "price": 1545,
+  "source": "klook",
+  "matched": "old school行旅 田中央旅店 Central Land Hotel｜塔木德酒店集團",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離2m 相似度0.14"
+ },
+ "779": {
+  "name": "SINGLE INN單人房",
+  "date": "2026-09-01",
+  "note": "no_price"
+ }
+}

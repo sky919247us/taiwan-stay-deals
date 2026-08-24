@@ -20,7 +20,8 @@ API，合規責任在他們身上，我們只是正常呼叫 API。
   python scripts/otaprice.py --budget 240     # 這輪最多打 240 次（顧免費額度）
   python scripts/otaprice.py --report
 """
-import os, re, sys, json, time, datetime, argparse
+import os, re, sys, json, time, math, datetime, argparse
+from difflib import SequenceMatcher
 import requests
 from config import ROOT, RAW, CACHE, jload, jdump, norm_name
 
@@ -62,30 +63,70 @@ def query_of(s):
     return "%s %s%s" % (s["name"], s.get("city", ""), s.get("town", ""))
 
 
+def properties_of(data):
+    """SerpApi 有兩種回傳形狀：查到多家時給 properties 陣列；精準命中單一飯店時
+    直接把該飯店放在最上層（type=hotel）。只看陣列會把所有精準命中都漏掉。"""
+    if data.get("properties"):
+        return data["properties"]
+    if data.get("type") == "hotel" and data.get("name"):
+        return [data]
+    return []
+
+
+def _meters(a1, o1, a2, o2):
+    r, p = 6371000.0, math.pi / 180
+    x = (math.sin((a2 - a1) * p / 2) ** 2 +
+         math.cos(a1 * p) * math.cos(a2 * p) * math.sin((o2 - o1) * p / 2) ** 2)
+    return 2 * r * math.asin(math.sqrt(x))
+
+
 def pick(stay, props):
-    """SerpApi 會回一串附近飯店，名稱對不上就不要，免得把價格掛到隔壁家。"""
+    """挑出真的是同一家的那筆。
+
+    純粹用名稱包含關係比對會漏掉連鎖分館（我們的「煙波大飯店蘇澳館」，
+    Google 上叫「煙波大飯店蘇澳四季雙泉館」）；但只放寬名稱又會把「蘇澳館」
+    配到「宜蘭館」。所以名稱用相似度，再用座標把不同分館切開。"""
     target = norm_name(stay["name"])
+    best, best_score, best_why = None, 0, ""
     for p in props or []:
         other = norm_name(p.get("name") or "")
         if not other:
             continue
-        if other == target or target in other or other in target:
-            return p
-    return None
+
+        d = None
+        g = p.get("gps_coordinates") or {}
+        if g.get("latitude") and stay.get("lat"):
+            d = _meters(stay["lat"], stay["lng"], g["latitude"], g["longitude"])
+            if d > 2000:            # 兩公里外不可能是同一家，連鎖分館就是靠這條切開
+                continue
+
+        sub = target in other or other in target
+        ratio = SequenceMatcher(None, target, other).ratio()
+        if not sub and ratio < 0.55:
+            continue
+
+        score = ratio + (1.0 if sub else 0) + (1.0 if d is not None and d < 300 else 0)
+        if score > best_score:
+            best, best_score = p, score
+            best_why = "%s%s相似度%.2f" % ("名稱包含 " if sub else "",
+                                        ("距離%dm " % d) if d is not None else "無座標 ",
+                                        ratio)
+    return best, best_why
 
 
 def cheapest(prop):
-    """取各平台裡最低的每晚價；SerpApi 的欄位在不同結果型態下不一致，逐個試。"""
+    """取各平台裡最低的每晚價，並記錄是哪個平台。"""
     best, who = None, ""
-    for src in (prop.get("prices") or []):
-        rate = (src.get("rate_per_night") or {})
-        v = rate.get("extracted_lowest") or rate.get("extracted_before_taxes_fees")
-        if isinstance(v, (int, float)) and 300 <= v <= 60000:
-            if best is None or v < best:
-                best, who = int(v), src.get("source") or ""
+    for group in ("prices", "featured_prices"):
+        for src in (prop.get(group) or []):
+            rate = (src.get("rate_per_night") or {})
+            v = rate.get("extracted_lowest") or rate.get("extracted_before_taxes_fees")
+            if isinstance(v, (int, float)) and 300 <= v <= 60000:
+                if best is None or v < best:
+                    best, who = int(v), src.get("source") or ""
+    # 沒有逐平台明細時，用 Google 自己算好的最低價
     if best is None:
-        rate = (prop.get("rate_per_night") or {})
-        v = rate.get("extracted_lowest")
+        v = (prop.get("rate_per_night") or {}).get("extracted_lowest")
         if isinstance(v, (int, float)) and 300 <= v <= 60000:
             best, who = int(v), "Google"
     return best, who
@@ -137,6 +178,12 @@ def main():
 
     todo = [s for s in blob["stays"]
             if not has_price(s) and (args.refresh or s["id"] not in cache)]
+
+    # 額度有限，先查最多人會看的。評論數是極度長尾分布：查評論最多的 250 家
+    # 就涵蓋 90% 的評論量，前 100 家就有 72%。
+    places = jload(os.path.join(CACHE, "places.json"), {}) or {}
+    todo.sort(key=lambda s: -((places.get(s["id"]) or {}).get("reviews") or 0))
+
     if args.limit:
         todo = todo[:args.limit]
     if args.budget:
@@ -144,11 +191,14 @@ def main():
 
     print("[平台報價] 入住日 %s（週%s）／退房 %s"
           % (checkin, "一二三四五六日"[checkin.weekday()], checkout))
-    print("[平台報價] 待查 %d 家，已快取 %d 家" % (len(todo), len(cache)), flush=True)
+    print("[平台報價] 待查 %d 家（依 Google 評論數排序，先查最多人看的），已快取 %d 家"
+          % (len(todo), len(cache)), flush=True)
 
     if args.dry_run:
         for s in todo[:10]:
-            print("  查詢：%s" % query_of(s))
+            g = places.get(s["id"]) or {}
+            print("  查詢：%-26s ★%-4s %s 則" % (query_of(s)[:26], g.get("rating") or "—",
+                                              g.get("reviews") or 0))
         print("  （--dry-run，沒有實際呼叫 API；本輪會用掉 %d 次額度）" % len(todo))
         return
     if not todo:
@@ -182,16 +232,20 @@ def main():
                     break
             else:
                 data = r.json()
-                prop = pick(s, data.get("properties"))
+                prop, why = pick(s, properties_of(data))
                 if not prop:
                     rec["note"] = "no_match"
                     stat["no_match"] += 1
                 else:
                     price, who = cheapest(prop)
                     if price:
+                        tpr = prop.get("typical_price_range") or {}
                         rec.update({"price": price, "source": who,
                                     "matched": prop.get("name"),
-                                    "rating": prop.get("overall_rating")})
+                                    "rating": prop.get("overall_rating"),
+                                    "typical_low": tpr.get("extracted_low"),
+                                    "typical_high": tpr.get("extracted_high"),
+                                    "match": why})
                         stat["price"] += 1
                     else:
                         rec["note"] = "no_price"
