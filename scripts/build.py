@@ -175,7 +175,9 @@ def main():
                                                  w.get("evidence", ""))
             r["price_room"] = w.get("room", "")
             r["price_url"] = w.get("url", "")
-        elif pt.get("price"):
+        # 和官網抽價同一條規則：只收確認為平日房價的。標 unknown 的多半是
+        # 「折抵補助後每晚只要 X」那種淨價，跟房價不是同一個東西。
+        elif pt.get("price") and pt.get("basis") == "weekday":
             # 業者自己寫在方案說明裡的房價，來源就是官方名單本身，可信度高
             r["price_final"], r["price_src"] = pt["price"], "plan"
             r["price_note"] = "業者寫在方案說明中：" + (pt.get("evidence") or "")

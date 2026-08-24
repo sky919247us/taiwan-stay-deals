@@ -1,0 +1,198 @@
+{
+ "7490": {
+  "name": "發呆民宿",
+  "price": 1600,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "不分平假日雙人房優惠每晚1600元",
+  "model": "stealth/ox-alpha"
+ },
+ "36722": {
+  "name": "寶寶民宿",
+  "note": "no_price"
+ },
+ "10871": {
+  "name": "兆舍行旅",
+  "note": "no_price"
+ },
+ "14162": {
+  "name": "香緹時尚大飯店",
+  "price": 2380,
+  "room": "未指定",
+  "basis": "weekday",
+  "evidence": "適用房型：房價2380元起適用",
+  "model": "stealth/ox-alpha"
+ },
+ "12042": {
+  "name": "探索汽車旅館南港館",
+  "note": "no_price"
+ },
+ "14078": {
+  "name": "圓山大飯店",
+  "price": 4360,
+  "room": "",
+  "basis": "unknown",
+  "evidence": "搭配兩晚國旅補助，最低每晚只要4360",
+  "model": "stealth/ox-alpha"
+ },
+ "5660": {
+  "name": "虎爸羊媽的家",
+  "price": 999,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日雙人房住宿999元",
+  "model": "stealth/ox-alpha"
+ },
+ "12005": {
+  "name": "ＤＯＭＯ",
+  "note": "no_price"
+ },
+ "15881": {
+  "name": "寶島窯民宿",
+  "note": "no_price"
+ },
+ "34617": {
+  "name": "慢慢相遇民宿",
+  "note": "no_price"
+ },
+ "34550": {
+  "name": "山田心民宿",
+  "price": 1600,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日住宿雙人房，1600元",
+  "model": "stealth/ox-alpha"
+ },
+ "31567": {
+  "name": "成功古巷",
+  "price": 1350,
+  "room": "雙人房（含機車）",
+  "basis": "weekday",
+  "evidence": "平日雙人房+機車一晚，優惠價$1350",
+  "model": "stealth/ox-alpha"
+ },
+ "30948": {
+  "name": "236寓所民宿",
+  "note": "llm_fail"
+ },
+ "37702": {
+  "name": "言午次方民宿",
+  "note": "no_price"
+ },
+ "3267": {
+  "name": "浯江大飯店",
+  "note": "no_price"
+ },
+ "37923": {
+  "name": "湛湛里煙",
+  "note": "no_price"
+ },
+ "38265": {
+  "name": "阿嬌ㄟ岫",
+  "note": "no_price"
+ },
+ "8458": {
+  "name": "雲泊和旅",
+  "price": 1300,
+  "room": "雙人房",
+  "basis": "unknown",
+  "evidence": "雙人房：第1晚實付$500元（優惠價$1300元",
+  "model": "stealth/ox-alpha"
+ },
+ "15480": {
+  "name": "里萊行旅",
+  "note": "no_price"
+ },
+ "1760": {
+  "name": "Ｍｅｒｌｉｎ２０",
+  "note": "no_price"
+ },
+ "1932": {
+  "name": "東方商務大飯店",
+  "note": "llm_fail"
+ },
+ "32044": {
+  "name": "府前紅樓",
+  "note": "no_price"
+ },
+ "4666": {
+  "name": "水舞間",
+  "note": "llm_fail"
+ },
+ "30339": {
+  "name": "德旅店民宿",
+  "price": 2200,
+  "room": "禾仔雙人雅房",
+  "basis": "unknown",
+  "evidence": "禾仔雙人雅房$2200",
+  "model": "stealth/ox-alpha"
+ },
+ "494": {
+  "name": "久窩行旅-逢甲館",
+  "note": "no_price"
+ },
+ "3085": {
+  "name": "跳跳民宿",
+  "note": "no_price"
+ },
+ "1550": {
+  "name": "愛那思民宿",
+  "note": "no_price"
+ },
+ "17856": {
+  "name": "冠倫旅店",
+  "price": 1300,
+  "room": "經濟雙人房(無窗)",
+  "basis": "unknown",
+  "evidence": "經濟雙人房(無窗)1300元",
+  "model": "stealth/ox-alpha"
+ },
+ "30606": {
+  "name": "李寓恆春的家民宿",
+  "note": "no_price"
+ },
+ "14443": {
+  "name": "陶花巷弄民宿",
+  "note": "no_price"
+ },
+ "5173": {
+  "name": "國妃鷹堡汽車旅館仁德館",
+  "price": 1580,
+  "room": "商務房型",
+  "basis": "weekday",
+  "evidence": "平日入住以下房型享優惠價商務房型1580元",
+  "model": "stealth/ox-alpha"
+ },
+ "8584": {
+  "name": "墾丁假期渡假飯店",
+  "price": 2200,
+  "room": "標準雙人房",
+  "basis": "weekday",
+  "evidence": "標準雙人房$2200/$2800",
+  "model": "stealth/ox-alpha"
+ },
+ "26277": {
+  "name": "時尚玩家民宿",
+  "price": 1000,
+  "room": "套房",
+  "basis": "weekday",
+  "evidence": "兩位入住套房一晚1000元",
+  "model": "stealth/ox-alpha"
+ },
+ "22744": {
+  "name": "將捷金鬱金香酒店",
+  "note": "no_price"
+ },
+ "24031": {
+  "name": "菊逸居民宿",
+  "price": 1800,
+  "room": "雙人房",
+  "basis": "unknown",
+  "evidence": "雙人房每晚1800元（原價為2400元）",
+  "model": "stealth/ox-alpha"
+ },
+ "33818": {
+  "name": "森活藝術民宿",
+  "note": "no_price"
+ }
+}

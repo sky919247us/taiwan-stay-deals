@@ -137,11 +137,23 @@ python -m http.server 8787 --directory public
 
 `public/_headers` 已設定好快取策略：vendor 檔一年、資料檔 1 小時、其他 10 分鐘。
 
-### 每週自動更新
+### 每週更新：在本機跑
 
-`.github/workflows/update.yml` 每週一 02:00 UTC（台灣時間週一上午 10 點）跑一次，
-也可以在 Actions 頁面手動觸發（**Run workflow**）。流程是
-抓取 → 補值 → 抽取 → 產出 → 驗收 → **有異動才 commit**，push 後 Cloudflare 自動重新部署。
+```bash
+python scripts/weekly.py            # 完整跑一輪，驗收通過就自動 commit & push
+python scripts/weekly.py --no-push  # 只跑不推，先看結果
+python scripts/weekly.py --quick    # 只更新名單，跳過抽價與渲染
+```
+
+流程是抓取 → 補座標 → 抽欄位 → Google 評分 → 三種抽價 → 渲染 → 產出 → 驗收 →
+有異動才 commit → push，Cloudflare 收到 push 自動部署。
+
+**為什麼不放 GitHub Actions**：評分與抽價需要 Google 與 OpenRouter 金鑰，
+還要 Chromium 渲染 JS 網站。放本機就不用把金鑰交給雲端，也少幾種失敗方式。
+`weekly.py` 開頭會先 `git fetch` 並在必要時 rebase，避免和遠端打架。
+
+`.github/workflows/update.yml` 保留為**手動觸發的備援**（排程已關閉）：
+它只跑得動抓取與建置，不會補評分與價格。
 
 安全機制：
 

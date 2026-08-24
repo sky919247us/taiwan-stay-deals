@@ -1,9 +1,11 @@
 name: 更新旅宿名單
 
+# 每週更新改在本機跑（scripts/weekly.py）：評分與抽價需要 Google 與
+# OpenRouter 金鑰，還要 Chromium 渲染 JS 網站，放在本機比放進雲端 secrets
+# 單純。排程已關閉，避免和本機的提交互相打架（實際發生過一次合併衝突）。
+# 這個 workflow 保留為手動觸發的備援：官網名單照樣抓得到，只是不會補
+# 評分與價格。
 on:
-  schedule:
-    # 每週一 02:00 UTC（台灣時間週一上午 10:00）
-    - cron: "0 2 * * 1"
   workflow_dispatch:
 
 permissions:
