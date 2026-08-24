@@ -90,8 +90,10 @@
  },
  "5826": {
   "name": "太子行旅",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "4977": {
   "name": "高雄福華大飯店",
@@ -346,8 +348,10 @@
  },
  "1768": {
   "name": "單人房 SINGLE INN-站前館",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "14169": {
   "name": "宜蘭力麗威斯汀度假酒店",
@@ -378,8 +382,10 @@
  },
  "17613": {
   "name": "米力旅店",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "15127": {
   "name": "尊爵大飯店",
@@ -448,8 +454,10 @@
  },
  "779": {
   "name": "SINGLE INN單人房",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "9814": {
   "name": "旅人驛站米豆文旅",
@@ -583,8 +591,10 @@
  },
  "4751": {
   "name": "南元休閒農場湖上渡假村",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "4657": {
   "name": "頭等艙飯店綠園道館",
@@ -593,8 +603,10 @@
  },
  "12956": {
   "name": "揚昇山莊",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "10020": {
   "name": "北都大飯店",
@@ -609,8 +621,10 @@
  },
  "20085": {
   "name": "花蓮假期飯店",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "10615": {
   "name": "熊旅溫泉飯店",
@@ -1144,8 +1158,10 @@
  },
  "10627": {
   "name": "夢想森林親子民宿",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "18451": {
   "name": "富立登國際大飯店",
@@ -1215,8 +1231,10 @@
  },
  "5527": {
   "name": "童年松花民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "9910": {
   "name": "雀客旅館宜蘭羅東二館",
@@ -1231,8 +1249,10 @@
  },
  "33101": {
   "name": "煙波大飯店花蓮太魯閣山闊館",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "13408": {
   "name": "一起一起旅店-花蓮中山館",
@@ -1316,8 +1336,10 @@
  },
  "22908": {
   "name": "璞緻民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "21918": {
   "name": "藏闊民宿",
@@ -1403,8 +1425,10 @@
  },
  "9396": {
   "name": "朝日溫泉民宿",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "4825": {
   "name": "陽光味宿民宿",
@@ -1485,8 +1509,10 @@
  },
  "7512": {
   "name": "馬祖藍灣景觀餐廳民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "26325": {
   "name": "馬祖藍灣景觀餐廳民宿南館",
@@ -1523,8 +1549,10 @@
  },
  "17481": {
   "name": "亞馨文創休閒旅館",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "20548": {
   "name": "大來商旅",
@@ -1539,28 +1567,38 @@
  },
  "32977": {
   "name": "弎弄民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "28263": {
   "name": "弌宅民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "32978": {
   "name": "肆院民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "28262": {
   "name": "弍寓民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "2444": {
   "name": "勝華大飯店",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "4520": {
   "name": "道時尚悠然山莊",
@@ -1630,8 +1668,10 @@
  },
  "13230": {
   "name": "東之港汽車旅館",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "14049": {
   "name": "金沙汽車旅館",
@@ -1712,8 +1752,10 @@
  },
  "13696": {
   "name": "帝王大飯店",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "14279": {
   "name": "華登商務大飯店",
@@ -1739,8 +1781,10 @@
  },
  "8330": {
   "name": "蔚藍海岸休閒SPA汽車旅館",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "19873": {
   "name": "快樂腳旅棧",
@@ -1777,8 +1821,10 @@
  },
  "777": {
   "name": "墾丁沐林會館",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "2695": {
   "name": "香草藝術旅店",
@@ -1837,13 +1883,17 @@
  },
  "18185": {
   "name": "春在民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "10606": {
   "name": "英王旅館",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "15397": {
   "name": "路境行旅-台南西門館",
@@ -1968,13 +2018,17 @@
  },
  "6756": {
   "name": "北國之春和風汽車旅館",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "13776": {
   "name": "布查德渡假村民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "3267": {
   "name": "浯江大飯店",
@@ -1989,8 +2043,10 @@
  },
  "12569": {
   "name": "艾薇卡民宿",
-  "date": "2026-09-01",
-  "note": "no_price"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "15771": {
   "name": "苓旅松山小巨蛋館",
@@ -2016,8 +2072,10 @@
  },
  "32562": {
   "name": "救國團復興青年活動中心",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "1932": {
   "name": "東方商務大飯店",
@@ -2043,8 +2101,10 @@
  },
  "7085": {
   "name": "寶麗旅宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "15604": {
   "name": "合悅都會商旅",
@@ -2180,8 +2240,10 @@
  },
  "16391": {
   "name": "路徒行旅-偵探寓所",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "16389": {
   "name": "愛力根汽車旅館",
@@ -2196,8 +2258,10 @@
  },
  "8468": {
   "name": "千霞園(特色民宿)",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
  },
  "13801": {
   "name": "雅薇精品休閒旅館-凱御旅店",
@@ -2212,8 +2276,10 @@
  },
  "2693": {
   "name": "台南南科戴斯精選酒店",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "33269": {
   "name": "提米好旅",
@@ -2261,8 +2327,10 @@
  },
  "9504": {
   "name": "鈴之宇民宿",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  },
  "34005": {
   "name": "川岸民宿二館",
@@ -2310,7 +2378,660 @@
  },
  "29803": {
   "name": "閣樂有限公司",
-  "date": "2026-09-01",
-  "note": "no_match"
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "22017": {
+  "name": "森林鹿紅茶民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "235": {
+  "name": "123會館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "4868": {
+  "name": "花蓮S.E.A.民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "33787": {
+  "name": "旅人驛站中正藏書館民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "29090": {
+  "name": "水明漾私人VILLA",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "30787": {
+  "name": "神隱之森民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "22120": {
+  "name": "雀客快捷",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "8899": {
+  "name": "萊茵商旅",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "17991": {
+  "name": "瑞君商務旅館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "6292": {
+  "name": "君瑞精品旅店",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "17431": {
+  "name": "恆春老街文化旅社",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "10943": {
+  "name": "沫秋立柳川行旅",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "11900": {
+  "name": "Ｊａｎｅ．橙堡民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "3462": {
+  "name": "沂宸衿后禾居-民生館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "34323": {
+  "name": "愛琴海民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "36238": {
+  "name": "暮暮山丘",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "27183": {
+  "name": "上禾居",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "7275": {
+  "name": "魚雅築渡假民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "10956": {
+  "name": "茶田關舍民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "35372": {
+  "name": "九號光舟民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "14644": {
+  "name": "晴天娃娃民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "8251": {
+  "name": "幸福加油站民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "3809": {
+  "name": "采岩汽車旅館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "28371": {
+  "name": "枋山六號店",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "13647": {
+  "name": "設計師的家休閒民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "20527": {
+  "name": "兆泓民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "269": {
+  "name": "蘭庭民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "1554": {
+  "name": "車站一百米民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "22078": {
+  "name": "綠堡休閒民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "28940": {
+  "name": "羅東好民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "26995": {
+  "name": "風海山會館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "31313": {
+  "name": "裏白VILLA民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "35934": {
+  "name": "粨倉文旅",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "35833": {
+  "name": "彰化華宿文旅",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "33487": {
+  "name": "安樓文旅",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "18297": {
+  "name": "山水屋民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "30106": {
+  "name": "埔里城民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "14414": {
+  "name": "立霧左邨民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "17851": {
+  "name": "嚨口秘境古厝民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "2551": {
+  "name": "皇冠商務汽車旅館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "8895": {
+  "name": "向日葵精緻旅店民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "27245": {
+  "name": "西湖柚子家民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "35850": {
+  "name": "胡桃",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "16099": {
+  "name": "米南汽車旅館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "32": {
+  "name": "南國海岸渡假特色民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "20706": {
+  "name": "苓旅旅館中山館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "5790": {
+  "name": "薩爾茲堡莊園民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "35007": {
+  "name": "鹿港宏旭民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "10009": {
+  "name": "友愛山序漫旅",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "14016": {
+  "name": "方舟島民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "26136": {
+  "name": "小琉球懶人旅宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "13572": {
+  "name": "貓天空鄉村民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "4462": {
+  "name": "耀西文旅新美館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "14703": {
+  "name": "西文旅",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "37863": {
+  "name": "福容徠旅 澎湖",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "8652": {
+  "name": "法格斯-石光",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "38472": {
+  "name": "眠花糖民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "2782": {
+  "name": "苓旅站前",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "21086": {
+  "name": "方迪大旅社",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "8971": {
+  "name": "月圓汽車旅館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "28546": {
+  "name": "雅漾民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "13136": {
+  "name": "近月旭海民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "4596": {
+  "name": "弋式風莊園民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "15881": {
+  "name": "寶島窯民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "10550": {
+  "name": "梅花森林民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "16116": {
+  "name": "松柏林民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "5978": {
+  "name": "英倫旅店",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "31791": {
+  "name": "沃丘民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "31088": {
+  "name": "徐徐民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "17784": {
+  "name": "花鄉旅館大寮店",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "7452": {
+  "name": "龍江大飯店",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "3896": {
+  "name": "杰克山莊大飯店",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "1914": {
+  "name": "微醺",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "13415": {
+  "name": "櫻花嶺渡假山莊",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "5032": {
+  "name": "覓夏旅店民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "28286": {
+  "name": "奧麗雅安莊園民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "6695": {
+  "name": "公園６１號民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "12505": {
+  "name": "新堡汽車旅館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "9142": {
+  "name": "當歸民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "21185": {
+  "name": "幸福肥屋民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "1630": {
+  "name": "風尚會館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "27671": {
+  "name": "博拉樂民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "37463": {
+  "name": "綠知心泉莊園",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "3639": {
+  "name": "貴夫人渡假民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "4511": {
+  "name": "同居",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "27789": {
+  "name": "呆整天民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "22837": {
+  "name": "後山拾光民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "39287": {
+  "name": "荷米輕洋樓",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "3085": {
+  "name": "跳跳民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "28478": {
+  "name": "喜比民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "26067": {
+  "name": "久窩行旅-一中館",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
+ },
+ "17856": {
+  "name": "冠倫旅店",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "平台無此旅宿"
+ },
+ "6371": {
+  "name": "3520民宿",
+  "note": "no_listing",
+  "checked_by": "gemini+manual",
+  "checked_at": "2026-08-24",
+  "raw_result": "當日售完"
  }
 }
