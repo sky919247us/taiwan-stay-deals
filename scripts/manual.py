@@ -66,6 +66,7 @@ def main():
         with open(OVERRIDE_CSV, encoding="utf-8-sig", newline="") as f:
             existing = {r["hohi_id"]: r for r in csv.DictReader(f)}
 
+    already = load_overrides()          # 已經人工填好的就不必再列
     todo = []
     for s in blob["stays"]:
         # 任何一種來源已經拿到價格就不必人工（含只有平台參考價的）
@@ -121,6 +122,8 @@ def main():
     by_id = {s["id"]: s for s in blob["stays"]}
     pend = []
     for row in todo:
+        if row["hohi_id"] in already:      # 已填好的不進待填清單
+            continue
         s2 = by_id[row["hohi_id"]]
         g = places.get(row["hohi_id"]) or {}
         pend.append({
@@ -137,8 +140,10 @@ def main():
     with open(os.path.join(OVERRIDE_DIR, "pending.json"), "w", encoding="utf-8") as f:
         json.dump(pend, f, ensure_ascii=False, indent=1)
 
-    filled = len(load_overrides())
-    print("[人工覆寫] 仍缺價格 %d 家，已寫入 %s" % (len(todo), OVERRIDE_CSV))
+    filled = len(already)
+    print("[人工覆寫] 名單共 %d 家，其中已人工填好 %d 家，仍缺 %d 家"
+          % (len(todo), filled, len(todo) - filled))
+    print("[人工覆寫] 已寫入 %s" % OVERRIDE_CSV)
     print("[人工覆寫] 待填清單 overrides/pending.json（依評論數排序，給 entry.html 用）")
     print("[人工覆寫] 其中已填好 %d 家（保留了先前填的 %d 筆）" % (filled, kept))
 

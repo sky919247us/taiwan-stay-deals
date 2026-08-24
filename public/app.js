@@ -512,7 +512,10 @@ function cardHTML(s) {
   // 兩者都留著讓使用者自己判斷，但視覺上分主次。
   var price = '';
   if (s._p) {
-    var src = PRICE_SRC[s.price_src] || {};
+      // 人工查核但查自訂房平台的，視覺上比照平台參考價，不用最高信任的橘色
+    var src = (s.price_channel === 'ota')
+      ? { label: '平台參考', cls: 'src-ota' }
+      : (PRICE_SRC[s.price_src] || {});
     price = s._p.toLocaleString() + ' <small>元</small>';
     if (src.label && s.price_src !== 'operator') {
       price += '<span class="psrc ' + src.cls + '">' + src.label + '</span>';
@@ -652,7 +655,9 @@ function openSheet(id) {
   row('地址', esc(s.address));
   row('電話', s.phone_raw ? '<a href="tel:' + esc(telOf(s)) + '">' + esc(s.phone_raw) + '</a>' : '');
   row('位置', esc(s.city) + esc(s.town || ''));
-  var psrc = PRICE_SRC[s.price_src] || {};
+  var psrc = (s.price_channel === 'ota')
+    ? { label: '平台參考', cls: 'src-ota' }
+    : (PRICE_SRC[s.price_src] || {});
   if (s._p) {
     row('平日雙人房',
         '<b>' + s._p.toLocaleString() + ' 元</b>' +

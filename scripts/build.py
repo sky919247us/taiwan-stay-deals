@@ -24,6 +24,7 @@ FIELDS = ["id", "name", "city", "town", "kind", "classes", "stars", "taiwan_host
           "categories", "plans", "discounts", "channels", "flags", "period", "license",
           "services", "parking_spaces", "accessible_rooms", "capacity",
           "price_final", "price_src", "price_note", "price_room", "price_url",
+          "price_channel",
           "g_rating", "g_reviews", "g_uri",
           "ota_price", "ota_source", "ota_date"]
 
@@ -168,7 +169,13 @@ def main():
         jw = js.get(r["id"]) or {}
         if m:
             r["price_final"], r["price_src"] = m["price"], "manual"
-            r["price_note"] = "、".join(x for x in (m["source"], m["date"], m["note"]) if x)
+            note = "、".join(x for x in (m["source"], m["date"], m["note"]) if x)
+            # 人工查核的價格若查自訂房平台，性質等同 ota_price，
+            # 一樣要標明多數不能折抵補助，不能因為是人工填的就變成最高信任
+            if "平台" in (m["source"] or ""):
+                r["price_channel"] = "ota"
+                note += "。訂房平台報價，多數無法折抵補助，僅供比價參考"
+            r["price_note"] = note
         elif r["weekday_price"]:
             r["price_final"], r["price_src"] = r["weekday_price"], "operator"
             r["price_note"] = "業者為本活動自報的平日雙人房價"
