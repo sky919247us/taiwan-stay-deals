@@ -20,3 +20,6 @@ __pycache__/
 *.tmp
 *.bak-*
 .DS_Store
+
+# 不小心放進來的無關專案（自己帶 .git，會變成壞掉的 gitlink）
+antigravity2-cn/
