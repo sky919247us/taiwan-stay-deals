@@ -694,6 +694,11 @@ function openSheet(id) {
   (s.booking_urls || []).slice(0, 2).forEach(function (u) {
     acts += '<a class="sec" href="' + esc(u) + '" target="_blank" rel="noopener">線上訂房</a>';
   });
+  var pc = priceCheck(s);
+  if (pc) {
+    acts += '<a class="sec" href="' + esc(pc.url) + '" target="_blank" rel="noopener">' +
+            '查 ' + pc.label + ' 即時房價</a>';
+  }
   acts += '<a class="sec" href="https://www.taiwanstay.net.tw/TSA/web_page/TSA020200.jsp?hohi_id=' +
     esc(s.id) + '" target="_blank" rel="noopener">旅宿網原始頁</a>';
   acts += '<button type="button" class="sec" data-fav="' + esc(s.id) + '">' +
@@ -702,9 +707,68 @@ function openSheet(id) {
   $('sheetBody').innerHTML = '<h2 id="sheetTitle">' + esc(s.name) + '</h2>' +
     '<div class="tags">' + tags.join('') + '</div>' +
     '<dl class="kv">' + kv + '</dl>' + plans +
-    '<div class="actions">' + acts + '</div>';
+    '<div class="actions">' + acts + '</div>' +
+    (pc ? '<p class="note">「即時房價」會用 ' + pc.label + ' 這個平日日期去查 Google 上各訂房平台的報價，' +
+          '<b>那是比價參考，不是本站的補助價</b>。多數旅宿的補助須直接向官網或電話訂房，' +
+          '透過非核可的訂房平台訂房將無法折抵。</p>' : '');
   $('sheet').hidden = false;
   $('sheetClose').focus();
+}
+
+/* --------------------------------------------- 訂房平台即時參考價 --------
+   官方 Places API 不提供旅宿房價，Google 畫面上那個是各訂房平台的即時報價。
+   我們不把它抓下來存檔，理由有兩個：一是它綁特定日期、同一晚各平台差到
+   38%，存下來隔天就過期；二是那些平台多半不能折抵補助（26 家業者明講
+   「線上訂房平台不能折抵」）。所以改成產生一個「指定平日、即時開啟」的
+   連結，讓使用者自己看當下的真實報價，並清楚標示不適用補助。            */
+
+var SUBSIDY_START = new Date(2026, 8, 1);      // 115/09/01
+var SUBSIDY_END = new Date(2026, 10, 30);      // 115/11/30
+// 補助排除的國定假日及其連續假期
+var HOLIDAY_BLOCKS = [
+  [new Date(2026, 8, 25), new Date(2026, 8, 28)],    // 中秋
+  [new Date(2026, 9, 9), new Date(2026, 9, 11)],     // 國慶
+  [new Date(2026, 9, 24), new Date(2026, 9, 26)]     // 光復節
+];
+
+function inHoliday(d) {
+  for (var i = 0; i < HOLIDAY_BLOCKS.length; i++) {
+    if (d >= HOLIDAY_BLOCKS[i][0] && d <= HOLIDAY_BLOCKS[i][1]) { return true; }
+  }
+  return false;
+}
+
+function nextWeekday() {
+  // 補助限週日至週四，且要留幾天訂房緩衝；找出下一個可用的平日
+  var d = new Date();
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3);
+  if (d < SUBSIDY_START) { d = new Date(SUBSIDY_START); }
+  for (var i = 0; i < 120; i++) {
+    var w = d.getDay();                       // 0=日 … 4=四 可用，5/6 不可
+    if (w <= 4 && !inHoliday(d) && d <= SUBSIDY_END) { return d; }
+    d.setDate(d.getDate() + 1);
+  }
+  return null;
+}
+
+function ymd(d) {
+  var m = d.getMonth() + 1, day = d.getDate();
+  return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+}
+
+var WEEK = ['日', '一', '二', '三', '四', '五', '六'];
+
+function priceCheck(s) {
+  var ci = nextWeekday();
+  if (!ci) { return null; }
+  var co = new Date(ci.getTime() + 86400000);
+  return {
+    label: (ci.getMonth() + 1) + '/' + ci.getDate() + '（' + WEEK[ci.getDay()] + '）',
+    url: 'https://www.google.com/travel/search?q=' +
+         encodeURIComponent(s.name + ' ' + (s.town || s.city || '')) +
+         '&checkin=' + ymd(ci) + '&checkout=' + ymd(co)
+  };
 }
 
 function shareLink(id) {
