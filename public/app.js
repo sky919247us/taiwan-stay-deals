@@ -157,10 +157,11 @@ function boot() {
   $('footMeta').textContent = '資料擷取時間 ' + esc(META.updated_at) +
     '；開放資料版本 ' + esc(META.opendata_update || '—') + '。';
   var g = META.geo_stat || {};
-  var exact = (g.opendata || 0) + (g.geocode || 0);
+  var exact = (g.opendata || 0) + (g.geocode || 0) + (g.google || 0);
   $('geoNote').textContent = '座標精確定位 ' + exact + ' 家（' +
-    (exact / META.total * 100).toFixed(1) + '%），其餘 ' + (g.township || 0) +
-    ' 家以鄉鎮約略位置標示。';
+    (exact / META.total * 100).toFixed(1) + '%）' +
+    (g.google ? '，其中 ' + g.google + ' 家因開放資料座標明顯偏移而改用 Google 的位置' : '') +
+    '，其餘 ' + (g.township || 0) + ' 家以鄉鎮約略位置標示。';
 
   if (META.change && META.change.added && META.change.added.length) {
     $('metaLine').textContent += ' ・ 本次新增 ' + META.change.added.length + ' 家';
@@ -176,6 +177,16 @@ function boot() {
   apply();
   // 地圖容器有寬度才初始化：桌機一開始就看得到，手機要等切到地圖分頁
   if ($('map').clientWidth > 0) { initMap(); }
+
+  // 別人分享過來的連結：直接打開那一家，並把地圖移過去
+  var shared = new URLSearchParams(location.search).get('id');
+  if (shared) {
+    var s0 = DATA.filter(function (x) { return x.id === shared; })[0];
+    if (s0) {
+      openSheet(shared);
+      if (map && s0.lat) { map.setView([s0.lat, s0.lng], 15); }
+    }
+  }
 }
 
 /* ------------------------------------------------------------ 篩選器 UI */
@@ -673,7 +684,8 @@ function openSheet(id) {
       (p.period ? ' ・ 優惠期限 ' + esc(p.period) : '') + '</h4>' + esc(p.text) + '</div>';
   }).join('');
 
-  var acts = '<a href="https://www.google.com/maps/search/?api=1&query=' + q +
+  var acts = '<button type="button" class="shareBtn" data-share="' + esc(s.id) + '">分享這一家</button>' +
+    '<a href="https://www.google.com/maps/search/?api=1&query=' + q +
       '" target="_blank" rel="noopener">在 Google 地圖開啟</a>';
   if (s.phone_raw) {
     acts += '<a class="sec" href="tel:' + esc(telOf(s)) + '">撥打電話</a>';
@@ -693,6 +705,37 @@ function openSheet(id) {
     '<div class="actions">' + acts + '</div>';
   $('sheet').hidden = false;
   $('sheetClose').focus();
+}
+
+function shareLink(id) {
+  return location.origin + location.pathname + '?id=' + encodeURIComponent(id);
+}
+
+function shareStay(id, btn) {
+  var s = DATA.filter(function (x) { return x.id === id; })[0];
+  if (!s) { return; }
+  var url = shareLink(id);
+  var text = s.name + '（' + s.city + (s.town || '') + '・' + s.kind + '）' +
+    (s._p ? ' 平日雙人房 ' + s._p.toLocaleString() + ' 元' : '') +
+    (s.g_rating ? ' ★' + s.g_rating.toFixed(1) : '');
+
+  // 手機有系統分享面板（LINE、訊息、AirDrop…），桌機大多沒有就退回複製
+  if (navigator.share) {
+    navigator.share({ title: s.name, text: text, url: url }).catch(function () {});
+    return;
+  }
+  var done = function () {
+    if (!btn) { return; }
+    var old = btn.textContent;
+    btn.textContent = '已複製連結 ✓';
+    setTimeout(function () { btn.textContent = old; }, 1800);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text + '\n' + url)
+      .then(done, function () { prompt('複製這個連結：', url); });
+  } else {
+    prompt('複製這個連結：', url);
+  }
 }
 
 /* ------------------------------------------------------------ 網址狀態 */
@@ -882,6 +925,8 @@ function bindEvents() {
   document.addEventListener('click', function (e) {
     var open = e.target.closest('[data-open]');
     if (open) { e.preventDefault(); openSheet(open.dataset.open); }
+    var sh = e.target.closest('[data-share]');
+    if (sh) { shareStay(sh.dataset.share, sh); return; }
     var f = e.target.closest('.actions [data-fav]');
     if (f) {
       toggleFav(f.dataset.fav);

@@ -20,7 +20,8 @@ priceLevel／priceRange 與評分可以當作獨立的對照。
 """
 import os, re, sys, json, time, math, argparse
 import requests
-from config import ROOT, RAW, CACHE, jload, jdump, norm_name, norm_phones
+from config import (ROOT, RAW, CACHE, CITY_ORDER, city_norm,
+                    jload, jdump, norm_name, norm_phones)
 
 KEY_FILE = os.path.join(CACHE, "google_api_key.txt")
 PLACES_CACHE = os.path.join(CACHE, "places.json")
@@ -76,9 +77,22 @@ def meters(lat1, lon1, lat2, lon2):
     return 2 * r * math.asin(math.sqrt(a))
 
 
+def other_city(stay, place):
+    """Google 的地址明確寫了「別的縣市」→ 一定是比錯家。
+    注意離島的地址常常只有郵遞區號與門牌（例如「209福澳村89號」），
+    那種情況不能判定為錯，所以只在真的出現另一個縣市名時才否決。"""
+    ga = city_norm(place.get("formattedAddress") or place.get("address") or "")
+    ga = ga.replace("宜兰", "宜蘭").replace("县", "縣")
+    ours = city_norm(stay.get("city") or "")
+    found = [c for c in CITY_ORDER if c in ga]
+    return bool(found) and ours not in found
+
+
 def verify(stay, place):
     """店名 + 地址（座標）+ 電話三選一吻合才採用，並記下是靠什麼比中的。
-    Google 有時會回傳附近的另一家旅宿，不驗證會把價格掛到錯的店上。"""
+    Google 有時會回傳附近的另一家旅宿，不驗證會把評價掛到錯的店上。"""
+    if other_city(stay, place):
+        return [], None
     reasons = []
 
     loc = place.get("location") or {}

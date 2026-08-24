@@ -21,3 +21,19 @@
   1000/1796  {'matched': 992, 'no_result': 0, 'rejected': 8, 'error': 0}
   1050/1796  {'matched': 1042, 'no_result': 0, 'rejected': 8, 'error': 0}
   1100/1796  {'matched': 1091, 'no_result': 0, 'rejected': 9, 'error': 0}
+  1150/1796  {'matched': 1141, 'no_result': 0, 'rejected': 9, 'error': 0}
+  1200/1796  {'matched': 1191, 'no_result': 0, 'rejected': 9, 'error': 0}
+  1250/1796  {'matched': 1240, 'no_result': 0, 'rejected': 10, 'error': 0}
+  1300/1796  {'matched': 1290, 'no_result': 0, 'rejected': 10, 'error': 0}
+  1350/1796  {'matched': 1340, 'no_result': 0, 'rejected': 10, 'error': 0}
+  1400/1796  {'matched': 1389, 'no_result': 0, 'rejected': 11, 'error': 0}
+  1450/1796  {'matched': 1439, 'no_result': 0, 'rejected': 11, 'error': 0}
+  1500/1796  {'matched': 1489, 'no_result': 0, 'rejected': 11, 'error': 0}
+  1550/1796  {'matched': 1539, 'no_result': 0, 'rejected': 11, 'error': 0}
+  1600/1796  {'matched': 1589, 'no_result': 0, 'rejected': 11, 'error': 0}
+  1650/1796  {'matched': 1639, 'no_result': 0, 'rejected': 11, 'error': 0}
+  1700/1796  {'matched': 1689, 'no_result': 0, 'rejected': 11, 'error': 0}
+  1750/1796  {'matched': 1739, 'no_result': 0, 'rejected': 11, 'error': 0}
+
+[Places] {'matched': 1784, 'no_result': 0, 'rejected': 12, 'error': 0}
+[Places] 快取共 1796 家：比中 1784、有價位帶 5、有實際價格區間 5、有評分 1772

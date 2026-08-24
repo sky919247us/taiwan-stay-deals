@@ -38,9 +38,11 @@ def main():
 
     # 4. 座標品質
     geo = collections.Counter(s.get("geo_source") for s in stays)
-    exact = geo["opendata"] + geo["geocode"]
+    # google 是用 Places API 比中後採信的座標，比開放資料更準，一樣算精確
+    exact = geo["opendata"] + geo["geocode"] + geo["google"]
     rate = exact / len(stays) * 100
-    print("[座標] 精確 %d／約略 %d，精確率 %.1f%%" % (exact, geo["township"], rate))
+    print("[座標] 精確 %d（開放資料 %d／Google %d／地理編碼 %d）／約略 %d，精確率 %.1f%%"
+          % (exact, geo["opendata"], geo["google"], geo["geocode"], geo["township"], rate))
     if rate < 95:
         FAIL.append("座標精確率 %.1f%% 低於 95%%" % rate)
 

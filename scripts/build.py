@@ -7,7 +7,7 @@
   public/data/downloads/*  xlsx / csv
   CHANGELOG-data.md        與上一版比對的增減紀錄
 """
-import os, csv, json, gzip, datetime, collections
+import os, csv, json, gzip, math, datetime, collections
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.utils import get_column_letter
@@ -127,6 +127,13 @@ def write_changelog(change, total):
         f.write("# 資料更新紀錄\n\n" + head + body + old)
 
 
+def meters(a1, o1, a2, o2):
+    r, p = 6371000.0, math.pi / 180
+    x = (math.sin((a2 - a1) * p / 2) ** 2 +
+         math.cos(a1 * p) * math.cos(a2 * p) * math.sin((o2 - o1) * p / 2) ** 2)
+    return 2 * r * math.asin(math.sqrt(x))
+
+
 def main():
     blob = jload(os.path.join(RAW, "merged.json"))
     if not blob:
@@ -136,6 +143,7 @@ def main():
     web = jload(os.path.join(CACHE, "webprice.json"), {}) or {}
     manual = load_overrides()
     places = jload(os.path.join(CACHE, "places.json"), {}) or {}
+    moved = []
 
     for r in stays:
         for k in ("town", "address", "website", "license"):
@@ -172,6 +180,16 @@ def main():
             r["g_rating"] = g.get("rating") or 0
             r["g_reviews"] = g.get("reviews") or 0
             r["g_uri"] = g.get("maps_uri") or ""
+
+            # 開放資料的座標有些明顯是錯的（6 家馬祖民宿被標在 24.7783,120.9881，
+            # 那是台灣本島地理中心的預設值）。比對已通過縣市檢查，差距超過
+            # 500 公尺就採信 Google 的座標。
+            if g.get("lat") and r.get("lat"):
+                d = meters(r["lat"], r["lng"], g["lat"], g["lng"])
+                if d > 500:
+                    r["lat"], r["lng"] = round(g["lat"], 6), round(g["lng"], 6)
+                    r["geo_source"] = "google"
+                    moved.append((r["name"], int(d)))
 
     slim = []
     for r in stays:
@@ -225,6 +243,10 @@ def main():
     write_downloads(rows)
     write_changelog(change, len(slim))
 
+    if moved:
+        moved.sort(key=lambda x: -x[1])
+        print("[座標] 改用 Google 座標 %d 家，位移最大的：%s"
+              % (len(moved), "、".join("%s %dm" % m for m in moved[:3])))
     size = os.path.getsize(STAYS)
     gz = len(gzip.compress(open(STAYS, "rb").read()))
     print("[輸出] stays.json %.0f KB（gzip 後 %.0f KB）" % (size / 1024, gz / 1024))

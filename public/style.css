@@ -289,6 +289,7 @@ select:disabled { opacity: .5; }
   background: var(--brand); color: var(--brand-ink); border: 0;
 }
 .actions .sec { background: var(--bg); color: var(--ink); border: 1px solid var(--line); }
+.actions .shareBtn { background: var(--accent); color: #fff; }
 
 /* ---------------------------------------------------------------- 地圖標記 */
 
