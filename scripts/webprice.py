@@ -91,7 +91,13 @@ def robots_ok(url, cache, session):
             r = session.get(urllib.parse.urljoin(url, "/robots.txt"),
                             timeout=10, allow_redirects=True)
             if r.status_code == 200 and len(r.text) < 100000:
-                rules = r.text
+                # 只留 robots 的指令行。有些站的 /robots.txt 其實回傳 HTML，
+                # 裡面可能夾帶該站自己的 API 金鑰之類的東西，整份存下來
+                # 等於把別人的密鑰散布出去（實際踩過一次）。
+                rules = "\n".join(
+                    ln for ln in r.text.splitlines()
+                    if re.match(r"\s*(user-agent|disallow|allow|crawl-delay|sitemap)\s*:",
+                                ln, re.I))
         except Exception:
             pass
         cache[host] = rules

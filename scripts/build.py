@@ -164,7 +164,10 @@ def main():
         elif r["weekday_price"]:
             r["price_final"], r["price_src"] = r["weekday_price"], "operator"
             r["price_note"] = "業者為本活動自報的平日雙人房價"
-        elif w.get("price"):
+        # 只收模型確認是「平日價」的。標 unknown 的那批實測是大飯店官網的
+        # 牌價（中位數 6,650、最高 16,000），跟政府那個灌水定價同一種東西，
+        # 拿來當平日房價會再騙人一次。
+        elif w.get("price") and w.get("basis") == "weekday":
             r["price_final"], r["price_src"] = w["price"], "website"
             r["price_note"] = "取自業者官網 %s：%s" % (w.get("fetched_at", ""),
                                                  w.get("evidence", ""))

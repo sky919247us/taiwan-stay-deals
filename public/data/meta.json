@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-08-24T15:15:26+08:00",
+ "updated_at": "2026-08-24T15:17:32+08:00",
  "source": "交通部觀光署臺灣旅宿網 優宿專區",
  "source_url": "https://www.taiwanstay.net.tw/TSA/web_page/TSA060100.jsp",
  "opendata_update": "2026-08-23T14:30:30+08:00",
@@ -581,8 +581,8 @@
   "township": 3
  },
  "price_stat": {
-  "none": 714,
-  "website": 116,
+  "none": 754,
+  "website": 76,
   "operator": 966
  },
  "rating_count": 1770,
