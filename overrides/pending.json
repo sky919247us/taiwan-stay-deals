@@ -2464,20 +2464,6 @@
   "rack": 4800
  },
  {
-  "id": "29883",
-  "name": "小米那裡民宿",
-  "where": "臺東縣臺東市",
-  "kind": "民宿",
-  "addr": "臺東縣臺東市岩灣里1鄰興安路一段200巷21弄29號",
-  "tel": "0986880701",
-  "tel_raw": "0986880701-",
-  "web": "https://www.booking-owlnest.com/0c75a87a-b51c-4434-b73c-a34551b38a2f?lang=zh_TW&adult=1&child=0&infant=0",
-  "rating": 4.9,
-  "reviews": 210,
-  "maps": "https://maps.google.com/?cid=2190607974841902163",
-  "rack": 3500
- },
- {
   "id": "19336",
   "name": "沐夏民宿",
   "where": "花蓮縣吉安鄉",
@@ -2770,20 +2756,6 @@
   "reviews": 191,
   "maps": "https://maps.google.com/?cid=18170176221299149728",
   "rack": 1200
- },
- {
-  "id": "23991",
-  "name": "八八古藝民宿三館",
-  "where": "金門縣金寧鄉",
-  "kind": "民宿",
-  "addr": "金門縣金寧鄉盤山村下堡81號",
-  "tel": "0910394377",
-  "tel_raw": "0910394377082-355340",
-  "web": "",
-  "rating": 4.5,
-  "reviews": 191,
-  "maps": "https://maps.google.com/?cid=18170176221299149728",
-  "rack": 2500
  },
  {
   "id": "2754",
@@ -3190,20 +3162,6 @@
   "reviews": 170,
   "maps": "https://maps.google.com/?cid=879949008179692622",
   "rack": 3000
- },
- {
-  "id": "12559",
-  "name": "八八古藝民宿",
-  "where": "金門縣金寧鄉",
-  "kind": "民宿",
-  "addr": "金門縣金寧鄉盤山村頂堡113號",
-  "tel": "0910394377",
-  "tel_raw": "0910394377082-355340",
-  "web": "",
-  "rating": 4.8,
-  "reviews": 170,
-  "maps": "https://maps.google.com/?cid=2503356552888254820",
-  "rack": 2000
  },
  {
   "id": "1351",
@@ -3848,20 +3806,6 @@
   "reviews": 121,
   "maps": "https://maps.google.com/?cid=15555099998237512265",
   "rack": 6800
- },
- {
-  "id": "36538",
-  "name": "八八金歐(王金城)洋樓民宿",
-  "where": "金門縣金沙鎮",
-  "kind": "民宿",
-  "addr": "金門縣金沙鎮后宅2號",
-  "tel": "0910394377",
-  "tel_raw": "0910394377082-355340",
-  "web": "",
-  "rating": 5,
-  "reviews": 121,
-  "maps": "https://maps.google.com/?cid=15555099998237512265",
-  "rack": 4800
  },
  {
   "id": "576",
@@ -4954,20 +4898,6 @@
   "reviews": 71,
   "maps": "https://maps.google.com/?cid=6333138257050489840",
   "rack": 1500
- },
- {
-  "id": "8314",
-  "name": "天安居民宿",
-  "where": "花蓮縣花蓮市",
-  "kind": "民宿",
-  "addr": "花蓮縣花蓮市主力里國風街21巷17號",
-  "tel": "038330719",
-  "tel_raw": "03-8330719",
-  "web": "http://www.greenwindow-hl.com.tw",
-  "rating": 4.6,
-  "reviews": 71,
-  "maps": "https://maps.google.com/?cid=15990493428932668939",
-  "rack": 3900
  },
  {
   "id": "28467",

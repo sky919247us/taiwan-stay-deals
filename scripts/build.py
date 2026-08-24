@@ -131,6 +131,18 @@ def write_changelog(change, total):
         f.write("# 資料更新紀錄\n\n" + head + body + old)
 
 
+# 人工填的「來源」欄位是自由文字，可能寫「訂房平台」也可能直接寫平台名稱。
+# 認不出來就會誤掛最高信任的「人工查核」徽章，所以把常見平台名都列進來。
+OTA_NAMES = ("平台", "booking", "agoda", "trip.com", "expedia", "klook", "kkday",
+             "hotels.com", "traveloka", "skyscanner", "易遊網", "eztravel",
+             "雄獅", "可樂旅遊", "asiayo", "airbnb", "ctrip")
+
+
+def is_ota_source(src):
+    s = (src or "").lower()
+    return any(n in s for n in OTA_NAMES)
+
+
 def meters(a1, o1, a2, o2):
     r, p = 6371000.0, math.pi / 180
     x = (math.sin((a2 - a1) * p / 2) ** 2 +
@@ -145,7 +157,8 @@ def main():
     stays = blob["stays"]
 
     web = jload(os.path.join(CACHE, "webprice.json"), {}) or {}
-    manual = load_overrides()
+    # 傳入官網定價上限，擋掉「貼著上限」的異常值（多半是大房型或包棟價）
+    manual = load_overrides({s["id"]: s.get("price_high") or 0 for s in stays})
     places = jload(os.path.join(CACHE, "places.json"), {}) or {}
     plan = jload(os.path.join(CACHE, "planprice.json"), {}) or {}
     js = jload(os.path.join(CACHE, "webprice_js.json"), {}) or {}
@@ -172,7 +185,7 @@ def main():
             note = "、".join(x for x in (m["source"], m["date"], m["note"]) if x)
             # 人工查核的價格若查自訂房平台，性質等同 ota_price，
             # 一樣要標明多數不能折抵補助，不能因為是人工填的就變成最高信任
-            if "平台" in (m["source"] or ""):
+            if is_ota_source(m["source"]):
                 r["price_channel"] = "ota"
                 note += "。訂房平台報價，多數無法折抵補助，僅供比價參考"
             r["price_note"] = note

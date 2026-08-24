@@ -30,8 +30,17 @@ COLS = ["hohi_id", "旅宿名稱", "縣市鄉鎮", "平日雙人房價", "來源
         "google_maps", "官網", "電話"]
 
 
-def load_overrides():
-    """回傳 {hohi_id: {price, source, date, note}}，只收填了有效數字的列。"""
+def load_overrides(rack=None):
+    """回傳 {hohi_id: {price, source, date, note}}，只收填了有效數字的列。
+
+    rack 傳入 {hohi_id: (定價下限, 定價上限)} 時會做合理性檢查。
+
+    判準是「貼近業者自己的定價上限」而不是「高於下限」：
+      玩皮城堡民宿 定價 3,080–6,160，外部工具填 6,126 —— 貼著上限，
+      而那是可住 23 人的民宿，這數字是大房型或包棟價，不是雙人房 → 擋掉。
+      柯達大飯店台北松江 定價 2,000–22,000，填 6,259 —— 區間很寬，
+      下限 2,000 應是最小房型，6,259 對台北平日雙人房合理 → 收下。
+    用下限當門檻會把後者誤殺，所以改用上限的九成。"""
     out = {}
     if not os.path.exists(OVERRIDE_CSV):
         return out
@@ -43,7 +52,14 @@ def load_overrides():
             p = int(raw)
             if not (300 <= p <= 60000):
                 continue
-            out[row["hohi_id"].strip()] = {
+            hid = row["hohi_id"].strip()
+            hi = (rack or {}).get(hid) or 0
+            if hi and p >= hi * 0.9:
+                print("  ⚠ 略過 %s（%s）：填的 %d 貼近業者定價上限 %d，"
+                      "多半是大房型或包棟價，不是雙人房"
+                      % (row.get("旅宿名稱", ""), hid, p, hi))
+                continue
+            out[hid] = {
                 "price": p,
                 "source": (row.get("來源") or "").strip(),
                 "date": (row.get("查核日期") or "").strip(),
