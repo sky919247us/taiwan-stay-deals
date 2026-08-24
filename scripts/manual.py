@@ -26,7 +26,8 @@ from config import ROOT, RAW, CACHE, jload
 
 OVERRIDE_DIR = os.path.join(ROOT, "overrides")
 OVERRIDE_CSV = os.path.join(OVERRIDE_DIR, "prices.csv")
-COLS = ["hohi_id", "旅宿名稱", "縣市鄉鎮", "平日雙人房價", "來源", "查核日期", "備註", "google_maps"]
+COLS = ["hohi_id", "旅宿名稱", "縣市鄉鎮", "平日雙人房價", "來源", "查核日期", "備註",
+        "google_maps", "官網", "電話"]
 
 
 def load_overrides():
@@ -56,6 +57,7 @@ def main():
     if not blob:
         raise SystemExit("找不到 raw/merged.json，請先跑 enrich.py")
     web = jload(os.path.join(CACHE, "webprice.json"), {}) or {}
+    places = jload(os.path.join(CACHE, "places.json"), {}) or {}
     existing = {}
     if os.path.exists(OVERRIDE_CSV):
         with open(OVERRIDE_CSV, encoding="utf-8-sig", newline="") as f:
@@ -67,7 +69,16 @@ def main():
             continue                                   # 業者已為活動自報，不需人工
         if (web.get(s["id"]) or {}).get("price"):
             continue                                   # 官網已抓到
-        q = "%s %s" % (s["name"], s.get("address") or s.get("city", ""))
+        # 有 Places 比中就用精確的地標連結，點下去直接是那一家（還會帶出比價面板）；
+        # 沒有才退回關鍵字搜尋。
+        g = places.get(s["id"]) or {}
+        link = g.get("maps_uri")
+        if link:
+            link = link.split("&g_mp")[0]
+        else:
+            q = "%s %s" % (s["name"], s.get("address") or s.get("city", ""))
+            link = ("https://www.google.com/maps/search/?api=1&query="
+                    + urllib.parse.quote(q))
         todo.append({
             "hohi_id": s["id"],
             "旅宿名稱": s["name"],
@@ -76,8 +87,9 @@ def main():
             "來源": "",
             "查核日期": "",
             "備註": "",
-            "google_maps": "https://www.google.com/maps/search/?api=1&query="
-                           + urllib.parse.quote(q),
+            "google_maps": link,
+            "官網": s.get("website", ""),
+            "電話": (s.get("phones") or [""])[0],
         })
 
     # 保留已經填過的內容，不要被重新產生洗掉
