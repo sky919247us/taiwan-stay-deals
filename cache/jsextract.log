@@ -1,0 +1,49 @@
+[抽價] 有渲染文字可用 49 家，已抽 0 家，這次跑 46 家
+    1/46 設計師的家休閒民宿          no_price
+    2/46 放慢民宿               no_price
+    3/46 楓采行館               no_price
+    4/46 陽明山天籟渡假酒店          no_price
+    5/46 五船民宿               no_price
+    6/46 福容大飯店 麗寶樂園         llm_fail
+    7/46 寶島窯民宿              llm_fail
+    8/46 薆悅酒店               1375
+    9/46 千和居                no_price
+   10/46 魚窩Ｂ＆Ｂ              no_price
+   11/46 湛湛里煙               3500
+   12/46 蘭庭民宿               no_price
+   13/46 陶花巷弄民宿             1980
+   14/46 德爾芙快捷酒店            llm_fail
+   15/46 煙波花時間  花蓮          llm_fail
+   16/46 依山棲                no_price
+   17/46 風海山會館              no_price
+   18/46 擁月星宿民宿             no_price
+   19/46 波波的家               2000
+   20/46 旅巷自在輕旅             no_price
+   21/46 煙波大飯店花蓮太魯閣沁海館      llm_fail
+   22/46 躲貓貓民宿              llm_fail
+   23/46 雀客藏居 台南永康          no_price
+   24/46 悅樂旅店               no_price
+   25/46 杰克山莊大飯店            no_price
+   26/46 瑞穗天合國際觀光酒店         8688
+   27/46 凱撒大飯店              no_price
+   28/46 童玩樂親子旅宿2館          no_price
+   29/46 單人房 SINGLE INN-站前館 no_price
+   30/46 墾丁夏都沙灘酒店           no_price
+   31/46 Villa Samaya Awan  no_price
+   32/46 河堤墾丁渡假酒店           no_price
+   33/46 悅樂旅店               no_price
+   34/46 上禾居                no_price
+   35/46 Villa Samaya Awan  no_price
+   36/46 遇見，白居旅宿            llm_fail
+   37/46 台南老爺行旅             no_price
+   38/46 花蓮統茂渡假莊園           no_price
+   39/46 高雄福華大飯店            no_price
+   40/46 禾家商旅               no_price
+   41/46 夏綠地民宿              no_price
+   42/46 淡水嶘民宿              1800
+   43/46 可倫巴                no_price
+   44/46 布查德渡假村民宿           no_price
+   45/46 和逸 台南西門館           no_price
+   46/46 日光山林               no_price
+
+[抽價] {'price': 6, 'no_price': 33, 'fail': 7}

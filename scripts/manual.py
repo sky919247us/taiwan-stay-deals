@@ -21,7 +21,7 @@ JS 動態網站、或根本沒有網站）。這種只能靠人去查一下再�
 
 填好存檔，跑 build.py 就會併進網站，並在卡片上標「人工查核」。
 """
-import os, csv, urllib.parse
+import os, csv, json, urllib.parse
 from config import ROOT, RAW, CACHE, jload
 
 OVERRIDE_DIR = os.path.join(ROOT, "overrides")
@@ -107,8 +107,31 @@ def main():
         w.writeheader()
         w.writerows(todo)
 
+    # 給 overrides/entry.html 用的待填清單，依 Google 評論數排序：
+    # 先填最多人會點進去看的，長尾可以慢慢補。
+    places = jload(os.path.join(CACHE, "places.json"), {}) or {}
+    by_id = {s["id"]: s for s in blob["stays"]}
+    pend = []
+    for row in todo:
+        s2 = by_id[row["hohi_id"]]
+        g = places.get(row["hohi_id"]) or {}
+        pend.append({
+            "id": s2["id"], "name": s2["name"],
+            "where": (s2.get("city") or "") + (s2.get("town") or ""),
+            "kind": s2.get("kind", ""), "addr": s2.get("address", ""),
+            "tel": (s2.get("phones") or [""])[0], "tel_raw": s2.get("phone_raw", ""),
+            "web": s2.get("website", ""),
+            "rating": g.get("rating") or 0, "reviews": g.get("reviews") or 0,
+            "maps": (g.get("maps_uri") or "").split("&g_mp")[0],
+            "rack": s2.get("price_low") or 0,
+        })
+    pend.sort(key=lambda r: -r["reviews"])
+    with open(os.path.join(OVERRIDE_DIR, "pending.json"), "w", encoding="utf-8") as f:
+        json.dump(pend, f, ensure_ascii=False, indent=1)
+
     filled = len(load_overrides())
     print("[人工覆寫] 仍缺價格 %d 家，已寫入 %s" % (len(todo), OVERRIDE_CSV))
+    print("[人工覆寫] 待填清單 overrides/pending.json（依評論數排序，給 entry.html 用）")
     print("[人工覆寫] 其中已填好 %d 家（保留了先前填的 %d 筆）" % (filled, kept))
 
 

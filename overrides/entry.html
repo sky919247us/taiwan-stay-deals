@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人工查核價格輸入</title>
+<style>
+:root{--bg:#f5f6f4;--panel:#fff;--ink:#1a1c1a;--ink2:#5d635e;--line:#dfe3de;
+      --brand:#1f6f5c;--accent:#c2571f}
+@media (prefers-color-scheme:dark){:root{--bg:#14171a;--panel:#1c2024;--ink:#e8ecea;
+      --ink2:#9aa5a0;--line:#2c3238;--brand:#4bbf9e;--accent:#e08a4e}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+     font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:18px;margin:0 0 4px}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;
+     font-size:13px;color:var(--ink2)}
+.prog{flex:1 1 200px;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--brand)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.name{font-size:22px;font-weight:700;margin:0}
+.meta{color:var(--ink2);font-size:14px;margin:4px 0 0}
+.star{color:#d98324;font-weight:700}
+.rack{color:var(--accent);font-size:13px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.links a,.links button{font:inherit;font-size:14px;padding:9px 15px;border-radius:99px;
+     text-decoration:none;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.links a.pri{background:var(--brand);color:#fff;border-color:var(--brand)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+input[type=number],select{font:inherit;padding:11px 12px;border:1px solid var(--line);
+     border-radius:8px;background:var(--bg);color:var(--ink)}
+input[type=number]{width:150px;font-size:20px;text-align:right;font-weight:700}
+button.go{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:11px 20px;
+     font:inherit;font-weight:700;cursor:pointer}
+button.skip{background:transparent;border:1px solid var(--line);color:var(--ink2);
+     border-radius:8px;padding:11px 16px;font:inherit;cursor:pointer}
+.hint{font-size:13px;color:var(--ink2);margin-top:10px}
+.done{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+      padding:14px;margin-top:14px;font-size:14px}
+.done b{color:var(--brand)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
+kbd{background:var(--line);border-radius:4px;padding:1px 6px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>人工查核價格輸入</h1>
+  <p class="meta">查到平日雙人房價就填數字按 <kbd>Enter</kbd>，查不到按 <kbd>Esc</kbd> 跳過。
+     進度存在瀏覽器裡，關掉再開會接續。</p>
+
+  <div class="bar">
+    <span id="count"></span>
+    <span class="prog"><i id="bar" style="width:0"></i></span>
+    <button class="skip" id="export">匯出 CSV</button>
+  </div>
+
+  <div class="card" id="card"></div>
+
+  <div class="done" id="done"></div>
+</div>
+
+<script>
+// 待填清單由 scripts/manual.py 產生，已依 Google 評論數由多到少排序，
+// 先填的是最多人會點進去看的那些。
+let LIST = [], idx = 0;
+const KEY = 'stay-price-entry';
+const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+
+fetch('pending.json').then(r => r.json()).then(d => { LIST = d; next(); });
+
+function remaining() { return LIST.filter(x => !saved[x.id]); }
+
+function next() {
+  const left = remaining();
+  const total = LIST.length, done = total - left.length;
+  document.getElementById('count').textContent = '已填 ' + done + ' / ' + total;
+  document.getElementById('bar').style.width = (done / total * 100) + '%';
+  renderDone();
+
+  if (!left.length) {
+    document.getElementById('card').innerHTML = '<p class="name">全部處理完了 🎉</p>' +
+      '<p class="meta">按上面的「匯出 CSV」把結果存下來。</p>';
+    return;
+  }
+  const s = left[0];
+  const q = encodeURIComponent(s.name + ' ' + (s.where || ''));
+  document.getElementById('card').innerHTML =
+    '<p class="name">' + esc(s.name) + '</p>' +
+    '<p class="meta">' + esc(s.where) + ' ・ ' + esc(s.kind) +
+      (s.rating ? ' ・ <span class="star">★' + s.rating + '</span>（' + s.reviews + ' 則）' : '') +
+      '</p>' +
+    '<p class="meta">' + esc(s.addr || '') + '</p>' +
+    (s.rack ? '<p class="rack">旅宿網定價 ' + s.rack.toLocaleString() +
+              ' 元（牌價，通常灌水，僅供對照）</p>' : '') +
+    '<div class="links">' +
+      '<a class="pri" target="_blank" rel="noopener" href="https://www.google.com/search?q=' + q + '">Google 搜尋（看比價）</a>' +
+      (s.maps ? '<a target="_blank" rel="noopener" href="' + esc(s.maps) + '">Google 地圖</a>' : '') +
+      (s.web ? '<a target="_blank" rel="noopener" href="' + esc(s.web) + '">官網</a>' : '') +
+      (s.tel ? '<a href="tel:' + esc(s.tel) + '">撥打 ' + esc(s.tel_raw || s.tel) + '</a>' : '') +
+    '</div>' +
+    '<div class="row">' +
+      '<input type="number" id="price" placeholder="平日雙人房價" min="300" max="60000" step="10" autofocus>' +
+      '<select id="src">' +
+        '<option>訂房平台</option><option>官網</option><option>電話詢問</option><option>Google 地圖</option>' +
+      '</select>' +
+      '<button class="go" id="save">存檔並下一家</button>' +
+      '<button class="skip" id="skip">查不到，跳過</button>' +
+    '</div>' +
+    '<p class="hint">提醒：訂房平台的價格多半<b>不能折抵補助</b>（補助須直接向官網或電話訂房），' +
+    '這裡填的是給使用者的價格參考。</p>';
+
+  const price = document.getElementById('price');
+  price.focus();
+  document.getElementById('save').onclick = () => save(s, false);
+  document.getElementById('skip').onclick = () => save(s, true);
+  price.onkeydown = e => {
+    if (e.key === 'Enter') { save(s, false); }
+    if (e.key === 'Escape') { save(s, true); }
+  };
+}
+
+function save(s, skipped) {
+  const v = parseInt(document.getElementById('price').value, 10);
+  if (!skipped && (!v || v < 300 || v > 60000)) {
+    document.getElementById('price').focus();
+    return;
+  }
+  saved[s.id] = skipped ? { skip: 1 }
+    : { price: v, src: document.getElementById('src').value,
+        date: new Date().toISOString().slice(0, 10), name: s.name };
+  localStorage.setItem(KEY, JSON.stringify(saved));
+  next();
+}
+
+function renderDone() {
+  const got = Object.entries(saved).filter(([, v]) => v.price);
+  const skipped = Object.values(saved).filter(v => v.skip).length;
+  document.getElementById('done').innerHTML =
+    '已查到價格 <b>' + got.length + '</b> 家，跳過 ' + skipped + ' 家。' +
+    (got.length ? '<table><tr><th>旅宿</th><th>價格</th><th>來源</th></tr>' +
+      got.slice(-8).reverse().map(([, v]) =>
+        '<tr><td>' + esc(v.name) + '</td><td>' + v.price + '</td><td>' + esc(v.src) + '</td></tr>'
+      ).join('') + '</table>' : '');
+}
+
+document.getElementById('export').onclick = () => {
+  const rows = [['hohi_id', '旅宿名稱', '平日雙人房價', '來源', '查核日期']];
+  for (const [id, v] of Object.entries(saved)) {
+    if (v.price) { rows.push([id, v.name, v.price, v.src, v.date]); }
+  }
+  if (rows.length === 1) { alert('還沒有填任何價格'); return; }
+  const csv = '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'filled.csv';
+  a.click();
+};
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g,
+    c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+</script>
+</body>
+</html>

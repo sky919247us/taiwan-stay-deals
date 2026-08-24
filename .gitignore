@@ -8,6 +8,7 @@ raw/snapshots/
 # API 金鑰：絕對不能進公開 repo
 cache/google_api_key.txt
 cache/openrouter_key.txt
+cache/serpapi_key.txt
 
 # robots 快取內容來自第三方網站，可能夾帶對方自己外洩的密鑰，不進版控
 cache/robots.json

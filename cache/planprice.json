@@ -194,5 +194,249 @@
  "33818": {
   "name": "森活藝術民宿",
   "note": "no_price"
+ },
+ "7063": {
+  "name": "悠嫻民宿",
+  "note": "no_price"
+ },
+ "35833": {
+  "name": "彰化華宿文旅",
+  "note": "no_price"
+ },
+ "18519": {
+  "name": "冬山河左岸民宿",
+  "note": "no_price"
+ },
+ "27568": {
+  "name": "水管民宿",
+  "note": "no_price"
+ },
+ "36272": {
+  "name": "漫漫浯島旅棧",
+  "note": "no_price"
+ },
+ "20246": {
+  "name": "新南一二文創商行",
+  "note": "no_price"
+ },
+ "16877": {
+  "name": "悅華大酒店",
+  "price": 2639,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "國旅補助優惠平日雙人2,639元起",
+  "model": "stealth/ox-alpha"
+ },
+ "29018": {
+  "name": "嚨口十二之一",
+  "price": 2400,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日住宿定價：二人入住2400元",
+  "model": "stealth/ox-alpha"
+ },
+ "1554": {
+  "name": "車站一百米民宿",
+  "note": "no_price"
+ },
+ "31144": {
+  "name": "漁海民宿",
+  "note": "no_price"
+ },
+ "26136": {
+  "name": "小琉球懶人旅宿",
+  "price": 4600,
+  "room": "雙人房",
+  "basis": "unknown",
+  "evidence": "雙人房原房價4600元",
+  "model": "stealth/ox-alpha"
+ },
+ "6359": {
+  "name": "沙里仙渡假飯店",
+  "note": "no_price"
+ },
+ "15604": {
+  "name": "合悅都會商旅",
+  "price": 1300,
+  "room": "標準雙人房",
+  "basis": "unknown",
+  "evidence": "標準雙人房1300元",
+  "model": "stealth/ox-alpha"
+ },
+ "26382": {
+  "name": "巨地花園渡假莊園",
+  "price": 2400,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日住宿享雙人房$2400元",
+  "model": "stealth/ox-alpha"
+ },
+ "26125": {
+  "name": "莒光英雄館民宿",
+  "note": "no_price"
+ },
+ "6083": {
+  "name": "赤樓古巷",
+  "price": 1350,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日雙人房+機車一晚，優惠價$1350",
+  "model": "stealth/ox-alpha"
+ },
+ "516": {
+  "name": "海墘民宿",
+  "price": 1300,
+  "room": "雙人房",
+  "basis": "unknown",
+  "evidence": "雙人房1300元四人房2100元",
+  "model": "stealth/ox-alpha"
+ },
+ "16280": {
+  "name": "23Here民宿",
+  "note": "no_price"
+ },
+ "7558": {
+  "name": "瑞穗天合國際觀光酒店",
+  "note": "no_price"
+ },
+ "2630": {
+  "name": "Hana花宿民宿",
+  "price": 2000,
+  "room": "海景浴缸雙人房",
+  "basis": "weekday",
+  "evidence": "海景浴缸雙人房平日價$2000",
+  "model": "stealth/ox-alpha"
+ },
+ "19873": {
+  "name": "快樂腳旅棧",
+  "note": "llm_fail"
+ },
+ "32855": {
+  "name": "山間一宿民宿",
+  "price": 2200,
+  "room": "雙人房（含早餐）",
+  "basis": "weekday",
+  "evidence": "雙人房（含早餐）平日原價2,200元",
+  "model": "stealth/ox-alpha"
+ },
+ "16425": {
+  "name": "探索汽車旅館永和館",
+  "note": "no_price"
+ },
+ "19877": {
+  "name": "芹壁地中海民宿",
+  "note": "llm_fail"
+ },
+ "26067": {
+  "name": "久窩行旅-一中館",
+  "note": "no_price"
+ },
+ "6790": {
+  "name": "沐蘭汽車旅館",
+  "price": 4000,
+  "room": "楓舞高級套房",
+  "basis": "weekday",
+  "evidence": "楓舞高級套房平日現場價$4000",
+  "model": "stealth/ox-alpha"
+ },
+ "18727": {
+  "name": "逢甲25行館",
+  "note": "llm_fail"
+ },
+ "9928": {
+  "name": "法托里亞民宿",
+  "note": "no_price"
+ },
+ "34411": {
+  "name": "好時光電梯民宿",
+  "price": 1200,
+  "room": "套房",
+  "basis": "weekday",
+  "evidence": "兩位入住套房一晚1200元",
+  "model": "stealth/ox-alpha"
+ },
+ "23303": {
+  "name": "魚池櫻宴民宿",
+  "price": 2200,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日住宿優惠:雙人房$2200元",
+  "model": "stealth/ox-alpha"
+ },
+ "5772": {
+  "name": "飛螢農莊",
+  "note": "no_price"
+ },
+ "7793": {
+  "name": "牛奶糖民宿",
+  "note": "no_price"
+ },
+ "21821": {
+  "name": "福爾摩莎民宿",
+  "price": 2400,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "平日(周日至周四)雙人房優惠價NT$2400",
+  "model": "stealth/ox-alpha"
+ },
+ "13560": {
+  "name": "國妃鷹堡汽車旅館",
+  "price": 1880,
+  "room": "雅典雙人房",
+  "basis": "weekday",
+  "evidence": "平日入住雅典雙人房只要1880",
+  "model": "stealth/ox-alpha"
+ },
+ "13358": {
+  "name": "劍橋大飯店",
+  "price": 2299,
+  "room": "豪華雙床房",
+  "basis": "weekday",
+  "evidence": "平日：豪華雙床房$2299(二小床)",
+  "model": "stealth/ox-alpha"
+ },
+ "12058": {
+  "name": "烏山頭大飯店",
+  "price": 2800,
+  "room": "雙人房",
+  "basis": "unknown",
+  "evidence": "優惠價:雙人房$2800",
+  "model": "stealth/ox-alpha"
+ },
+ "12154": {
+  "name": "麗加園邸酒店",
+  "price": 1500,
+  "room": "雙人房",
+  "basis": "weekday",
+  "evidence": "不含早餐-雙人房$1500起",
+  "model": "stealth/ox-alpha"
+ },
+ "13840": {
+  "name": "福容徠旅墾丁",
+  "note": "no_price"
+ },
+ "10475": {
+  "name": "寄居蟹行旅",
+  "note": "no_price"
+ },
+ "10633": {
+  "name": "和逸 台南西門館",
+  "note": "no_price"
+ },
+ "10009": {
+  "name": "友愛山序漫旅",
+  "price": 1800,
+  "room": "雙人房",
+  "basis": "unknown",
+  "evidence": "雙人房：專案價$1800",
+  "model": "stealth/ox-alpha"
+ },
+ "10381": {
+  "name": "和逸‧高雄中山館",
+  "price": 4300,
+  "room": "和逸客房(一大床/兩小床)",
+  "basis": "weekday",
+  "evidence": "和逸客房(一大床/兩小床)NT$4,300起",
+  "model": "stealth/ox-alpha"
  }
 }
