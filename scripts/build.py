@@ -231,7 +231,10 @@ def main():
         "kinds": dict(collections.Counter(r["kind"] for r in slim)),
         "services": [{"name": n, "count": c} for n, c in
                      collections.Counter(x for r in slim for x in r.get("services", [])).most_common()],
-        "geo_stat": blob.get("geo_stat", {}),
+        # 從最終資料重算，不要沿用 enrich 階段的數字：build 這裡還會用
+        # Places 比中的座標覆蓋掉開放資料明顯偏移的那些。
+        "geo_stat": dict(collections.Counter(
+            r.get("geo_source") or "none" for r in slim)),
         "price_stat": dict(collections.Counter(
             r.get("price_src") or "none" for r in slim)),
         "rating_count": sum(1 for r in slim if r.get("g_rating")),
