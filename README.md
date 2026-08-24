@@ -54,21 +54,36 @@
 
 ---
 
-## 兩種價格，不要混用
+## 價格：四種可信來源 ＋ 兩種僅供參考
 
-官方資料裡有兩個價格欄位，意義完全不同，本站分開呈現：
+官方資料裡的「定價」根本不能用。拿 965 家同時有兩種價格的旅宿實測，
+**定價中位數是實際優惠價的 1.9 倍**，前 10% 超過 4 倍，最誇張 12.5 倍
+（花蓮海悅酒店：定價 25,000／實際 2,000）。有業者直說是「還沒收到正式公文，
+先隨便填一個」。所以本站自己把真實價格湊出來，並嚴格分級：
 
-| 欄位 | 來源 | 家數 | 可信度 |
-|---|---|---|---|
-| **平日雙人房優惠價** | 業者為「平價優質旅宿」活動自報 | 966 | 高，直接拿來篩選與排序 |
-| **官網定價**（`LowestPrice`／`CeilingPrice`） | 觀光署開放資料 | 1,792 | 低，是牌價不是成交價 |
+**可信房價**（參與篩選與排序，優先序由高到低）
 
-拿 965 家同時有兩種價格的旅宿實測，**定價中位數是實際優惠價的 1.9 倍**，
-前 10% 超過 4 倍，最誇張到 12.5 倍（花蓮海悅酒店：定價 25,000／實際 2,000）。
-有業者直說是「還沒收到正式公文，先隨便填一個」。
+| 來源 | 怎麼來的 | 家數 |
+|---|---|---|
+| 人工查核 | `overrides/prices.csv`，人查了填進去 | 依實際填寫 |
+| 業者自報 | 「平價優質旅宿」活動的欄位 | 966 |
+| 方案說明 | 業者順手寫在方案文字裡，LLM 抽出並附原文佐證 | 22 |
+| 業者官網 | 抓官網 → LLM 抽價（純 HTTP ＋ 無頭瀏覽器） | 81 |
 
-因此定價只作為參考並陳（卡片上加刪除線），**不參與篩選與排序**。
-沒有自報優惠價的 830 家，卡片會標「未標優惠價」，請直接電話或官網詢價。
+只收確認為**平日價**的。實測踩過的坑：飯店官網的「NT$13,000+10%」是牌價、
+「加999元升等」是加價、「休息3小時780元」是汽旅時段、「折抵後每晚4360」
+是補助後淨價 —— 這些一律不採。
+
+**僅供參考**（預設不參與篩選，卡片上用灰色徽章區隔）
+
+| 來源 | 說明 |
+|---|---|
+| 訂房平台參考價 | SerpApi 查 Google Hotels，固定用補助期間內的一個平日日期，取各平台最低報價 |
+| 官網定價 | 開放資料的牌價，只在詳情頁並陳、加刪除線 |
+
+訂房平台的價格**多數不能折抵補助** —— 26 家業者在方案裡明講「線上訂房平台
+不能折抵」，官方規則也是限直接訂房或核可平台。所以它只是比價參考，
+篩選要另外勾「含平台參考價」才會納入。
 
 ### 訂房平台的即時參考價
 
@@ -140,10 +155,15 @@ python -m http.server 8787 --directory public
 ### 每週更新：在本機跑
 
 ```bash
-python scripts/weekly.py            # 完整跑一輪，驗收通過就自動 commit & push
-python scripts/weekly.py --no-push  # 只跑不推，先看結果
-python scripts/weekly.py --quick    # 只更新名單，跳過抽價與渲染
+python scripts/weekly.py                # 完整跑一輪，驗收通過就自動 commit & push
+python scripts/weekly.py --no-push      # 只跑不推，先看結果
+python scripts/weekly.py --quick        # 只更新名單，跳過所有抽價階段
+python scripts/weekly.py --with-render  # 額外跑無頭瀏覽器（很慢、收穫少）
 ```
+
+需要的金鑰都放在 `cache/`（已 gitignore）：`google_api_key.txt`、
+`openrouter_key.txt`、`serpapi_key.txt`。缺哪一把，對應的階段會自己跳過，
+不影響其餘流程。
 
 流程是抓取 → 補座標 → 抽欄位 → Google 評分 → 三種抽價 → 渲染 → 產出 → 驗收 →
 有異動才 commit → push，Cloudflare 收到 push 自動部署。
@@ -187,6 +207,13 @@ public/            ← Cloudflare Pages 的輸出目錄
 scripts/
   config.py        共用設定、名稱／電話正規化
   make_icons.py    產生 favicon.ico／PNG／SVG／webmanifest（改圖示時才要跑）
+  weekly.py        每週更新的總指揮：跑完整條管線、驗收、commit、push
+  places.py        Google 評分與座標修正（Places API）
+  planprice.py     從方案文字抽價（LLM）
+  webprice.py      抓業者官網抽價（純 HTTP ＋ LLM）
+  webprice_js.py   無頭瀏覽器渲染抽價（投報率低，預設不跑）
+  otaprice.py      訂房平台參考價（SerpApi Google Hotels）
+  manual.py        產生人工查核清單 overrides/prices.csv 與 pending.json
   scrape.py        抓官網（POST TSA060200.jsp，分頁參數是 PNO01）
   enrich.py        合併類別、比對開放資料、補座標
   extract.py       從方案文字抽出可篩選欄位

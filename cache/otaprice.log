@@ -25,3 +25,26 @@
    23/245 夏都城旅安平館            1694
    24/245 將捷金鬱金香酒店           3777
    25/245 旅人驛站鐵道館            1464
+   26/245 塔木德酒店-台中館          no_match
+   27/245 墾丁馬爾地夫溫泉大飯店        987
+   28/245 單人房 SINGLE INN-站前館 no_price
+   29/245 宜蘭力麗威斯汀度假酒店        no_match
+   30/245 瑾旅南西               1079
+   31/245 比歐緻居               3063
+   32/245 米力旅店               no_match
+   33/245 尊爵大飯店              2060
+   34/245 立麗大酒店              3099
+   35/245 薆悅酒店-Grand         no_match
+   36/245 新竹福華大飯店            1829
+   37/245 暐順和選旅              2492
+   38/245 小墾丁渡假村             no_price
+   39/245 田中央旅店              1545
+   40/245 SINGLE INN單人房      no_price
+Traceback (most recent call last):
+  File "D:\2026國旅優惠\taiwan-stay-deals\scripts\otaprice.py", line 268, in <module>
+    main()
+  File "D:\2026國旅優惠\taiwan-stay-deals\scripts\otaprice.py", line 258, in main
+    jdump(cache, OTA_CACHE)
+  File "D:\2026國旅優惠\taiwan-stay-deals\scripts\config.py", line 56, in jdump
+    os.replace(tmp, path)
+PermissionError: [WinError 5] 存取被拒。: 'D:\\2026國旅優惠\\taiwan-stay-deals\\cache\\otaprice.json.tmp' -> 'D:\\2026國旅優惠\\taiwan-stay-deals\\cache\\otaprice.json'

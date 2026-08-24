@@ -450,5 +450,331 @@
   "name": "SINGLE INN單人房",
   "date": "2026-09-01",
   "note": "no_price"
+ },
+ "9814": {
+  "name": "旅人驛站米豆文旅",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "12212": {
+  "name": "米力行旅台中火車站館",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "10032": {
+  "name": "台北漢來大飯店",
+  "date": "2026-09-01",
+  "price": 7671,
+  "source": "Hotels.com",
+  "matched": "台北漢來大飯店",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離70m 相似度1.00"
+ },
+ "20292": {
+  "name": "薆悅酒店",
+  "date": "2026-09-01",
+  "price": 1310,
+  "source": "Evendo",
+  "matched": "薆悅酒店台中館",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離4m 相似度0.44"
+ },
+ "20189": {
+  "name": "維悅酒店",
+  "date": "2026-09-01",
+  "price": 1901,
+  "source": "Google",
+  "matched": "維悅酒店 台南",
+  "rating": 4.1,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離131m 相似度0.50"
+ },
+ "13888": {
+  "name": "福容大飯店   桃園",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "6845": {
+  "name": "達斯旅店",
+  "date": "2026-09-01",
+  "price": 1085,
+  "source": "Agoda",
+  "matched": "達斯旅店 DAZZINN 逢甲推薦住宿 家庭親子 商務出差 洲際 逢甲 會展中心 飯店",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離27m 相似度0.11"
+ },
+ "21724": {
+  "name": "臺邦商旅",
+  "date": "2026-09-01",
+  "price": 3047,
+  "source": "klook",
+  "matched": "臺邦商旅",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離1m 相似度1.00"
+ },
+ "15229": {
+  "name": "路境行旅-花蓮大同館",
+  "date": "2026-09-01",
+  "price": 1390,
+  "source": "hutchgo (Hutchison Travel Limited)",
+  "matched": "路境行旅 花蓮大同館 Finders Hotel Datong",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離4m 相似度0.50"
+ },
+ "3720": {
+  "name": "臺中公園智選假日飯店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "11067": {
+  "name": "湧福驛站",
+  "date": "2026-09-01",
+  "price": 1272,
+  "source": "Expedia.dk",
+  "matched": "湧福驛站 Chung Fu Inn | 寵物友善",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離1m 相似度0.35"
+ },
+ "3867": {
+  "name": "川岸空中Ｖｉｌｌａ",
+  "date": "2026-09-01",
+  "price": 2311,
+  "source": "Agoda",
+  "matched": "川岸空中villa",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離51m 相似度1.00"
+ },
+ "11638": {
+  "name": "綠宿行旅",
+  "date": "2026-09-01",
+  "price": 2000,
+  "source": "Bluepillow.co",
+  "matched": "葉綠宿・綠宿行旅 Green Hotel 草悟道館",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離16m 相似度0.31"
+ },
+ "15795": {
+  "name": "福容大飯店 桃園機場捷運 A8",
+  "date": "2026-09-01",
+  "price": 3451,
+  "source": "Trip.com",
+  "matched": "福容大飯店 桃園機場捷運A8店",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離31m 相似度0.96"
+ },
+ "4751": {
+  "name": "南元休閒農場湖上渡假村",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "4657": {
+  "name": "頭等艙飯店綠園道館",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "12956": {
+  "name": "揚昇山莊",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "10020": {
+  "name": "北都大飯店",
+  "date": "2026-09-01",
+  "price": 1889,
+  "source": "Bluepillow.com",
+  "matched": "北都大飯店",
+  "rating": 3.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離6m 相似度1.00"
+ },
+ "20085": {
+  "name": "花蓮假期飯店",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "10615": {
+  "name": "熊旅溫泉飯店",
+  "date": "2026-09-01",
+  "price": 1772,
+  "source": "Agoda",
+  "matched": "熊旅溫泉飯店Bear Hotel",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離218m 相似度0.57"
+ },
+ "8869": {
+  "name": "LA VIDA HOTEL 逢甲商旅",
+  "date": "2026-09-01",
+  "price": 1023,
+  "source": "Google",
+  "matched": "MINI HOTELS 逢甲館",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "距離823m 相似度0.57"
+ },
+ "10871": {
+  "name": "兆舍行旅",
+  "date": "2026-09-01",
+  "price": 605,
+  "source": "Bluepillow.com",
+  "matched": "兆舍行旅",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離5m 相似度1.00"
+ },
+ "9772": {
+  "name": "TC 慢旅花蓮館",
+  "date": "2026-09-01",
+  "price": 2469,
+  "source": "Expedia.dk",
+  "matched": "TC慢旅花蓮館",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離5m 相似度1.00"
+ },
+ "6858": {
+  "name": "花蓮統茂渡假莊園",
+  "date": "2026-09-01",
+  "price": 1750,
+  "source": "Agoda",
+  "matched": "花蓮統茂渡假莊園【寵物友善】 HUALIEN TOONGMAO RESORT",
+  "rating": 4.5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離65m 相似度0.43"
+ },
+ "21094": {
+  "name": "富王大飯店",
+  "date": "2026-09-01",
+  "price": 1649,
+  "source": "Bluepillow.es",
+  "matched": "富王大飯店",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離27m 相似度1.00"
+ },
+ "29751": {
+  "name": "挪威森林文創休閒旅館",
+  "date": "2026-09-01",
+  "price": 1686,
+  "source": "Google",
+  "matched": "挪威森林台中文創館",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "距離22m 相似度0.71"
+ },
+ "13967": {
+  "name": "三好行旅",
+  "date": "2026-09-01",
+  "price": 2015,
+  "source": "Agoda",
+  "matched": "三好行旅SUN HAO HOTEL. TAICHUNG",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度0.30"
+ },
+ "2212": {
+  "name": "山林渡假會館",
+  "date": "2026-09-01",
+  "price": 2525,
+  "source": "Google",
+  "matched": "埔里夏都華蔓山林渡假會館",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離34m 相似度0.57"
+ },
+ "12619": {
+  "name": "華蔓渡假會館",
+  "date": "2026-09-01",
+  "price": 2525,
+  "source": "Agoda",
+  "matched": "埔里夏都華蔓山林渡假會館",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "距離49m 相似度0.57"
+ },
+ "3779": {
+  "name": "埔里夏都渡假會館",
+  "date": "2026-09-01",
+  "price": 2926,
+  "source": "hutchgo (Hutchison Travel Limited)",
+  "matched": "埔里夏都華蔓山林渡假會館",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "距離15m 相似度0.75"
+ },
+ "38102": {
+  "name": "天成逸旅",
+  "date": "2026-09-01",
+  "price": 6468,
+  "source": "Google",
+  "matched": "天成逸旅-蝴蝶谷 Butterfly Valley Resort by Cosmos Otium",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離51m 相似度0.18"
+ },
+ "11982": {
+  "name": "新驛旅店復興北路店",
+  "date": "2026-09-01",
+  "price": 3268,
+  "source": "klook",
+  "matched": "新驛旅店 復興北路店",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離4m 相似度1.00"
+ },
+ "30736": {
+  "name": "長灘運動休閒飯店",
+  "date": "2026-09-01",
+  "price": 2868,
+  "source": "Google",
+  "matched": "墾丁長灘休閒飯店",
+  "rating": 4.2,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "距離75m 相似度0.67"
+ },
+ "19286": {
+  "name": "雀客藏居 台南永康",
+  "date": "2026-09-01",
+  "price": 1978,
+  "source": "klook",
+  "matched": "雀客藏居 - 台南永康",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離49m 相似度1.00"
  }
 }

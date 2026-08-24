@@ -49,11 +49,23 @@ def jload(path, default=None):
 
 
 def jdump(obj, path, indent=1):
-    """先寫暫存檔再置換，確保中途失敗不會留下半截檔案。"""
+    """先寫暫存檔再置換，確保中途失敗不會留下半截檔案。
+
+    Windows 上 git、防毒、檔案索引器都可能短暫鎖住目標檔，讓 os.replace
+    噴 PermissionError（實際發生過：背景抓取正在寫，同時 git add 在讀）。
+    退避重試幾次即可，不該讓整個長時間工作因此中斷。"""
+    import time
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, indent=indent)
-    os.replace(tmp, path)
+    for attempt in range(6):
+        try:
+            os.replace(tmp, path)
+            return
+        except PermissionError:
+            time.sleep(0.4 * (attempt + 1))
+    # 真的換不過去就保留 .tmp，資料不會遺失，下次寫入會再試
+    raise RuntimeError("無法置換 %s（檔案被鎖住），資料暫存在 %s" % (path, tmp))
 
 
 def norm_text(s):

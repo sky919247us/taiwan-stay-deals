@@ -18,28 +18,34 @@ from config import ROOT
 PY = sys.executable
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# (檔名, 說明, 是否為耗時階段)
+# (檔名, 參數, 說明, 是否為耗時階段)
+#
+# webprice_js.py 不放進預設流程：185 家渲染只換到 6 筆價格，投報率太低，
+# 卻要多花 35 分鐘並依賴 Chromium。需要時用 --with-render 才跑。
 STAGES = [
-    ("scrape.py",     "抓取官網名單", False),
-    ("enrich.py",     "比對開放資料、補座標", False),
-    ("extract.py",    "從方案文字抽結構化欄位", False),
-    ("places.py",     "Google 評分（只查新增的）", True),
-    ("planprice.py",  "方案文字抽價（只查新增的）", True),
-    ("webprice.py",   "官網抽價（只查新增的）", True),
-    ("webprice_js.py", "無頭瀏覽器渲染抽價", True),
-    ("manual.py",     "更新人工查核清單", False),
-    ("build.py",      "產出網站資料與下載檔", False),
-    ("verify.py",     "驗收", False),
+    ("scrape.py",    [], "抓取官網名單", False),
+    ("enrich.py",    [], "比對開放資料、補座標", False),
+    ("extract.py",   [], "從方案文字抽結構化欄位", False),
+    ("places.py",    [], "Google 評分（只查新增的）", True),
+    ("planprice.py", [], "方案文字抽價（只查新增的）", True),
+    ("webprice.py",  [], "官網抽價（只查新增的）", True),
+    # SerpApi 免費方案每月 250 次，留一點緩衝
+    ("otaprice.py",  ["--budget", "200"], "訂房平台參考價（只查新增的）", True),
+    ("manual.py",    [], "更新人工查核清單", False),
+    ("build.py",     [], "產出網站資料與下載檔", False),
+    ("verify.py",    [], "驗收", False),
 ]
 
+RENDER_STAGE = ("webprice_js.py", [], "無頭瀏覽器渲染抽價", True)
 
-def run(script, label):
+
+def run(script, label, extra=()):
     print("\n" + "=" * 60)
     print("▶ %s（%s）" % (label, script))
     print("=" * 60, flush=True)
     t0 = time.time()
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
-    r = subprocess.run([PY, os.path.join(HERE, script)], cwd=ROOT, env=env)
+    r = subprocess.run([PY, os.path.join(HERE, script)] + list(extra), cwd=ROOT, env=env)
     print("  ── 耗時 %.0f 秒，結束碼 %d" % (time.time() - t0, r.returncode), flush=True)
     return r.returncode
 
@@ -54,7 +60,9 @@ def git(*args, check=True):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-push", action="store_true", help="跑完不要 commit & push")
-    ap.add_argument("--quick", action="store_true", help="跳過耗時的抽價與渲染階段")
+    ap.add_argument("--quick", action="store_true", help="跳過耗時的抽價階段，只更新名單")
+    ap.add_argument("--with-render", action="store_true",
+                    help="額外跑無頭瀏覽器渲染（很慢、收穫少，預設不跑）")
     args = ap.parse_args()
 
     # 先把遠端的變更拉下來，避免和 Actions 或另一台機器的提交打架
@@ -65,11 +73,15 @@ def main():
             print("[準備] 遠端有 %s 筆新提交，先 rebase" % behind)
             git("rebase", "origin/main")
 
-    for script, label, slow in STAGES:
+    stages = list(STAGES)
+    if args.with_render:
+        stages.insert(-3, RENDER_STAGE)      # 排在 manual／build／verify 之前
+
+    for script, extra, label, slow in stages:
         if args.quick and slow:
             print("\n（--quick：跳過 %s）" % label)
             continue
-        code = run(script, label)
+        code = run(script, label, extra)
         if code != 0:
             # 抓取與驗收失敗代表資料有問題，不能繼續；抽價類失敗只是少補幾筆
             if script in ("scrape.py", "enrich.py", "build.py", "verify.py"):
