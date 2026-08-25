@@ -77,7 +77,9 @@ var S = {
   q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
   pmin: 0, pmax: PRICE_TOP, inclUnknown: true, inclOta: false,
   rmin: 0, rvmin: 0, inclNoRating: true,
-  sort: 'default', onlyFav: false,
+  // 首屏預設用 CP 值：依縣市排序的第一筆對使用者沒有意義，
+  // 一進站就看到「便宜又評價好」才有用。
+  sort: 'value', onlyFav: false,
   near: null,        // { lat, lng, km, label }
   bounds: false
 };
@@ -651,7 +653,9 @@ function renderMap() {
 function setNear(lat, lng, label) {
   var km = +$('radiusKm').value;
   S.near = { lat: lat, lng: lng, km: km, label: label };
-  if (S.sort === 'default') { S.sort = 'distance'; $('sort').value = 'distance'; }
+  if (S.sort === 'value' || S.sort === 'default') {
+    S.sort = 'distance'; $('sort').value = 'distance';
+  }
   drawRadius();
   nearLabel();
   apply();
@@ -785,17 +789,34 @@ function openSheet(id) {
 function deadlineText() {
   var today = new Date(); today.setHours(0, 0, 0, 0);
   var day = 86400000;
+  // 手機寬度有限，長句會折成三行吃掉一整屏，所以分長短兩版
+  var narrow = window.innerWidth <= 560;
   if (today < SUBSIDY_START) {
     var n = Math.ceil((SUBSIDY_START - today) / day);
-    return { cls: '', html: '國旅平日住宿獎助 <b>9/1</b> 開始使用，距今 <b>' + n +
-             '</b> 天 ・ 使用期間至 11/30，<b>預算用罄即止</b>' };
+    return {
+      cls: '',
+      html: narrow
+        ? '9/1 開始 ・ 還有 <b>' + n + '</b> 天'
+        : '國旅平日住宿獎助 <b>9/1</b> 開始使用，距今 <b>' + n +
+          '</b> 天 ・ 使用期間至 11/30，<b>預算用罄即止</b>',
+      full: '國旅平日住宿獎助 <b>9/1</b> 開始使用，距今 <b>' + n +
+            '</b> 天 ・ 使用期間至 11/30，<b>預算用罄即止</b>'
+    };
   }
   if (today <= SUBSIDY_END) {
     var left = Math.ceil((SUBSIDY_END - today) / day);
-    return { cls: '', html: '補助使用中 ・ 距 11/30 結束還有 <b>' + left +
-             '</b> 天 ・ <b>預算用罄即止</b>，越早訂越保險' };
+    return {
+      cls: '',
+      html: narrow
+        ? '補助中 ・ 剩 <b>' + left + '</b> 天'
+        : '補助使用中 ・ 距 11/30 結束還有 <b>' + left +
+          '</b> 天 ・ <b>預算用罄即止</b>，越早訂越保險',
+      full: '補助使用中 ・ 距 11/30 結束還有 <b>' + left +
+            '</b> 天 ・ <b>預算用罄即止</b>，越早訂越保險'
+    };
   }
-  return { cls: 'over', html: '115 年平日住宿獎助已於 11/30 結束，以下資料僅供查閱' };
+  var over = '115 年平日住宿獎助已於 11/30 結束，以下資料僅供查閱';
+  return { cls: 'over', html: over, full: over };
 }
 
 function initNotice() {
@@ -804,7 +825,7 @@ function initNotice() {
   bar.innerHTML = d.html;
   bar.className = 'deadline ' + d.cls;
   bar.hidden = false;
-  $('noticeDeadline').innerHTML = d.html;
+  $('noticeDeadline').innerHTML = d.full || d.html;   // 公告裡永遠給完整版
 
   // 「今天不再顯示」只擋當天，隔天會再出現一次
   var hideUntil = localStorage.getItem('noticeHideUntil') || '';
@@ -929,7 +950,7 @@ function writeURL() {
   if (!S.inclNoRating) { p.set('ru', '0'); }
   if (!S.inclUnknown) { p.set('pu', '0'); }
   if (S.inclOta) { p.set('po', '1'); }
-  if (S.sort !== 'default') { p.set('sort', S.sort); }
+  if (S.sort !== 'value') { p.set('sort', S.sort); }
   if (S.onlyFav) { p.set('fav', '1'); }
   if (S.near) { p.set('near', S.near.lat.toFixed(5) + ',' + S.near.lng.toFixed(5) + ',' + S.near.km); }
   var qs = p.toString();
@@ -952,7 +973,7 @@ function readURL() {
   S.inclNoRating = p.get('ru') !== '0';
   S.inclUnknown = p.get('pu') !== '0';
   S.inclOta = p.get('po') === '1';
-  S.sort = p.get('sort') || 'default';
+  S.sort = p.get('sort') || 'value';
   S.onlyFav = p.get('fav') === '1';
   var n = (p.get('near') || '').split(',');
   if (n.length === 3) {
@@ -1020,7 +1041,9 @@ function bindEvents() {
     S = { q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
           pmin: 0, pmax: PRICE_TOP, inclUnknown: true, inclOta: false,
   rmin: 0, rvmin: 0, inclNoRating: true,
-  sort: 'default', onlyFav: false,
+  // 首屏預設用 CP 值：依縣市排序的第一筆對使用者沒有意義，
+  // 一進站就看到「便宜又評價好」才有用。
+  sort: 'value', onlyFav: false,
           near: null, bounds: false };
     drawRadius(); syncControls(); apply();
   });
@@ -1058,7 +1081,7 @@ function bindEvents() {
   });
   $('btnNearClear').addEventListener('click', function () {
     S.near = null;
-    if (S.sort === 'distance') { S.sort = 'default'; $('sort').value = 'default'; }
+    if (S.sort === 'distance') { S.sort = 'value'; $('sort').value = 'value'; }
     drawRadius(); nearLabel(); apply();
   });
 
@@ -1160,6 +1183,9 @@ function bindEvents() {
   var resizeTimer = null;
 
   function syncLayout() {
+    var dl = deadlineText();
+    $('deadline').innerHTML = dl.html;
+    $('deadline').className = 'deadline ' + dl.cls;
     if (mqDesktop.matches) {
       document.body.classList.remove('view-map');
       document.body.classList.add('view-list');
@@ -1179,6 +1205,21 @@ function bindEvents() {
   window.addEventListener('orientationchange', function () {
     setTimeout(syncLayout, 250);
   });
+
+  // 直接盯地圖容器本身，不依賴 resize 事件。某些情境下視窗尺寸變了卻不發
+  // resize（測試工具、嵌入式檢視、部分轉向實作），只靠事件的話地圖會永遠
+  // 停在未初始化狀態。
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].contentRect.width > 0) {
+          if (!map) { initMap(); }
+          else { map.invalidateSize(); }
+        }
+      }
+    });
+    ro.observe($('map'));
+  }
 }
 
 function showMap() {
