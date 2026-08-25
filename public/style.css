@@ -250,6 +250,7 @@ select:disabled { opacity: .5; }
 .psrc.src-plan { background: var(--accent-soft); color: var(--accent); }
 .psrc.src-ota { background: var(--line); color: var(--ink-2); }
 .ota { color: var(--ink-2); font-weight: 700; font-size: 15px; white-space: nowrap; }
+.callus { color: var(--brand); font-weight: 700; font-size: 14px; white-space: nowrap; }
 .ota small { font-weight: 400; }
 .muted { color: var(--ink-2); font-size: 12.5px; }
 .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }

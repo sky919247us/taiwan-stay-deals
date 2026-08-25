@@ -503,7 +503,7 @@ function cardHTML(s) {
   s.categories.forEach(function (c) {
     tags.push('<span class="tag">' + CAT_NAME[c] + '</span>');
   });
-  if (!s._p && s.price_low) { tags.push('<span class="tag warn">未取得實際房價</span>'); }
+  if (!s._p && !s._ota) { tags.push('<span class="tag warn">電洽詢價</span>'); }
   if (has(s.flags, 'birthday')) { tags.push('<span class="tag">生日券</span>'); }
   if (s.taiwan_host) { tags.push('<span class="tag">好客民宿</span>'); }
   if (s.geo_source === 'township') { tags.push('<span class="tag warn">位置約略</span>'); }
@@ -526,8 +526,11 @@ function cardHTML(s) {
   } else if (s._ota) {
     price = '<span class="ota">' + s._ota.toLocaleString() + ' <small>元</small>' +
             '<span class="psrc src-ota">平台參考</span></span>';
-  } else if (s.price_low) {
-    price = '<span class="rack">定價 ' + s.price_low.toLocaleString() + ' 起</span>';
+  } else {
+    // 三種來源都拿不到價格時，與其留白不如給個明確的下一步。
+    // 補助本來就要直接向業者訂房才能折抵，打電話才是對的做法。
+    price = '<span class="callus">電洽</span>' +
+            (s.price_low ? '<span class="rack">定價 ' + s.price_low.toLocaleString() + '</span>' : '');
   }
   var plan = s.plans.length ? s.plans[0].text : '';
 
@@ -675,8 +678,10 @@ function openSheet(id) {
     if (s.website) {
       ways.push('<a href="' + esc(s.website) + '" target="_blank" rel="noopener">看官網</a>');
     }
-    row('平日雙人房', '<span class="muted">本站尚未取得實際房價</span>' +
-        (ways.length ? '　' + ways.join('　·　') : ''));
+    row('平日雙人房',
+        '<b>電洽詢價</b>' + (ways.length ? '　' + ways.join('　·　') : '') +
+        '<br><span class="muted">這家沒有公開平日房價。直接向業者詢價其實更划算 —— ' +
+        '補助多須<b>官網或電話直接訂房</b>才能現場折抵，透過非核可的訂房平台訂房無法折抵。</span>');
   }
   row('平台參考價', s._ota
       ? '<b>' + s._ota.toLocaleString() + ' 元</b>　<span class="psrc src-ota">' +
