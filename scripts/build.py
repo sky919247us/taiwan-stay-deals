@@ -143,6 +143,24 @@ def is_ota_source(src):
     return any(n in s for n in OTA_NAMES)
 
 
+# 訂房平台常把「包棟／整棟」當成一個房型賣，抓最低價時會抓到那個數字。
+# 判準依業別分開：
+#   民宿 —— 業者自報的 966 筆平日雙人房價最高才 4,020、p99 是 3,500，
+#           超過 5,000 幾乎必是包棟（實例：135會館 22,780、定價才 6,000–8,400）
+#   旅館／觀光旅館 —— 高價是正常的（台北漢來 7,671、福容福隆 5,684 都合理），
+#           只擋「貼近業者自己的定價上限」那種
+BNB_DOUBLE_MAX = 5000
+
+
+def ota_price_ok(stay, price):
+    hi = stay.get("price_high") or 0
+    if stay.get("kind") == "民宿" and price > BNB_DOUBLE_MAX:
+        return False
+    if hi and price >= hi * 0.9:
+        return False
+    return True
+
+
 def meters(a1, o1, a2, o2):
     r, p = 6371000.0, math.pi / 180
     x = (math.sin((a2 - a1) * p / 2) ** 2 +
@@ -219,7 +237,7 @@ def main():
         # 訂房平台報價：性質不同（多數不能折抵補助），存成獨立欄位，
         # 前端要分開呈現、預設不納入價格篩選。
         o = ota.get(r["id"]) or {}
-        if o.get("price"):
+        if o.get("price") and ota_price_ok(r, o["price"]):
             r["ota_price"] = o["price"]
             r["ota_source"] = o.get("source") or ""
             r["ota_date"] = o.get("date") or ""

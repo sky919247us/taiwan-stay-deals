@@ -26,13 +26,13 @@ def extract_from_booking(page, hotel_name, min_price, max_price):
         # Check if it says no results
         body_text = page.locator("body").inner_text()
         if "找不到符合" in body_text or "無空房" in body_text or "售完" in body_text:
-            return None, None, "當日售完"
-        return None, None, "平台無此旅宿"
+            return None, None, "當日售完", ""
+        return None, None, "平台無此旅宿", ""
     
     cards = page.locator('[data-testid="property-card"]')
     count = cards.count()
     if count == 0:
-        return None, None, "平台無此旅宿"
+        return None, None, "平台無此旅宿", ""
         
     for i in range(min(5, count)):
         card = cards.nth(i)
@@ -52,10 +52,10 @@ def extract_from_booking(page, hotel_name, min_price, max_price):
                 if price_digits:
                     price_num = int(price_digits)
             except Exception:
-                return None, None, "當日售完" # Found hotel but no price means sold out
+                return None, None, "當日售完", "" # Found hotel but no price means sold out
                 
             if price_num == 0:
-                return None, None, "當日售完"
+                return None, None, "當日售完", ""
 
             # Check room name
             room_name = "標準雙人房" # Fallback
@@ -72,16 +72,16 @@ def extract_from_booking(page, hotel_name, min_price, max_price):
             exclude_keywords = ["四人", "三人", "家庭", "六人", "八人", "包棟", "宿舍", "單人"]
             for kw in exclude_keywords:
                 if kw in room_name:
-                    return None, room_name, "僅有其他房型"
+                    return None, None, "僅有其他房型", f"{room_name} {price_num}"
 
             # Validate price bounds
             if min_price > 0 and max_price > 0:
                 if price_num < min_price or price_num > max_price:
-                    return None, room_name, "僅有其他房型"
+                    return None, None, "僅有其他房型", f"{room_name} {price_num}"
                     
-            return price_num, room_name, "已查到"
+            return price_num, room_name, "已查到", ""
             
-    return None, None, "平台無此旅宿"
+    return None, None, "平台無此旅宿", ""
 
 def run_scraper(csv_path):
     print(f"Starting scrape for {csv_path}...")
@@ -127,12 +127,13 @@ def run_scraper(csv_path):
             final_price = ""
             final_room = ""
             final_platform = ""
+            final_notes = ""
             
             try:
                 page.goto(url, wait_until="domcontentloaded", timeout=15000)
                 time.sleep(random.uniform(1.0, 2.0))
                 
-                price, room_name, status = extract_from_booking(page, hotel_name, min_price, max_price)
+                price, room_name, status, notes = extract_from_booking(page, hotel_name, min_price, max_price)
                 
                 result_status = status
                 if status == "已查到" and price:
@@ -140,19 +141,20 @@ def run_scraper(csv_path):
                     final_room = room_name
                     final_platform = "Booking.com"
                 elif status == "僅有其他房型":
-                    final_room = room_name if room_name else ""
+                    final_notes = notes
                     
             except Exception as e:
                 print(f"  -> Error: {e}")
                 result_status = "查詢失敗"
                 
-            print(f"  -> {result_status} | {final_price} | {final_room}")
+            print(f"  -> {result_status} | {final_price} | {final_room} | {final_notes}")
             
             df.at[idx, '平日雙人房價'] = final_price
             df.at[idx, '房型名稱'] = final_room
             df.at[idx, '來源平台'] = final_platform
+            df.at[idx, '備註'] = final_notes
             df.at[idx, '結果'] = result_status
-            df.at[idx, '查核日期'] = '2026-08-24'
+            df.at[idx, '查核日期'] = time.strftime('%Y-%m-%d')
             
             processed_since_restart += 1
             if processed_since_restart >= 10:
