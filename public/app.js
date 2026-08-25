@@ -50,6 +50,14 @@ var RATING_PRESETS = [
   { label: '★4.8 以上', min: 4.8 }
 ];
 
+// 官方公告的折抵上限（交通部觀光署「觀光雙輪驅動方案」新聞稿）。
+// 只呈現這個金額，不替使用者換算「實付多少」——「折抵以實際房價為上限」
+// 那句話只見於媒體整理的 QA，找不到官方原文，不能拿來當計算依據。
+var ISLAND_CITIES = { '澎湖縣': 1, '金門縣': 1, '連江縣': 1 };
+function subsidyCap(s) {
+  return ISLAND_CITIES[s.city] ? { n1: 1000, n2: 1500 } : { n1: 800, n2: 1200 };
+}
+
 var PRICE_SRC = {
   manual:   { label: '人工查核', cls: 'src-manual' },
   operator: { label: '業者自報', cls: 'src-operator' },
@@ -170,6 +178,8 @@ function boot() {
     $('metaLine').textContent += ' ・ 本次新增 ' + META.change.added.length + ' 家';
   }
   $('favCount').textContent = FAV.size ? '(' + FAV.size + ')' : '';
+
+  initNotice();
 
   document.body.classList.add('view-list');
   // 進階條件預設收起來，先讓使用者看到結果
@@ -458,6 +468,19 @@ function filter() {
   return out;
 }
 
+// CP 值：便宜且評價好。價格用「相對於全站中位數便宜多少」，評分用「高於 4.0 多少」，
+// 再用評論數當可信度權重（3 則的 5.0 分不該贏過 500 則的 4.8 分）。
+// 缺價格或缺評分的一律排最後，不要用猜的補。
+var PRICE_MID = 2000;
+function valueScore(s) {
+  var p = s._p || s._ota;
+  if (!p || !s.g_rating) { return -1e9; }
+  var cheap = PRICE_MID / p;                       // 1000 元 → 2.0；4000 元 → 0.5
+  var good = Math.max(0, s.g_rating - 4.0);        // 4.8 → 0.8
+  var trust = Math.min(1, (s.g_reviews || 0) / 100);
+  return cheap * (1 + good * 2) * (0.4 + 0.6 * trust);
+}
+
 function sortRows(rows) {
   var cityIdx = {};
   META.cities.forEach(function (c, i) { cityIdx[c.name] = i; });
@@ -471,6 +494,7 @@ function sortRows(rows) {
       return (b.g_rating || 0) - (a.g_rating || 0) || (b.g_reviews || 0) - (a.g_reviews || 0);
     },
     reviews: function (a, b) { return (b.g_reviews || 0) - (a.g_reviews || 0); },
+    value: function (a, b) { return valueScore(b) - valueScore(a); },
     default: function (a, b) {
       return (cityIdx[a.city] - cityIdx[b.city]) ||
              String(a.town).localeCompare(String(b.town), 'zh-Hant') ||
@@ -478,6 +502,13 @@ function sortRows(rows) {
     }
   };
   if (S.sort === 'distance' && !S.near) { return rows.sort(by.default); }
+  if (S.sort === 'value') {
+    // CP 值排序時，沒有價格或沒有評分的排到最後
+    return rows.sort(function (a, b) {
+      var d = valueScore(b) - valueScore(a);
+      return d || by.default(a, b);
+    });
+  }
   return rows.sort(by[S.sort] || by.default);
 }
 
@@ -683,6 +714,13 @@ function openSheet(id) {
         '<br><span class="muted">這家沒有公開平日房價。直接向業者詢價其實更划算 —— ' +
         '補助多須<b>官網或電話直接訂房</b>才能現場折抵，透過非核可的訂房平台訂房無法折抵。</span>');
   }
+  var cap = subsidyCap(s);
+  row('可折抵上限',
+      '第 1 晚 <b>' + cap.n1.toLocaleString() + ' 元</b>' +
+      '　第 2 晚（連住）<b>' + cap.n2.toLocaleString() + ' 元</b>' +
+      '<br><span class="muted">' +
+      (ISLAND_CITIES[s.city] ? '離島額度。' : '') +
+      '此為官方公告的折抵上限，實際折抵金額與計算方式以現場核算為準。</span>');
   row('平台參考價', s._ota
       ? '<b>' + s._ota.toLocaleString() + ' 元</b>　<span class="psrc src-ota">' +
         esc(s.ota_source || '訂房平台') + '</span>' +
@@ -740,6 +778,50 @@ function openSheet(id) {
           '透過非核可的訂房平台訂房將無法折抵。</p>' : '');
   $('sheet').hidden = false;
   $('sheetClose').focus();
+}
+
+/* --------------------------------------------------- 期限提醒與公告 ----- */
+
+function deadlineText() {
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var day = 86400000;
+  if (today < SUBSIDY_START) {
+    var n = Math.ceil((SUBSIDY_START - today) / day);
+    return { cls: '', html: '國旅平日住宿獎助 <b>9/1</b> 開始使用，距今 <b>' + n +
+             '</b> 天 ・ 使用期間至 11/30，<b>預算用罄即止</b>' };
+  }
+  if (today <= SUBSIDY_END) {
+    var left = Math.ceil((SUBSIDY_END - today) / day);
+    return { cls: '', html: '補助使用中 ・ 距 11/30 結束還有 <b>' + left +
+             '</b> 天 ・ <b>預算用罄即止</b>，越早訂越保險' };
+  }
+  return { cls: 'over', html: '115 年平日住宿獎助已於 11/30 結束，以下資料僅供查閱' };
+}
+
+function initNotice() {
+  var d = deadlineText();
+  var bar = $('deadline');
+  bar.innerHTML = d.html;
+  bar.className = 'deadline ' + d.cls;
+  bar.hidden = false;
+  $('noticeDeadline').innerHTML = d.html;
+
+  // 「今天不再顯示」只擋當天，隔天會再出現一次
+  var hideUntil = localStorage.getItem('noticeHideUntil') || '';
+  var todayStr = new Date().toISOString().slice(0, 10);
+  if (hideUntil !== todayStr) { $('notice').hidden = false; }
+
+  function close() {
+    if ($('noticeHide').checked) {
+      localStorage.setItem('noticeHideUntil', todayStr);
+    }
+    $('notice').hidden = true;
+  }
+  $('noticeOk').onclick = close;
+  $('noticeClose').onclick = close;
+  $('notice').addEventListener('click', function (e) {
+    if (e.target === $('notice')) { close(); }
+  });
 }
 
 /* --------------------------------------------- 訂房平台即時參考價 --------
@@ -1036,7 +1118,7 @@ function bindEvents() {
     if (e.target === $('sheet')) { $('sheet').hidden = true; }
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { $('sheet').hidden = true; }
+    if (e.key === 'Escape') { $('sheet').hidden = true; $('notice').hidden = true; }
   });
 
   $('btnGuide').addEventListener('click', function () {

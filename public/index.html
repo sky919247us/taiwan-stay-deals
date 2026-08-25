@@ -30,6 +30,8 @@
 <body>
 <a class="skip" href="#results">跳至搜尋結果</a>
 
+<div class="deadline" id="deadline" hidden></div>
+
 <header class="topbar">
   <div class="brand">
     <span class="logo" aria-hidden="true">🛏️</span>
@@ -157,6 +159,7 @@
         <option value="distance">距離最近</option>
         <option value="price_asc">房價低到高</option>
         <option value="price_desc">房價高到低</option>
+        <option value="value">CP 值（便宜又高分）</option>
         <option value="rating">Google 評分</option>
         <option value="reviews">評論數最多</option>
         <option value="name">名稱</option>
@@ -259,6 +262,45 @@
   <a class="kofiTab" href="https://ko-fi.com/guanda_ai_studio" target="_blank" rel="noopener"
      title="請我喝杯咖啡" aria-label="支持這個專案">☕</a>
 </nav>
+
+<div id="notice" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+  <div class="sheetInner noticeInner">
+    <button type="button" class="sheetClose" id="noticeClose" aria-label="關閉">✕</button>
+    <h2 id="noticeTitle">關於這個網站</h2>
+
+    <div class="noticeBox" id="noticeDeadline"></div>
+
+    <h3>這是什麼</h3>
+    <p>把交通部觀光署「優宿專區」的國旅補助參與名單，做成看得懂、找得到的地圖。
+       官網一次查要等 20 秒、一頁只顯示 10 筆分 92 頁，也沒有地圖和鄉鎮篩選，
+       純粹是想讓自己和家人找住宿方便一點，就做了這個。</p>
+
+    <h3>價格請當作參考</h3>
+    <ul>
+      <li>標「業者自報」的，來自業者向觀光署登錄的資料。</li>
+      <li>標「平台參考」的，是從網路公開資訊取得的訂房平台報價，
+          <b>會隨日期與空房狀況變動，且訂房平台多半無法折抵補助</b>。</li>
+      <li>標「電洽詢價」的，表示查不到公開房價，請直接向業者詢問。</li>
+    </ul>
+    <p><b>所有價格都不代表你實際會付的金額，一律以業者報價為準。</b>
+       折抵金額與資格也請以官方公告及現場核算為準。</p>
+
+    <h3>這裡不是官方網站</h3>
+    <p>本站與交通部觀光署無關，不受理登錄、不處理補助、也無法查詢你的申請狀態。
+       官方入口是
+       <a href="https://taiwantravel.tad.gov.tw/" target="_blank" rel="noopener">國旅補助申請系統</a>，
+       名單以
+       <a href="https://www.taiwanstay.net.tw/TSA/web_page/TSA060100.jsp" target="_blank" rel="noopener">臺灣旅宿網</a>
+       為準。有疑問請洽觀光署 (02) 2349-1500。</p>
+
+    <p class="note">名單每週更新，但業者隨時可能異動或退出。訂房前請再向業者確認。</p>
+
+    <div class="noticeFoot">
+      <label class="check"><input type="checkbox" id="noticeHide" autocomplete="off"> 今天不再顯示</label>
+      <button type="button" class="go2" id="noticeOk">我知道了</button>
+    </div>
+  </div>
+</div>
 
 <div id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="sheetInner">

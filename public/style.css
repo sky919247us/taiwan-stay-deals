@@ -73,6 +73,32 @@ a { color: var(--brand); }
 }
 .skip:focus { left: 8px; top: 8px; }
 
+/* 補助期限提醒：貼在最上方的一條 */
+.deadline {
+  flex: 0 0 auto; padding: 6px 14px; font-size: 13px; text-align: center;
+  background: var(--brand); color: var(--brand-ink);
+}
+.deadline b { font-size: 15px; }
+.deadline.over { background: var(--line); color: var(--ink-2); }
+
+/* 首次進站的公告 */
+.noticeInner { max-width: 620px; }
+.noticeInner h3 { font-size: 14px; margin: 16px 0 4px; color: var(--brand); }
+.noticeInner p, .noticeInner li { font-size: 14px; margin: 4px 0; }
+.noticeInner ul { padding-left: 20px; margin: 4px 0; }
+.noticeBox {
+  background: var(--brand-soft); border-radius: 8px; padding: 10px 14px;
+  font-size: 14px; margin: 10px 0 4px;
+}
+.noticeFoot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line);
+}
+.go2 {
+  background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px;
+  padding: 10px 22px; font: inherit; font-weight: 700; cursor: pointer;
+}
+
 /* ---------------------------------------------------------------- 標頭 */
 
 .topbar {
