@@ -5142,5 +5142,998 @@
   "typical_low": null,
   "typical_high": null,
   "match": "名稱包含 距離13m 相似度0.50"
+ },
+ "16701": {
+  "name": "元氣滿屋民宿",
+  "date": "2026-09-01",
+  "price": 1999,
+  "source": "Google",
+  "matched": "元氣滿屋民宿",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離535m 相似度1.00"
+ },
+ "28581": {
+  "name": "茶田關舍貳館",
+  "date": "2026-09-01",
+  "price": 3799,
+  "source": "Google",
+  "matched": "茶田關舍貳館｜關山民宿 ｜民宿下午茶 ｜民宿早餐 ｜關山民宿推薦｜國旅卡特約民宿｜熱氣球住宿｜池上關山民宿｜百大金質獎民宿｜好客民宿｜臺東縣合法民宿第1709號",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離18m 相似度0.14"
+ },
+ "28490": {
+  "name": "稻浪九五八民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "36088": {
+  "name": "YOHO輕旅民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "38298": {
+  "name": "T&C 民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "34617": {
+  "name": "慢慢相遇民宿",
+  "date": "2026-09-01",
+  "price": 9924,
+  "source": "Google",
+  "matched": "慢慢 相遇 _包棟民宿 （台東民宿 2035號）",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離128m 相似度0.36"
+ },
+ "17359": {
+  "name": "克洛德-Cloud民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "2211": {
+  "name": "遇見，白居旅宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "12702": {
+  "name": "比薩斜塔民宿",
+  "date": "2026-09-01",
+  "price": 7205,
+  "source": "Bluepillow.com",
+  "matched": "宜蘭民宿比薩斜塔民宿",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離71m 相似度0.67"
+ },
+ "35843": {
+  "name": "迦那會館",
+  "date": "2026-09-01",
+  "price": 1205,
+  "source": "Agoda",
+  "matched": "迦那會館",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離37m 相似度1.00"
+ },
+ "36500": {
+  "name": "尚荷田院民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "35186": {
+  "name": "66号小院子",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "30606": {
+  "name": "李寓恆春的家民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "28403": {
+  "name": "躲貓貓民宿",
+  "date": "2026-09-01",
+  "price": 1599,
+  "source": "br.Bluepillow.com",
+  "matched": "躲貓貓溜滑梯親子民宿",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離13m 相似度0.55"
+ },
+ "10496": {
+  "name": "山邊52民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "17009": {
+  "name": "艾麗絲泉民宿-天送埤別館",
+  "date": "2026-09-01",
+  "price": 6998,
+  "source": "Google",
+  "matched": "艾麗絲泉民宿",
+  "rating": 4.3,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離15m 相似度0.53"
+ },
+ "38265": {
+  "name": "阿嬌ㄟ岫",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "34601": {
+  "name": "LOVE米會館民宿",
+  "date": "2026-09-01",
+  "price": 1680,
+  "source": "Google",
+  "matched": "LOVE米會館",
+  "rating": 4.5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離69m 相似度1.00"
+ },
+ "31012": {
+  "name": "耘居villa",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "7032": {
+  "name": "九乘九民宿",
+  "date": "2026-09-01",
+  "price": 1400,
+  "source": "Booking.com",
+  "matched": "花蓮民宿 九乘九民宿",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離8m 相似度0.60"
+ },
+ "15317": {
+  "name": "日光山林",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "37702": {
+  "name": "言午次方民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "36858": {
+  "name": "洛津做夢",
+  "date": "2026-09-01",
+  "price": 5780,
+  "source": "Agoda",
+  "matched": "洛津做夢-鹿港包棟民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離22m 相似度0.67"
+ },
+ "38514": {
+  "name": "Villa Samaya Awan 紗幔雅雲灣 B",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "38512": {
+  "name": "Villa Samaya Awan 紗幔雅雲灣 A",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "18738": {
+  "name": "山月２２Ｖｉｌｌａ別墅民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "8830": {
+  "name": "綠堤民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "33138": {
+  "name": "甌璇Ocean民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "34494": {
+  "name": "金玉閣",
+  "date": "2026-09-01",
+  "price": 1413,
+  "source": "Google",
+  "matched": "金玉閣水頭37號民宿(銃樓3館)",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離180m 相似度0.35"
+ },
+ "38088": {
+  "name": "快樂小築",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "38620": {
+  "name": "湘河",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "33252": {
+  "name": "巧居",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "37455": {
+  "name": "漫居",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "31412": {
+  "name": "河畔暮光",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "28432": {
+  "name": "潤民宿",
+  "date": "2026-09-01",
+  "price": 2518,
+  "source": "Traveloka.com",
+  "matched": "潤Rooms民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離400m 相似度0.29"
+ },
+ "3368": {
+  "name": "四季民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "2133": {
+  "name": "月兒田",
+  "date": "2026-09-01",
+  "price": 2099,
+  "source": "Google",
+  "matched": "月兒田民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離10m 相似度1.00"
+ },
+ "12227": {
+  "name": "漾品屋民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "16413": {
+  "name": "點點民宿",
+  "date": "2026-09-01",
+  "price": 3000,
+  "source": "F1特色民宿（点点民宿）宜蘭民宿 羅東民宿",
+  "matched": "F1特色民宿（點點民宿）宜蘭民宿 羅東民宿",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離5m 相似度0.22"
+ },
+ "32044": {
+  "name": "府前紅樓",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "36272": {
+  "name": "漫漫浯島旅棧",
+  "date": "2026-09-01",
+  "price": 2926,
+  "source": "Booking.com",
+  "matched": "漫漫浯島旅棧 - 金門 人氣旅遊渡假民宿 平價雙人房 三人房 四人房 浴缸特色房型 大陽台景觀 免費機場接駁 自由行租車停車 線上訂房 含早餐住宿優惠 八二三戰史館 太湖風景區 ptt推薦首選",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離694m 相似度0.14"
+ },
+ "28154": {
+  "name": "享居",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "6769": {
+  "name": "食宿玩家民宿",
+  "date": "2026-09-01",
+  "price": 1082,
+  "source": "Agoda",
+  "matched": "食宿玩家民宿 一馆",
+  "rating": 3.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離84m 相似度0.67"
+ },
+ "34977": {
+  "name": "三餐四季民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "35495": {
+  "name": "五分醒",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "27026": {
+  "name": "市中心民宿",
+  "date": "2026-09-01",
+  "price": 1200,
+  "source": "Google",
+  "matched": "市中心民宿-有電梯",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離4m 相似度0.55"
+ },
+ "16650": {
+  "name": "君樂民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "21243": {
+  "name": "秋約民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "420": {
+  "name": "睿凡的家民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "34294": {
+  "name": "嶼民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "8796": {
+  "name": "夏約民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "34372": {
+  "name": "光隅民宿",
+  "date": "2026-09-01",
+  "price": 2380,
+  "source": "光隅民宿 Light Haus Inn",
+  "matched": "光隅民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離17m 相似度1.00"
+ },
+ "35031": {
+  "name": "穗美人民宿",
+  "date": "2026-09-01",
+  "price": 1600,
+  "source": "Booking.com",
+  "matched": "穗美人民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度1.00"
+ },
+ "22052": {
+  "name": "歸來民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "26864": {
+  "name": "一府民宿",
+  "date": "2026-09-01",
+  "price": 1980,
+  "source": "Google",
+  "matched": "一府 IF Guest House",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離10m 相似度0.25"
+ },
+ "4426": {
+  "name": "星夜神農",
+  "date": "2026-09-01",
+  "price": 1395,
+  "source": "Booking.com",
+  "matched": "星夜神農 中西區 神農街旁老宅民宿(官方line：@ya081)",
+  "rating": 4.1,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離13m 相似度0.25"
+ },
+ "30948": {
+  "name": "236寓所民宿",
+  "date": "2026-09-01",
+  "price": 1400,
+  "source": "Google",
+  "matched": "236寓所民宿（台東縣合法民宿編號1800）",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度0.40"
+ },
+ "35682": {
+  "name": "邱比特民宿",
+  "date": "2026-09-01",
+  "price": 2032,
+  "source": "Google",
+  "matched": "邱比特民宿(恆春郵局對面)",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離19m 相似度0.43"
+ },
+ "36578": {
+  "name": "夏之禾民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "30687": {
+  "name": "達布旅",
+  "date": "2026-09-01",
+  "price": 3978,
+  "source": "Bluepillow.id",
+  "matched": "W立方(達布旅)",
+  "rating": 4.5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離9m 相似度0.67"
+ },
+ "34426": {
+  "name": "八里坪民宿",
+  "date": "2026-09-01",
+  "price": 30132,
+  "source": "Google",
+  "matched": "八里坪 villa",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離120m 相似度1.00"
+ },
+ "34980": {
+  "name": "百香果民宿",
+  "date": "2026-09-01",
+  "price": 1300,
+  "source": "Passion Fruit B&B",
+  "matched": "百香果民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度1.00"
+ },
+ "28145": {
+  "name": "尚好居",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "5516": {
+  "name": "小鹿文娛─劇院酒店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "15855": {
+  "name": "森活會館",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "27313": {
+  "name": "想來就來",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "37314": {
+  "name": "依山棲",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "38259": {
+  "name": "金品旅店",
+  "date": "2026-09-01",
+  "price": 1880,
+  "source": "Google",
+  "matched": "枋寮金品旅店",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離12m 相似度0.67"
+ },
+ "7793": {
+  "name": "牛奶糖民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "16654": {
+  "name": "金門老爺山莊",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "18117": {
+  "name": "湖下海景渡假民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "24031": {
+  "name": "菊逸居民宿",
+  "date": "2026-09-01",
+  "price": 2400,
+  "source": "Google",
+  "matched": "澎湖菊逸居民宿（Juyiju_Penghu_Homestay)",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離254m 相似度0.19"
+ },
+ "35606": {
+  "name": "小木旅宿民宿",
+  "date": "2026-09-01",
+  "price": 1217,
+  "source": "Google",
+  "matched": "小木旅宿",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度1.00"
+ },
+ "2569": {
+  "name": "YOUNG民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "36722": {
+  "name": "寶寶民宿",
+  "date": "2026-09-01",
+  "price": 2170,
+  "source": "Google",
+  "matched": "寶寶民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離1022m 相似度1.00"
+ },
+ "4821": {
+  "name": "棒棒糖民宿",
+  "date": "2026-09-01",
+  "price": 3200,
+  "source": "Google",
+  "matched": "棒棒糖民宿",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離14m 相似度1.00"
+ },
+ "34569": {
+  "name": "拾號行旅",
+  "date": "2026-09-01",
+  "price": 1749,
+  "source": "Bluepillow.com",
+  "matched": "拾號行旅(夜間10點後勿來電可留訊息)",
+  "rating": 4.5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度0.38"
+ },
+ "3653": {
+  "name": "伯爵民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "28115": {
+  "name": "閒雲小居會館",
+  "date": "2026-09-01",
+  "price": 820,
+  "source": "Google",
+  "matched": "SharonInn閒雲小居會館",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離11m 相似度0.47"
+ },
+ "13214": {
+  "name": "玉榮府",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "34641": {
+  "name": "海寓所民宿",
+  "date": "2026-09-01",
+  "price": 17035,
+  "source": "Bluepillow.com",
+  "matched": "海寓所",
+  "rating": null,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離676m 相似度1.00"
+ },
+ "4274": {
+  "name": "高橋飯店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "35369": {
+  "name": "六宿樲館",
+  "date": "2026-09-01",
+  "price": 6300,
+  "source": "Booking.com",
+  "matched": "六宿樲館",
+  "rating": 4.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離66m 相似度1.00"
+ },
+ "27568": {
+  "name": "水管民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "35844": {
+  "name": "朋友家民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "36558": {
+  "name": "杉嶼民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "35216": {
+  "name": "大湖一品苑",
+  "date": "2026-09-01",
+  "price": 2477,
+  "source": "Booking.com",
+  "matched": "大湖一品苑",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離0m 相似度1.00"
+ },
+ "38126": {
+  "name": "木木杉民宿",
+  "date": "2026-09-01",
+  "price": 2900,
+  "source": "Agoda",
+  "matched": "木木杉民宿",
+  "rating": 5,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離13m 相似度1.00"
+ },
+ "31282": {
+  "name": "大魚漫步旅店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "36366": {
+  "name": "日月戀海民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "38735": {
+  "name": "緩寓",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "16465": {
+  "name": "晴旅府中館",
+  "date": "2026-09-01",
+  "price": 873,
+  "source": "Google",
+  "matched": "清翼居旅店府中館",
+  "rating": 3.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "距離481m 相似度0.62"
+ },
+ "35599": {
+  "name": "37彎民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "19576": {
+  "name": "墾丁恆美111旅宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "34552": {
+  "name": "近山左民宿",
+  "date": "2026-09-01",
+  "price": 7700,
+  "source": "AsiaYo 亞洲遊",
+  "matched": "放慢民宿（近山左/近山右）",
+  "rating": 4.8,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離20m 相似度0.46"
+ },
+ "34979": {
+  "name": "近山右民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "38628": {
+  "name": "海顏民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "35280": {
+  "name": "裏島",
+  "date": "2026-09-01",
+  "price": 1105,
+  "source": "Google",
+  "matched": "裏島 民宿",
+  "rating": 4.6,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離6m 相似度1.00"
+ },
+ "22134": {
+  "name": "放慢民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "34274": {
+  "name": "南科驛站",
+  "date": "2026-09-01",
+  "price": 1579,
+  "source": "Google",
+  "matched": "台南民宿-南科驛站",
+  "rating": 3.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離291m 相似度0.67"
+ },
+ "8779": {
+  "name": "悄悄話旅宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "16113": {
+  "name": "牧光。角落民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "33810": {
+  "name": "睏齁霸民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "38959": {
+  "name": "橙木隱園民宿",
+  "date": "2026-09-01",
+  "price": 806,
+  "source": "Google",
+  "matched": "安蘭居旅店-文化路館(橙木隱園) | 訂房加LINE : @anj465 | 青年旅館 | 背包床-雙人房 |包棟",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離28m 相似度0.17"
+ },
+ "36414": {
+  "name": "石泉拾美民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "37918": {
+  "name": "馨苑輕旅",
+  "date": "2026-09-01",
+  "price": 1625,
+  "source": "Google",
+  "matched": "馨苑輕旅 Xinyuan Guest House",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離6m 相似度0.32"
+ },
+ "30015": {
+  "name": "民宿記",
+  "date": "2026-09-01",
+  "price": 2389,
+  "source": "Google",
+  "matched": "民宿記",
+  "rating": 4.4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離20m 相似度1.00"
+ },
+ "26125": {
+  "name": "莒光英雄館民宿",
+  "date": "2026-09-01",
+  "price": 17993,
+  "source": "Bluepillow.com",
+  "matched": "莒光英雄館民宿",
+  "rating": 3.7,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離356m 相似度1.00"
+ },
+ "15398": {
+  "name": "甜姐兒民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "417": {
+  "name": "好事學田民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "30036": {
+  "name": "輕旅行",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "37137": {
+  "name": "捌之捌民宿",
+  "date": "2026-09-01",
+  "price": 5962,
+  "source": "Booking.com",
+  "matched": "捌之捌民宿",
+  "rating": null,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離814m 相似度1.00"
+ },
+ "33838": {
+  "name": "沐光小院",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "38076": {
+  "name": "宅山里",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "34981": {
+  "name": "米隅民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "27208": {
+  "name": "沁澐森林莊園",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "2173": {
+  "name": "天方夜譚民宿",
+  "date": "2026-09-01",
+  "price": 1780,
+  "source": "Agoda",
+  "matched": "天方夜譚民宿",
+  "rating": 4,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離3m 相似度1.00"
+ },
+ "37649": {
+  "name": "達美樂民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "2675": {
+  "name": "八八古藝8館民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "13302": {
+  "name": "蓮園民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "1760": {
+  "name": "Ｍｅｒｌｉｎ２０",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "36118": {
+  "name": "森朵文旅",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "9803": {
+  "name": "晶園民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "38637": {
+  "name": "安泊民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "5473": {
+  "name": "汸宸潤音拾光",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "8671": {
+  "name": "新艾米渡假會館",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "39072": {
+  "name": "曉園輕旅",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "37553": {
+  "name": "津沙小筑",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "39052": {
+  "name": "台北板橋馥華艾美酒店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "4615": {
+  "name": "旅人驛站日暮微旅",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "31066": {
+  "name": "品閣美食咖啡民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "38271": {
+  "name": "來雲庵民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "987": {
+  "name": "木村民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "20302": {
+  "name": "御爵渡假山莊",
+  "date": "2026-09-01",
+  "price": 2800,
+  "source": "Google",
+  "matched": "御爵渡假山莊",
+  "rating": 4.9,
+  "typical_low": null,
+  "typical_high": null,
+  "match": "名稱包含 距離504m 相似度1.00"
+ },
+ "17918": {
+  "name": "柏竺山莊",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "34469": {
+  "name": "滿滿BNB民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "14257": {
+  "name": "檜之園民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "9928": {
+  "name": "法托里亞民宿",
+  "date": "2026-09-01",
+  "note": "no_price"
+ },
+ "32042": {
+  "name": "澳漫民宿",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "10433": {
+  "name": "馥格堡酒店",
+  "date": "2026-09-01",
+  "note": "no_match"
+ },
+ "10504": {
+  "name": "故鄉民宿(特色民宿)",
+  "date": "2026-09-01",
+  "note": "no_match"
  }
 }
