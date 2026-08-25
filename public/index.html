@@ -117,13 +117,28 @@
   </div>
 </section>
 
+<section id="regions" class="guide regions" hidden>
+  <div class="regionHead">
+    <b>瀏覽地區</b>
+    <span class="note" id="regionHint">點縣市展開鄉鎮</span>
+    <span class="spacer"></span>
+    <button type="button" class="ghost small" id="regionClear">看全部</button>
+    <button type="button" class="ghost small" id="regionClose">收起</button>
+  </div>
+  <div class="regionGrid" id="regionGrid"></div>
+  <div class="townGrid" id="townGrid" hidden></div>
+</section>
+
 <section class="filterbar" id="filterbar">
   <div class="barRow primary">
     <input type="search" id="q" placeholder="搜尋旅宿名稱、地址、設施或方案內容…" autocomplete="off" aria-label="關鍵字搜尋">
     <select id="city" autocomplete="off" aria-label="縣市"><option value="">全部縣市</option></select>
     <select id="town" autocomplete="off" aria-label="鄉鎮市區"><option value="">全部鄉鎮</option></select>
     <button type="button" class="chip" id="btnLocate"><span class="ico">📍</span><span class="txt">我附近</span></button>
+    <button type="button" class="chip" id="btnRegions" aria-expanded="false" aria-controls="regions">
+      <span class="ico">📋</span><span class="txt">瀏覽地區</span></button>
     <span class="spacer"></span>
+    <button type="button" id="btnMapToggle" class="ghost small" title="收起地圖，清單佔滿畫面">隱藏地圖</button>
     <button type="button" id="btnFilters" class="ghost small" aria-expanded="false" aria-controls="barMore">更多條件 ▾</button>
     <button type="button" id="btnClear" class="ghost small" title="清除所有條件">清除</button>
   </div>

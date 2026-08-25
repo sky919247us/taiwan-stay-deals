@@ -147,6 +147,30 @@ button { font: inherit; cursor: pointer; }
   background: var(--brand); color: var(--brand-ink); text-decoration: none; font-size: 13px;
 }
 
+/* 地區目錄：縣市 → 鄉鎮的兩層瀏覽 */
+.regions { padding: 10px 14px 14px; max-height: 52vh; }
+.regionHead { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 14px; }
+.regionHead .note { margin: 0; }
+.regionGrid, .townGrid {
+  display: grid; gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+}
+.townGrid {
+  margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line);
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+}
+.rgn {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 6px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 13.5px; cursor: pointer;
+  text-align: left;
+}
+.rgn:hover { border-color: var(--brand); color: var(--brand); }
+.rgn[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.rgn .n { font-size: 11.5px; opacity: .7; }
+.rgn.island { border-style: dashed; }
+.rgn.all { grid-column: 1 / -1; font-weight: 600; }
+
 /* ---------------------------------------------------------------- 版面 */
 
 .layout { flex: 1 1 auto; display: flex; min-height: 0; }
@@ -157,6 +181,15 @@ button { font: inherit; cursor: pointer; }
 }
 
 .mapWrap { flex: 1 1 auto; position: relative; min-width: 0; }
+
+/* 收起地圖：清單佔滿畫面並改成多欄，一屏看得到 9–12 家而不是 3 家 */
+body.no-map .mapWrap { display: none; }
+body.no-map .panel { width: 100%; border-right: 0; }
+body.no-map #list {
+  display: grid; gap: 0 1px; background: var(--line);
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+}
+body.no-map .card { background: var(--panel); border-bottom: 1px solid var(--line); }
 #map { position: absolute; inset: 0; background: var(--bg); }
 
 .mapHud {
@@ -360,6 +393,14 @@ select:disabled { opacity: .5; }
 /* ---------------------------------------------------------------- 手機 */
 
 @media (max-width: 759px) {
+  #btnMapToggle { display: none; }
+  body.no-map .mapWrap { display: block; }
+  body.no-map #list { display: block; }
+  .regions { max-height: 60vh; }
+  .regionGrid { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  .townGrid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
+  .rgn { padding: 8px 8px; font-size: 13px; }
+
   .layout { position: relative; }
   .panel { width: 100%; border-right: 0; }
   .mapWrap { position: absolute; inset: 0; }
@@ -371,6 +412,10 @@ select:disabled { opacity: .5; }
   body:not(.filters-open) .barRow.primary #q { flex: 1 1 100%; }
   body:not(.filters-open) .barRow.primary select { flex: 1 1 0; min-width: 0; }
   body:not(.filters-open) .barRow.primary #btnLocate { flex: 0 0 auto; }
+  /* 地區目錄比兩個下拉好用，手機直接取代它們，省一整排 */
+  .barRow.primary #city, .barRow.primary #town { display: none; }
+  .barRow.primary #btnRegions { flex: 0 1 auto; min-width: 0; }
+  #btnRegions.on { border-color: var(--brand); color: var(--brand); font-weight: 600; }
   /* 手機畫面小：只留「搜尋 + 縣市鄉鎮 + 我附近」，其餘跟著「更多條件」一起收合，
      結果清單才有足夠高度 */
   .barRow.secondary, .barRow.places { display: none; }
@@ -449,9 +494,17 @@ select:disabled { opacity: .5; }
   .num { width: 64px; }
 }
 
-/* 最窄的機型（≤360px）：「我附近」只留圖示 */
-@media (max-width: 360px) {
+/* 窄機（≤430px）：「我附近」只留圖示、「更多條件」縮成「條件」，
+   讓「地區／我附近／條件／清除」擠得進同一排 */
+@media (max-width: 430px) {
   #btnLocate .txt { display: none; }
+  #btnFilters { font-size: 0; }
+  #btnFilters::after { content: "條件 ▾"; font-size: 13px; }
+  #btnFilters[aria-expanded="true"]::after { content: "條件 ▴"; }
+  .barRow.primary #btnRegions { max-width: 40vw; }
+  .barRow.primary #btnRegions .txt {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
 }
 
 /* 手機橫放：高度很矮，把不必要的高度全部縮掉 */

@@ -291,10 +291,19 @@ function fillTowns() {
   sel.value = S.town;
 }
 
+// 手機把縣市/鄉鎮兩個下拉收起來，改用「瀏覽地區」目錄，鈕面直接顯示目前地區
+function regionBtnLabel() {
+  var t = $('btnRegions').querySelector('.txt');
+  if (!t) { return; }
+  t.textContent = S.town ? (S.city + '・' + S.town) : (S.city || '瀏覽地區');
+  $('btnRegions').classList.toggle('on', !!S.city);
+}
+
 function syncControls() {
   $('q').value = S.q;
   $('city').value = S.city;
   fillTowns();
+  regionBtnLabel();
   $('priceInclUnknown').checked = S.inclUnknown;
   $('priceInclOta').checked = S.inclOta;
   $('sort').value = S.sort;
@@ -411,18 +420,110 @@ function nearLabel() {
   }
 }
 
+/* -------------------------------------------------------- 地區目錄瀏覽 */
+
+var regionOpen = '';   // 目前展開的縣市
+
+// 依「除了地區以外」的條件算各縣市、各鄉鎮還剩幾家
+function regionCounts() {
+  var rows = filter(true);
+  var byCity = {}, byTown = {};
+  for (var i = 0; i < rows.length; i++) {
+    var s = rows[i];
+    byCity[s.city] = (byCity[s.city] || 0) + 1;
+    byTown[s.city + '/' + s.town] = (byTown[s.city + '/' + s.town] || 0) + 1;
+  }
+  return { city: byCity, town: byTown, total: rows.length };
+}
+
+function rgnBtn(label, n, pressed, cls) {
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'rgn' + (cls ? ' ' + cls : '');
+  b.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+  b.innerHTML = '<span>' + esc(label) + '</span><span class="n">' + n + '</span>';
+  if (!n) { b.disabled = true; b.style.opacity = '.35'; }
+  return b;
+}
+
+function renderRegions() {
+  var C = regionCounts();
+  var box = $('regionGrid');
+  box.innerHTML = '';
+  META.cities.forEach(function (c) {
+    var n = C.city[c.name] || 0;
+    var b = rgnBtn(c.name, n, S.city === c.name, c.island ? 'island' : '');
+    b.addEventListener('click', function () {
+      if (regionOpen === c.name && S.city === c.name && !S.town) {
+        // 再點一次同一個縣市＝取消選取
+        S.city = ''; S.town = ''; regionOpen = '';
+      } else {
+        S.city = c.name; S.town = ''; regionOpen = c.name;
+      }
+      syncControls(); apply();
+    });
+    box.appendChild(b);
+  });
+  renderTowns(C);
+}
+
+function renderTowns(C) {
+  var box = $('townGrid');
+  var city = regionOpen || S.city;
+  var c = META.cities.filter(function (x) { return x.name === city; })[0];
+  if (!c) { box.hidden = true; box.innerHTML = ''; return; }
+
+  box.hidden = false;
+  box.innerHTML = '';
+
+  var all = rgnBtn(city + ' 全部', C.city[city] || 0, S.city === city && !S.town);
+  all.className += ' all';
+  all.addEventListener('click', function () {
+    S.city = city; S.town = '';
+    syncControls(); apply();
+  });
+  box.appendChild(all);
+
+  c.towns.forEach(function (t) {
+    var n = C.town[city + '/' + t] || 0;
+    var b = rgnBtn(t, n, S.city === city && S.town === t);
+    b.addEventListener('click', function () {
+      S.city = city; S.town = (S.town === t ? '' : t);
+      syncControls(); apply();
+    });
+    box.appendChild(b);
+  });
+
+  $('regionHint').textContent = '共 ' + (C.city[city] || 0) + ' 家 ・ 再點一次可取消';
+}
+
+function toggleRegions(force) {
+  var g = $('regions');
+  var open = force != null ? force : g.hidden;
+  g.hidden = !open;
+  $('btnRegions').setAttribute('aria-pressed', String(open));
+  $('btnRegions').setAttribute('aria-expanded', String(open));
+  if (open) {
+    $('guide').hidden = true; $('downloadPanel').hidden = true;
+    if (!regionOpen) { regionOpen = S.city; }
+    renderRegions();
+    g.scrollIntoView({ block: 'nearest' });
+  }
+}
+
 /* ------------------------------------------------------------ 篩選核心 */
 
-function filter() {
+// skipGeo=true：忽略縣市/鄉鎮/地圖範圍/半徑，用來替地區目錄算家數
+function filter(skipGeo) {
   var q = norm(S.q);
-  var bnds = (S.bounds && map) ? map.getBounds() : null;
+  var bnds = (!skipGeo && S.bounds && map) ? map.getBounds() : null;
   var out = [];
 
   for (var i = 0; i < DATA.length; i++) {
     var s = DATA[i];
     if (q && s._s.indexOf(q) < 0) { continue; }
-    if (S.city && s.city !== S.city) { continue; }
-    if (S.town && s.town !== S.town) { continue; }
+    if (!skipGeo && S.city && s.city !== S.city) { continue; }
+    if (!skipGeo && S.town && s.town !== S.town) { continue; }
     if (S.kinds.length && !has(S.kinds, s.kind)) { continue; }
     if (S.cats.length && !S.cats.every(function (c) { return has(s.categories, c); })) { continue; }
     if (S.onlyFav && !FAV.has(s.id)) { continue; }
@@ -459,10 +560,10 @@ function filter() {
 
     if (bnds && !bnds.contains([s.lat, s.lng])) { continue; }
 
-    if (S.near) {
+    if (S.near && !skipGeo) {
       s._d = dist(S.near.lat, S.near.lng, s.lat, s.lng);
       if (S.near.km && s._d > S.near.km) { continue; }
-    } else {
+    } else if (!skipGeo) {
       s._d = null;
     }
     out.push(s);
@@ -522,6 +623,9 @@ function apply(skipURL) {
   renderMap();
   $('count').innerHTML = '<strong>' + VIEW.length + '</strong> 家' +
     (VIEW.length !== DATA.length ? ' <span class="n">/ ' + DATA.length + '</span>' : '');
+  regionBtnLabel();
+  // 地區目錄開著時，家數要跟著其他條件（價格、評分、業別…）一起重算
+  if (!$('regions').hidden) { renderRegions(); }
   if (window.__debugPerf) { console.log('filter+render', (performance.now() - t0).toFixed(1), 'ms'); }
   if (!skipURL) {
     clearTimeout(applyTimer);
@@ -992,10 +1096,12 @@ function bindEvents() {
   });
 
   $('city').addEventListener('change', function (e) {
-    S.city = e.target.value; S.town = '';
+    S.city = e.target.value; S.town = ''; regionOpen = S.city;
     fillTowns(); apply();
   });
-  $('town').addEventListener('change', function (e) { S.town = e.target.value; apply(); });
+  $('town').addEventListener('change', function (e) {
+    S.town = e.target.value; apply();
+  });
   $('sort').addEventListener('change', function (e) { S.sort = e.target.value; apply(); });
   $('onlyFav').addEventListener('change', function (e) { S.onlyFav = e.target.checked; apply(); });
   $('priceInclUnknown').addEventListener('change', function (e) {
@@ -1149,6 +1255,29 @@ function bindEvents() {
     g.hidden = !g.hidden;
     $('btnGuide').setAttribute('aria-expanded', String(!g.hidden));
     $('downloadPanel').hidden = true;
+    if (!g.hidden) { toggleRegions(false); }
+  });
+
+  $('btnRegions').addEventListener('click', function () { toggleRegions(); });
+  $('regionClose').addEventListener('click', function () { toggleRegions(false); });
+  $('regionClear').addEventListener('click', function () {
+    S.city = ''; S.town = ''; regionOpen = '';
+    syncControls(); apply();
+  });
+
+  // 桌機收合地圖：清單佔滿畫面並排成多欄，一屏從 3 家變 9–12 家
+  function setMapHidden(hide) {
+    document.body.classList.toggle('no-map', hide);
+    $('btnMapToggle').textContent = hide ? '顯示地圖' : '隱藏地圖';
+    $('btnMapToggle').title = hide ? '把地圖叫回來' : '收起地圖，清單佔滿畫面';
+    $('btnMapToggle').setAttribute('aria-pressed', String(hide));
+    localStorage.setItem('hideMap', hide ? '1' : '');
+    if (!hide && map) { setTimeout(function () { map.invalidateSize(); }, 60); }
+    if (hide && S.bounds) { S.bounds = false; syncControls(); apply(); }
+  }
+  setMapHidden(localStorage.getItem('hideMap') === '1');
+  $('btnMapToggle').addEventListener('click', function () {
+    setMapHidden(!document.body.classList.contains('no-map'));
   });
   $('btnDownload').addEventListener('click', function () {
     $('downloadPanel').hidden = !$('downloadPanel').hidden;
