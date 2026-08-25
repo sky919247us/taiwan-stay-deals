@@ -171,6 +171,26 @@ button { font: inherit; cursor: pointer; }
 .rgn.island { border-style: dashed; }
 .rgn.all { grid-column: 1 / -1; font-weight: 600; }
 
+/* 鄉鎮是核選框：可以同時勾好幾個，不勾＝全部 */
+.rgn.chk { align-items: center; gap: 6px; }
+.rgn.chk > span:first-of-type { flex: 1 1 auto; }
+.rgn.chk::before {
+  content: "✓";
+  flex: 0 0 auto;
+  width: 14px; height: 14px;
+  border: 1.5px solid var(--line); border-radius: 3px;
+  background: var(--panel); color: transparent;
+  font-size: 11px; font-weight: 700; line-height: 12px; text-align: center;
+}
+.rgn.chk:hover::before { border-color: var(--brand); }
+.rgn.chk[aria-pressed="true"] {
+  background: var(--brand-soft); border-color: var(--brand); color: var(--brand);
+  font-weight: 600;
+}
+.rgn.chk[aria-pressed="true"]::before {
+  background: var(--brand); border-color: var(--brand); color: var(--brand-ink);
+}
+
 /* ---------------------------------------------------------------- 版面 */
 
 .layout { flex: 1 1 auto; display: flex; min-height: 0; }

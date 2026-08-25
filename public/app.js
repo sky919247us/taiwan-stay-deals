@@ -74,7 +74,7 @@ var PRICE_PRESETS = [
 ];
 
 var S = {
-  q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
+  q: '', city: '', towns: [], cats: [], kinds: [], flags: [], services: [],
   pmin: 0, pmax: PRICE_TOP, inclUnknown: true, inclOta: false,
   rmin: 0, rvmin: 0, inclNoRating: true,
   // 首屏預設用 CP 值：依縣市排序的第一筆對使用者沒有意義，
@@ -288,14 +288,26 @@ function fillTowns() {
     o.value = t; o.textContent = t;
     sel.appendChild(o);
   });
-  sel.value = S.town;
+  if (S.towns.length > 1) {
+    var m = document.createElement('option');
+    m.value = '__multi';
+    m.textContent = '已選 ' + S.towns.length + ' 個鄉鎮';
+    sel.insertBefore(m, sel.firstChild.nextSibling);
+    sel.value = '__multi';
+  } else {
+    sel.value = S.towns[0] || '';
+  }
 }
 
 // 手機把縣市/鄉鎮兩個下拉收起來，改用「瀏覽地區」目錄，鈕面直接顯示目前地區
 function regionBtnLabel() {
   var t = $('btnRegions').querySelector('.txt');
   if (!t) { return; }
-  t.textContent = S.town ? (S.city + '・' + S.town) : (S.city || '瀏覽地區');
+  var n = S.towns.length;
+  t.textContent = !S.city ? '瀏覽地區'
+    : n === 0 ? S.city
+    : n === 1 ? (S.city + '・' + S.towns[0])
+    : (S.city + '・' + n + ' 個鄉鎮');
   $('btnRegions').classList.toggle('on', !!S.city);
 }
 
@@ -442,7 +454,8 @@ function rgnBtn(label, n, pressed, cls) {
   b.className = 'rgn' + (cls ? ' ' + cls : '');
   b.setAttribute('aria-pressed', pressed ? 'true' : 'false');
   b.innerHTML = '<span>' + esc(label) + '</span><span class="n">' + n + '</span>';
-  if (!n) { b.disabled = true; b.style.opacity = '.35'; }
+  // 0 家的變灰不可點；但已勾的一定要留著讓人取消勾選
+  if (!n && !pressed) { b.disabled = true; b.style.opacity = '.35'; }
   return b;
 }
 
@@ -454,11 +467,11 @@ function renderRegions() {
     var n = C.city[c.name] || 0;
     var b = rgnBtn(c.name, n, S.city === c.name, c.island ? 'island' : '');
     b.addEventListener('click', function () {
-      if (regionOpen === c.name && S.city === c.name && !S.town) {
+      if (regionOpen === c.name && S.city === c.name && !S.towns.length) {
         // 再點一次同一個縣市＝取消選取
-        S.city = ''; S.town = ''; regionOpen = '';
+        S.city = ''; S.towns = []; regionOpen = '';
       } else {
-        S.city = c.name; S.town = ''; regionOpen = c.name;
+        S.city = c.name; S.towns = []; regionOpen = c.name;
       }
       syncControls(); apply();
     });
@@ -473,28 +486,37 @@ function renderTowns(C) {
   var c = META.cities.filter(function (x) { return x.name === city; })[0];
   if (!c) { box.hidden = true; box.innerHTML = ''; return; }
 
+  var picked = (S.city === city) ? S.towns : [];
   box.hidden = false;
   box.innerHTML = '';
 
-  var all = rgnBtn(city + ' 全部', C.city[city] || 0, S.city === city && !S.town);
-  all.className += ' all';
+  // 「全部鄉鎮」＝不勾任何一個；勾了幾個就只看那幾個
+  var all = rgnBtn(city + ' 全部鄉鎮', C.city[city] || 0, !picked.length, 'chk all');
   all.addEventListener('click', function () {
-    S.city = city; S.town = '';
+    S.city = city; S.towns = [];
     syncControls(); apply();
   });
   box.appendChild(all);
 
   c.towns.forEach(function (t) {
     var n = C.town[city + '/' + t] || 0;
-    var b = rgnBtn(t, n, S.city === city && S.town === t);
+    var b = rgnBtn(t, n, has(picked, t), 'chk');
     b.addEventListener('click', function () {
-      S.city = city; S.town = (S.town === t ? '' : t);
+      var cur = (S.city === city) ? S.towns.slice() : [];
+      var i = cur.indexOf(t);
+      if (i >= 0) { cur.splice(i, 1); } else { cur.push(t); }
+      S.city = city; S.towns = cur;
       syncControls(); apply();
     });
     box.appendChild(b);
   });
 
-  $('regionHint').textContent = '共 ' + (C.city[city] || 0) + ' 家 ・ 再點一次可取消';
+  var shown = picked.length
+    ? picked.reduce(function (a, t) { return a + (C.town[city + '/' + t] || 0); }, 0)
+    : (C.city[city] || 0);
+  $('regionHint').textContent = picked.length
+    ? ('已勾 ' + picked.length + ' 個鄉鎮・' + shown + ' 家')
+    : (city + ' 共 ' + shown + ' 家 ・ 鄉鎮可複選');
 }
 
 function toggleRegions(force) {
@@ -523,7 +545,7 @@ function filter(skipGeo) {
     var s = DATA[i];
     if (q && s._s.indexOf(q) < 0) { continue; }
     if (!skipGeo && S.city && s.city !== S.city) { continue; }
-    if (!skipGeo && S.town && s.town !== S.town) { continue; }
+    if (!skipGeo && S.towns.length && !has(S.towns, s.town)) { continue; }
     if (S.kinds.length && !has(S.kinds, s.kind)) { continue; }
     if (S.cats.length && !S.cats.every(function (c) { return has(s.categories, c); })) { continue; }
     if (S.onlyFav && !FAV.has(s.id)) { continue; }
@@ -1042,7 +1064,7 @@ function writeURL() {
   var p = new URLSearchParams();
   if (S.q) { p.set('q', S.q); }
   if (S.city) { p.set('city', S.city); }
-  if (S.town) { p.set('town', S.town); }
+  if (S.towns.length) { p.set('town', S.towns.join(',')); }
   if (S.cats.length) { p.set('cat', S.cats.join(',')); }
   if (S.kinds.length) { p.set('kind', S.kinds.join(',')); }
   if (S.flags.length) { p.set('flag', S.flags.join(',')); }
@@ -1065,7 +1087,7 @@ function readURL() {
   var p = new URLSearchParams(location.search);
   S.q = p.get('q') || '';
   S.city = p.get('city') || '';
-  S.town = p.get('town') || '';
+  S.towns = (p.get('town') || '').split(',').filter(Boolean);
   S.cats = (p.get('cat') || '').split(',').filter(Boolean);
   S.kinds = (p.get('kind') || '').split(',').filter(Boolean);
   S.flags = (p.get('flag') || '').split(',').filter(Boolean);
@@ -1096,11 +1118,15 @@ function bindEvents() {
   });
 
   $('city').addEventListener('change', function (e) {
-    S.city = e.target.value; S.town = ''; regionOpen = S.city;
+    S.city = e.target.value; S.towns = []; regionOpen = S.city;
     fillTowns(); apply();
   });
   $('town').addEventListener('change', function (e) {
-    S.town = e.target.value; apply();
+    var v = e.target.value;
+    if (v === '__multi') { return; }        // 複選狀態的佔位選項，點到不動作
+    S.towns = v ? [v] : [];
+    fillTowns(); apply();
+    if (!$('regions').hidden) { renderRegions(); }
   });
   $('sort').addEventListener('change', function (e) { S.sort = e.target.value; apply(); });
   $('onlyFav').addEventListener('change', function (e) { S.onlyFav = e.target.checked; apply(); });
@@ -1144,7 +1170,7 @@ function bindEvents() {
   });
 
   $('btnClear').addEventListener('click', function () {
-    S = { q: '', city: '', town: '', cats: [], kinds: [], flags: [], services: [],
+    S = { q: '', city: '', towns: [], cats: [], kinds: [], flags: [], services: [],
           pmin: 0, pmax: PRICE_TOP, inclUnknown: true, inclOta: false,
   rmin: 0, rvmin: 0, inclNoRating: true,
   // 首屏預設用 CP 值：依縣市排序的第一筆對使用者沒有意義，
@@ -1261,7 +1287,7 @@ function bindEvents() {
   $('btnRegions').addEventListener('click', function () { toggleRegions(); });
   $('regionClose').addEventListener('click', function () { toggleRegions(false); });
   $('regionClear').addEventListener('click', function () {
-    S.city = ''; S.town = ''; regionOpen = '';
+    S.city = ''; S.towns = []; regionOpen = '';
     syncControls(); apply();
   });
 
